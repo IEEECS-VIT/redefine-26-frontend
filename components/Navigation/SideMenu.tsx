@@ -82,17 +82,8 @@ export default function SideMenu() {
           key={item.id}
           onClick={() => navigate(item.id)}
           className={`absolute z-40 flex ${item.className}`}
-          initial={{
-            opacity: 0,
-            y: 20,
-          }}
-          animate={{
-            opacity: 1,
-            y: 0,
-          }}
-          transition={{
-            duration: 0.8,
-          }}
+          initial={false}
+          animate={{ opacity: 1, y: 0 }}
         >
           <div className="flex items-end gap-[1px] lg:gap-[2px]">
             {item.letters.map((letter, i) => (
