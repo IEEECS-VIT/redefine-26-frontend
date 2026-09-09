@@ -55,8 +55,7 @@ export async function fetchTracks(): Promise<Track[]> {
   if (!API_URL) {
     return delay(DEFAULT_TRACKS);
   }
-  const res = await fetch(`${API_URL}/tracks`);
-  return res.json();
+  return request<Track[]>(`${API_URL}/tracks`);
 }
 
 export async function createTeam(payload: CreateTeamPayload): Promise<Team> {
@@ -71,12 +70,11 @@ export async function createTeam(payload: CreateTeamPayload): Promise<Team> {
     mockTeams.set(team.code, team);
     return delay(team);
   }
-  const res = await fetch(`${API_URL}/teams`, {
+  return request<Team>(`${API_URL}/teams`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
   });
-  return res.json();
 }
 
 export async function joinTeam(payload: JoinTeamPayload): Promise<Team> {
@@ -91,13 +89,34 @@ export async function joinTeam(payload: JoinTeamPayload): Promise<Team> {
     throw new Error("Team not found. Please check the code and try again.");
   }
 
-  const res = await fetch(`${API_URL}/teams/join`, {
+  return request<Team>(`${API_URL}/teams/join`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload),
+    body: JSON.stringify({ code }),
   });
-  if (!res.ok) {
-    throw new Error("Team not found. Please check the code and try again.");
+}
+
+// Shared fetch helper — normalises network + HTTP errors into a readable
+// Error so the UI only ever has to handle `err.message`.
+async function request<T>(url: string, init?: RequestInit): Promise<T> {
+  let res: Response;
+  try {
+    res = await fetch(url, init);
+  } catch {
+    throw new Error("Network error. Please check your connection and try again.");
   }
-  return res.json();
+
+  if (!res.ok) {
+    let message = `Request failed with status ${res.status}.`;
+    try {
+      const data = await res.json();
+      if (data && typeof data.message === "string") message = data.message;
+      else if (data && typeof data.error === "string") message = data.error;
+    } catch {
+      /* non-JSON error body — keep the default message */
+    }
+    throw new Error(message);
+  }
+
+  return res.json() as Promise<T>;
 }

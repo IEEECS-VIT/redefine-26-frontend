@@ -95,21 +95,40 @@ function KindButton({
 function PanelFrame({
   children,
   onSubmit,
+  onBack,
 }: {
   children: React.ReactNode;
   onSubmit?: (event: FormEvent<HTMLFormElement>) => void;
+  onBack?: () => void;
 }) {
   const className =
     "flex h-full min-h-0 w-full max-w-[32.875rem] flex-col overflow-y-auto rounded-xl border border-pink-600/90 px-[clamp(1.25rem,5vw,3rem)] pb-[clamp(1.5rem,4vh,2.5rem)] pt-[clamp(1rem,2vh,1.5rem)] shadow-[0_0_32px_rgba(236,72,153,0.13)] sm:rounded-2xl";
 
+  const body = (
+    <>
+      {onBack && (
+        <div className="mb-4 flex items-center">
+          <button
+            type="button"
+            onClick={onBack}
+            className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-white/70 transition hover:bg-pink-500/10 hover:text-white"
+          >
+            <span aria-hidden>&larr;</span> Back
+          </button>
+        </div>
+      )}
+      {children}
+    </>
+  );
+
   if (onSubmit) {
     return (
       <form noValidate onSubmit={onSubmit} className={className}>
-        {children}
+        {body}
       </form>
     );
   }
-  return <div className={className}>{children}</div>;
+  return <div className={className}>{body}</div>;
 }
 
 interface TeamUpFlowProps {
@@ -188,9 +207,7 @@ export default function TeamUpFlow({ onTeamFormed }: TeamUpFlowProps) {
   };
 
   return (
-    <section
-      className="relative isolate flex h-full w-full flex-col overflow-hidden bg-black text-white"
-    >
+    <section className="relative isolate flex h-full w-full flex-col overflow-hidden bg-black text-white">
       <div className="relative z-10 grid h-full grid-cols-1 grid-rows-[auto_minmax(0,1fr)] items-center gap-3 px-5 py-3 sm:px-8 md:gap-6 lg:grid-cols-[minmax(0,1.08fr)_minmax(20rem,0.92fr)] lg:grid-rows-1 lg:gap-[clamp(1rem,2vw,2rem)] lg:px-[clamp(2rem,5vw,6rem)] lg:py-4">
         <motion.section
           initial="hidden"
@@ -221,22 +238,26 @@ export default function TeamUpFlow({ onTeamFormed }: TeamUpFlowProps) {
                 transition={{ duration: 0.25 }}
                 className="h-full w-full max-w-[32.875rem] min-h-0"
               >
-                <div className="flex h-full min-h-0 w-full flex-col justify-center overflow-y-auto rounded-xl border border-pink-600/90 px-[14%] py-6 shadow-[0_0_32px_rgba(236,72,153,0.13)] sm:rounded-2xl">
-                  <div className="flex flex-col gap-[clamp(1rem,3vh,2.25rem)]">
-                    <KindButton
-                      icon="/teamup/image 24.png"
-                      label="/teamup/BUILD YOUR TEAM.png"
-                      alt="Build your team"
-                      onClick={() => go("build")}
-                    />
-                    <KindButton
-                      icon="/teamup/image 25.png"
-                      label="/teamup/JOIN A TEAM.png"
-                      alt="Join a team"
-                      onClick={() => go("join")}
-                    />
+                <PanelFrame>
+                  <div className="flex flex-1 flex-col items-center justify-center gap-[clamp(1rem,3vh,2.25rem)] py-4">
+                    <div className="w-full max-w-[24rem]">
+                      <KindButton
+                        icon="/teamup/image 24.png"
+                        label="/teamup/BUILD YOUR TEAM.png"
+                        alt="Build your team"
+                        onClick={() => go("build")}
+                      />
+                    </div>
+                    <div className="w-full max-w-[24rem]">
+                      <KindButton
+                        icon="/teamup/image 25.png"
+                        label="/teamup/JOIN A TEAM.png"
+                        alt="Join a team"
+                        onClick={() => go("join")}
+                      />
+                    </div>
                   </div>
-                </div>
+                </PanelFrame>
               </motion.div>
             )}
 
@@ -249,7 +270,7 @@ export default function TeamUpFlow({ onTeamFormed }: TeamUpFlowProps) {
                 transition={{ duration: 0.25 }}
                 className="h-full w-full max-w-[32.875rem] min-h-0"
               >
-                <PanelFrame onSubmit={handleFinalize}>
+                <PanelFrame onSubmit={handleFinalize} onBack={back}>
                   <div className="flex flex-1 flex-col gap-[clamp(0.75rem,2.5vh,1.75rem)]">
                     <div className="flex flex-col items-center gap-4">
                       <div className="relative h-12 w-12">
@@ -260,7 +281,7 @@ export default function TeamUpFlow({ onTeamFormed }: TeamUpFlowProps) {
                       </div>
                     </div>
 
-                    <div className="space-y-4">
+                    <div className="mx-auto flex w-full max-w-[24rem] flex-col gap-4">
                       <div className="space-y-2">
                         <FieldLabel icon="/buildteam/image 27.svg" label="/buildteam/TEAM NAME.svg" alt="Team name" />
                         <input
@@ -294,9 +315,9 @@ export default function TeamUpFlow({ onTeamFormed }: TeamUpFlowProps) {
                           </div>
                         </div>
                       </div>
-                    </div>
 
-                    {error && <p role="alert" className="text-sm text-pink-200">{error}</p>}
+                      {error && <p role="alert" className="text-center text-sm text-pink-200">{error}</p>}
+                    </div>
                   </div>
 
                   <motion.button
@@ -305,7 +326,7 @@ export default function TeamUpFlow({ onTeamFormed }: TeamUpFlowProps) {
                     whileTap={{ scale: 0.985 }}
                     transition={{ duration: 0.2 }}
                     disabled={loading}
-                    className="relative mt-6 flex h-16 w-full items-center justify-center overflow-hidden rounded-xl bg-pink-400 shadow-[0_10px_25px_rgba(236,72,153,0.18)] transition-transform duration-200 hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-pink-200 disabled:opacity-60"
+                    className="relative mx-auto mt-6 flex h-16 w-full max-w-[24rem] items-center justify-center overflow-hidden rounded-xl bg-pink-400 shadow-[0_10px_25px_rgba(236,72,153,0.18)] transition-transform duration-200 hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-pink-200 disabled:opacity-60"
                   >
                     <Image src="/buildteam/FINALISE TEAM.svg" alt="Finalise team" width={125} height={17} />
                   </motion.button>
@@ -322,9 +343,9 @@ export default function TeamUpFlow({ onTeamFormed }: TeamUpFlowProps) {
                 transition={{ duration: 0.25 }}
                 className="h-full w-full max-w-[32.875rem] min-h-0"
               >
-                <PanelFrame onSubmit={handleJoin}>
+                <PanelFrame onSubmit={handleJoin} onBack={back}>
                   <div className="flex flex-1 flex-col items-center gap-[clamp(0.75rem,2.5vh,1.75rem)]">
-                    <div className="space-y-2 w-full">
+                    <div className="mx-auto w-full max-w-[24rem] space-y-2">
                       <div className="flex items-center gap-3">
                         <div className="relative h-9 w-9 shrink-0">
                           <Image src="/teamcode/image 27.svg" alt="" fill className="object-contain" />
@@ -342,7 +363,7 @@ export default function TeamUpFlow({ onTeamFormed }: TeamUpFlowProps) {
                         className="h-20 w-full rounded-xl border border-pink-600 bg-transparent px-5 text-base uppercase tracking-[0.12em] text-white outline-none transition focus:border-pink-300 focus:ring-2 focus:ring-pink-300/20"
                       />
                     </div>
-                    {error && <p role="alert" className="text-sm text-pink-200">{error}</p>}
+                    {error && <p role="alert" className="text-center text-sm text-pink-200">{error}</p>}
                   </div>
 
                   <motion.button
@@ -351,7 +372,7 @@ export default function TeamUpFlow({ onTeamFormed }: TeamUpFlowProps) {
                     whileTap={{ scale: 0.985 }}
                     transition={{ duration: 0.2 }}
                     disabled={loading}
-                    className="relative mt-6 flex h-16 w-full items-center justify-center overflow-hidden rounded-xl bg-pink-400 transition-transform duration-200 hover:-translate-y-0.5 shadow-[0_10px_25px_rgba(236,72,153,0.18)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-pink-200 disabled:opacity-60"
+                    className="relative mx-auto mt-6 flex h-16 w-full max-w-[24rem] items-center justify-center overflow-hidden rounded-xl bg-pink-400 transition-transform duration-200 hover:-translate-y-0.5 shadow-[0_10px_25px_rgba(236,72,153,0.18)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-pink-200 disabled:opacity-60"
                   >
                     <Image src="/teamcode/DONE.svg" alt="Done" width={62} height={17} />
                   </motion.button>
@@ -361,16 +382,6 @@ export default function TeamUpFlow({ onTeamFormed }: TeamUpFlowProps) {
           </AnimatePresence>
         </motion.section>
       </div>
-
-      {step !== "choose" && (
-        <button
-          type="button"
-          onClick={back}
-          className="absolute left-4 top-28 z-20 flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-white/70 transition hover:text-white hover:bg-pink-500/10 sm:left-8 lg:top-36"
-        >
-          <span aria-hidden>&larr;</span> Back
-        </button>
-      )}
     </section>
   );
 }
