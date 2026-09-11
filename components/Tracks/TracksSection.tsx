@@ -204,6 +204,22 @@ const DESKTOP_HIT_PATHS = [
   "M 1155 0 L 1432 0 L 1017.5 467 L 716 610 L 843 465.5 Z",
 ];
 
+// SVG hit-test paths matching the exact mobile fan blades (viewBox 0 0 298 699)
+const MOBILE_HIT_PATHS = [
+  // Blade 1: 01 E-Commerce
+  "M 0 348 L 70 200 L 150 116 L 220 58 L 298 0 L 298 132 L 200 188 L 100 251 L 50 294 Z",
+  // Blade 2: 02 Smart Education
+  "M 0 348 L 50 294 L 100 251 L 200 188 L 298 132 L 298 241 L 200 270 L 100 303 L 50 323 Z",
+  // Blade 3: 03 Healthcare Companion
+  "M 0 348 L 50 323 L 100 303 L 200 270 L 298 241 L 298 368 L 200 361 L 100 353 L 50 350 Z",
+  // Blade 4: 04 Travel & Exploration
+  "M 0 348 L 50 350 L 100 353 L 200 361 L 298 368 L 298 469 L 200 434 L 100 394 L 50 372 Z",
+  // Blade 5: 05 Finance
+  "M 0 348 L 50 372 L 100 394 L 200 434 L 298 469 L 298 564 L 200 503 L 100 436 L 50 396 Z",
+  // Blade 6: 06 Social Impact Platform
+  "M 0 348 L 50 396 L 100 436 L 200 503 L 298 564 L 298 699 L 220 640 L 150 580 L 70 495 Z",
+];
+
 export default function TracksSection() {
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
   const [mobileHoveredIdx, setMobileHoveredIdx] = useState<number | null>(null);
@@ -211,7 +227,10 @@ export default function TracksSection() {
   return (
     <div className="relative w-full h-full flex flex-col items-center justify-center select-none overflow-hidden">
       {/* Mobile/Tablet Fan Layout (< lg) */}
-      <div className="lg:hidden flex items-center justify-center w-full h-full py-2 px-2 relative select-none overflow-hidden">
+      <div
+        className="lg:hidden flex items-center justify-center w-full h-full py-2 px-2 relative select-none overflow-hidden"
+        onClick={() => setMobileHoveredIdx(null)}
+      >
         {/* Composition wrapper: centers both the brain scribbles on the left and fan blades on the right */}
         <div className="relative w-[min(94vw,390px)] aspect-[380/699] max-h-[calc(100dvh-130px)] flex items-center justify-end">
           {/* Fan blades wrapper with locked aspect ratio matching Polygon 8 (298x699) */}
@@ -238,10 +257,6 @@ export default function TracksSection() {
               return (
                 <motion.div
                   key={track.id}
-                  onMouseEnter={() => setMobileHoveredIdx(i)}
-                  onTouchStart={() => setMobileHoveredIdx(i)}
-                  onMouseLeave={() => setMobileHoveredIdx(null)}
-                  onTouchEnd={() => setMobileHoveredIdx(null)}
                   style={{
                     left: 0,
                     width: "100%",
@@ -257,7 +272,7 @@ export default function TracksSection() {
                     filter: isAnyHovered && !isHovered ? "brightness(0.85)" : "brightness(1)",
                   }}
                   transition={{ type: "spring", stiffness: 260, damping: 24 }}
-                  className="absolute origin-left cursor-pointer select-none"
+                  className="absolute origin-left select-none pointer-events-none"
                 >
                   <div className="relative w-full h-full">
                     <motion.div
@@ -298,6 +313,28 @@ export default function TracksSection() {
                 </motion.div>
               );
             })}
+
+            {/* Native SVG hit overlay for pixel-perfect hover and tap-to-toggle detection on mobile */}
+            <svg
+              viewBox="0 0 298 699"
+              preserveAspectRatio="none"
+              className="absolute inset-0 w-full h-full z-40 pointer-events-none select-none"
+            >
+              {MOBILE_HIT_PATHS.map((pathD, i) => (
+                <path
+                  key={i}
+                  d={pathD}
+                  fill="rgba(0,0,0,0.001)"
+                  className="pointer-events-auto cursor-pointer"
+                  onMouseEnter={() => setMobileHoveredIdx(i)}
+                  onMouseLeave={() => setMobileHoveredIdx(null)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setMobileHoveredIdx((prev) => (prev === i ? null : i));
+                  }}
+                />
+              ))}
+            </svg>
 
             {/* Left Side: Brain and vertical wings centered on the fan blade apex */}
             <div className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-[55%] flex flex-col items-center gap-1 sm:gap-2 z-20 select-none pointer-events-none w-[170px] sm:w-[190px]">
