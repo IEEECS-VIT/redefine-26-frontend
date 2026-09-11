@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { motion } from "framer-motion";
 
 interface TrackData {
@@ -16,15 +16,14 @@ interface TrackData {
   titleWidth: string;
   titleAspect: string;
 
-  // Mobile layout properties — only the bits that genuinely depend on the
-  // hand-placed illustration/art asset stay here. Height, hover offset,
-  // z-index and top/bottom alignment are all *derived* below instead of
-  // being duplicated per-track numbers.
+  // Mobile layout properties
   mobileBlade: string;
   mobileTitle: string;
   mobileTitlePos: { left: string; top: string };
   mobileTitleWidth: string;
   mobileTitleAspect: string;
+  mobileTop: string;
+  mobileHeight: string;
 }
 
 const tracks: TrackData[] = [
@@ -42,9 +41,11 @@ const tracks: TrackData[] = [
 
     mobileBlade: "/tracks mobile/Mask group.png",
     mobileTitle: "/tracks mobile/01\u2028E-Commerce.png",
-    mobileTitlePos: { left: "70%", top: "18%" },
-    mobileTitleWidth: "25%",
+    mobileTitlePos: { left: "72.1%", top: "24.1%" },
+    mobileTitleWidth: "24.5%",
     mobileTitleAspect: "73/36",
+    mobileTop: "0%",
+    mobileHeight: "50.5%",
   },
   {
     id: 2,
@@ -60,9 +61,11 @@ const tracks: TrackData[] = [
 
     mobileBlade: "/tracks mobile/Mask group-1.png",
     mobileTitle: "/tracks mobile/02\u2028Smart Education.png",
-    mobileTitlePos: { left: "72%", top: "22%" },
-    mobileTitleWidth: "22%",
+    mobileTitlePos: { left: "74.2%", top: "22.4%" },
+    mobileTitleWidth: "19.5%",
     mobileTitleAspect: "58/54",
+    mobileTop: "18.74%",
+    mobileHeight: "31.33%",
   },
   {
     id: 3,
@@ -78,9 +81,11 @@ const tracks: TrackData[] = [
 
     mobileBlade: "/tracks mobile/Mask group-2.png",
     mobileTitle: "/tracks mobile/03\u2028Healthcare Companion.png",
-    mobileTitlePos: { left: "72%", top: "20%" },
-    mobileTitleWidth: "24%",
+    mobileTitlePos: { left: "73.5%", top: "36.8%" },
+    mobileTitleWidth: "22.5%",
     mobileTitleAspect: "67/57",
+    mobileTop: "34.48%",
+    mobileHeight: "17.88%",
   },
   {
     id: 4,
@@ -96,9 +101,11 @@ const tracks: TrackData[] = [
 
     mobileBlade: "/tracks mobile/Mask group-3.png",
     mobileTitle: "/tracks mobile/04\u2028 Travel & Exploration.png",
-    mobileTitlePos: { left: "72%", top: "55%" },
-    mobileTitleWidth: "25%",
+    mobileTitlePos: { left: "74.2%", top: "26.2%" },
+    mobileTitleWidth: "23.5%",
     mobileTitleAspect: "70/57",
+    mobileTop: "49.78%",
+    mobileHeight: "17.45%",
   },
   {
     id: 5,
@@ -114,9 +121,11 @@ const tracks: TrackData[] = [
 
     mobileBlade: "/tracks mobile/Mask group-4.png",
     mobileTitle: "/tracks mobile/05\u2028Finance.png",
-    mobileTitlePos: { left: "75%", top: "65%" },
-    mobileTitleWidth: "18%",
+    mobileTitlePos: { left: "75.8%", top: "56.4%" },
+    mobileTitleWidth: "15.4%",
     mobileTitleAspect: "46/36",
+    mobileTop: "49.78%",
+    mobileHeight: "31.18%",
   },
   {
     id: 6,
@@ -132,9 +141,11 @@ const tracks: TrackData[] = [
 
     mobileBlade: "/tracks mobile/Mask group-5.png",
     mobileTitle: "/tracks mobile/06\u2028Social Impact Platform.png",
-    mobileTitlePos: { left: "74%", top: "75%" },
-    mobileTitleWidth: "22%",
+    mobileTitlePos: { left: "77.2%", top: "61.1%" },
+    mobileTitleWidth: "17.4%",
     mobileTitleAspect: "52/72",
+    mobileTop: "49.78%",
+    mobileHeight: "50.07%",
   },
 ];
 
@@ -177,6 +188,22 @@ function getMobileAlign(i: number, total: number): "bottom" | "top" {
   return i < total / 2 ? "bottom" : "top";
 }
 
+// SVG hit-test paths matching the exact fan blades (viewBox 0 0 1432 611)
+const DESKTOP_HIT_PATHS = [
+  // Blade 1: 01 E-Commerce
+  "M 0 0 L 255 0 L 546.5 457 L 716 610 L 367 457 L 185 251.5 L 0 0 Z",
+  // Blade 2: 02 Smart Education
+  "M 255 0 L 485 0 L 632 457 L 716 610 L 546.5 457 Z",
+  // Blade 3: 03 Healthcare Companion
+  "M 485 0 L 745 0 L 716.5 457.5 L 716 610 L 632 457 Z",
+  // Blade 4: 04 Travel & Exploration
+  "M 760 0 L 960 0 L 780 463.5 L 716 610 L 716.5 457.5 Z",
+  // Blade 5: 05 Finance
+  "M 960 0 L 1155 0 L 843 465.5 L 716 610 L 780 463.5 Z",
+  // Blade 6: 06 Social Impact Platform
+  "M 1155 0 L 1432 0 L 1017.5 467 L 716 610 L 843 465.5 Z",
+];
+
 export default function TracksSection() {
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
   const [mobileHoveredIdx, setMobileHoveredIdx] = useState<number | null>(null);
@@ -184,129 +211,128 @@ export default function TracksSection() {
   return (
     <div className="relative w-full h-full flex flex-col items-center justify-center select-none overflow-hidden">
       {/* Mobile/Tablet Fan Layout (< lg) */}
-      <div className="lg:hidden flex flex-col items-center justify-center w-full h-full py-2 relative select-none">
-        {/* Fan blades wrapper with locked aspect ratio, scales smoothly across breakpoints */}
-        <div className="relative w-full aspect-[298/699] max-w-[260px] sm:max-w-[300px] md:max-w-[360px] h-auto max-h-full">
-          {/* Background Polygon */}
-          <div className="absolute inset-0 z-0">
-            <Image
-              src="/tracks mobile/Polygon 8.png"
-              alt=""
-              fill
-              priority
-              draggable={false}
-              className="object-contain pointer-events-none"
-            />
-          </div>
+      <div className="lg:hidden flex items-center justify-center w-full h-full py-2 px-2 relative select-none overflow-hidden">
+        {/* Composition wrapper: centers both the brain scribbles on the left and fan blades on the right */}
+        <div className="relative w-[min(94vw,390px)] aspect-[380/699] max-h-[calc(100dvh-130px)] flex items-center justify-end">
+          {/* Fan blades wrapper with locked aspect ratio matching Polygon 8 (298x699) */}
+          <div className="relative w-[78.4%] h-full aspect-[298/699] shrink-0">
+            {/* Background Polygon */}
+            <div className="absolute inset-0 z-0">
+              <Image
+                src="/tracks mobile/Polygon 8.png"
+                alt=""
+                fill
+                priority
+                draggable={false}
+                className="object-contain pointer-events-none"
+              />
+            </div>
 
-          {/* Mobile Fan Blades */}
-          {tracks.map((track, i) => {
-            const isHovered = mobileHoveredIdx === i;
-            const isAnyHovered = mobileHoveredIdx !== null;
-            const hover = getMobileHover(i, tracks.length);
-            const align = getMobileAlign(i, tracks.length);
-            const stripOnly = track.id === 1 || track.id === 6;
+            {/* Mobile Fan Blades */}
+            {tracks.map((track, i) => {
+              const isHovered = mobileHoveredIdx === i;
+              const isAnyHovered = mobileHoveredIdx !== null;
+              const hover = getMobileHover(i, tracks.length);
+              const stripOnly = track.id === 1 || track.id === 6;
 
-            return (
-              <motion.div
-                key={track.id}
-                onMouseEnter={() => setMobileHoveredIdx(i)}
-                onTouchStart={() => setMobileHoveredIdx(i)}
-                onMouseLeave={() => setMobileHoveredIdx(null)}
-                onTouchEnd={() => setMobileHoveredIdx(null)}
-                style={{
-                  left: 0,
-                  width: "100%",
-                  // same wedge proportion used on desktop, reused for
-                  // mobile height instead of a second hardcoded number
-                  height: track.width,
-                  zIndex: getZIndex(i, tracks.length),
-                  ...(align === "bottom" ? { bottom: "50%" } : { top: "50%" }),
-                }}
-                animate={{
-                  x: isHovered ? hover.x : 0,
-                  y: isHovered ? hover.y : 0,
-                  scale: stripOnly ? 1 : (isHovered ? 1.03 : 1),
-                  opacity: isAnyHovered && !isHovered ? 0.65 : 1,
-                  filter: isAnyHovered && !isHovered ? "brightness(0.85)" : "brightness(1)",
-                }}
-                transition={{ type: "spring", stiffness: 260, damping: 24 }}
-                className="absolute origin-left cursor-pointer select-none"
-              >
-                <div className="relative w-full h-full">
-                  <motion.div
-                    className="absolute inset-0"
-                    animate={{ scale: stripOnly && isHovered ? 1.03 : 1 }}
-                    transition={{ type: "spring", stiffness: 260, damping: 24 }}
-                  >
-                    <Image
-                      src={track.mobileBlade}
-                      alt=""
-                      fill
-                      priority
-                      draggable={false}
-                      className="object-contain pointer-events-none"
-                    />
-                  </motion.div>
+              return (
+                <motion.div
+                  key={track.id}
+                  onMouseEnter={() => setMobileHoveredIdx(i)}
+                  onTouchStart={() => setMobileHoveredIdx(i)}
+                  onMouseLeave={() => setMobileHoveredIdx(null)}
+                  onTouchEnd={() => setMobileHoveredIdx(null)}
+                  style={{
+                    left: 0,
+                    width: "100%",
+                    top: track.mobileTop,
+                    height: track.mobileHeight,
+                    zIndex: isHovered ? 30 : getZIndex(i, tracks.length),
+                  }}
+                  animate={{
+                    x: isHovered ? hover.x : 0,
+                    y: isHovered ? hover.y : 0,
+                    scale: stripOnly ? 1 : (isHovered ? 1.03 : 1),
+                    opacity: isAnyHovered && !isHovered ? 0.65 : 1,
+                    filter: isAnyHovered && !isHovered ? "brightness(0.85)" : "brightness(1)",
+                  }}
+                  transition={{ type: "spring", stiffness: 260, damping: 24 }}
+                  className="absolute origin-left cursor-pointer select-none"
+                >
+                  <div className="relative w-full h-full">
+                    <motion.div
+                      className="absolute inset-0"
+                      animate={{ scale: stripOnly && isHovered ? 1.03 : 1 }}
+                      transition={{ type: "spring", stiffness: 260, damping: 24 }}
+                    >
+                      <Image
+                        src={track.mobileBlade}
+                        alt=""
+                        fill
+                        priority
+                        draggable={false}
+                        className="object-contain pointer-events-none"
+                      />
+                    </motion.div>
 
-                  {/* Title overlay — font size follows the blade image scale,
-                      so it's responsive without a separate breakpoint value */}
-                  <div
-                    className="absolute"
-                    style={{
-                      left: track.mobileTitlePos.left,
-                      top: track.mobileTitlePos.top,
-                      width: track.mobileTitleWidth,
-                      aspectRatio: track.mobileTitleAspect,
-                    }}
-                  >
-                    <Image
-                      src={track.mobileTitle}
-                      alt={track.title}
-                      fill
-                      priority
-                      className="object-contain pointer-events-none"
-                    />
+                    {/* Title overlay — font size follows the blade image scale,
+                        so it's responsive without a separate breakpoint value */}
+                    <div
+                      className="absolute"
+                      style={{
+                        left: track.mobileTitlePos.left,
+                        top: track.mobileTitlePos.top,
+                        width: track.mobileTitleWidth,
+                        aspectRatio: track.mobileTitleAspect,
+                      }}
+                    >
+                      <Image
+                        src={track.mobileTitle}
+                        alt={track.title}
+                        fill
+                        priority
+                        className="object-contain pointer-events-none"
+                      />
+                    </div>
                   </div>
-                </div>
-              </motion.div>
-            );
-          })}
+                </motion.div>
+              );
+            })}
 
-          {/* Left Side: Brain and vertical wings — sizes scale with breakpoint
-              instead of one fixed px value */}
-          <div className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 flex flex-col items-center gap-3 sm:gap-4 z-20 select-none pointer-events-none w-[160px] sm:w-[180px] md:w-[200px]">
-            <div className="relative w-[140px] sm:w-[155px] md:w-[170px] aspect-[192/248]">
-              <Image
-                src="/tracks mobile/image 16.png"
-                alt=""
-                fill
-                priority
-                draggable={false}
-                className="object-contain pointer-events-none"
-              />
-            </div>
+            {/* Left Side: Brain and vertical wings centered on the fan blade apex */}
+            <div className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-[55%] flex flex-col items-center gap-1 sm:gap-2 z-20 select-none pointer-events-none w-[170px] sm:w-[190px]">
+              <div className="relative w-[145px] sm:w-[165px] aspect-[192/248]">
+                <Image
+                  src="/tracks mobile/image 16.png"
+                  alt=""
+                  fill
+                  priority
+                  draggable={false}
+                  className="object-contain pointer-events-none"
+                />
+              </div>
 
-            <div className="relative w-[90px] sm:w-[100px] md:w-[110px] aspect-[88/137] -my-2">
-              <Image
-                src="/tracks mobile/Brain.png"
-                alt="Brain"
-                fill
-                priority
-                draggable={false}
-                className="object-contain pointer-events-none"
-              />
-            </div>
+              <div className="relative w-[92px] sm:w-[105px] aspect-[88/137] -my-2">
+                <Image
+                  src="/tracks mobile/Brain.png"
+                  alt="Brain"
+                  fill
+                  priority
+                  draggable={false}
+                  className="object-contain pointer-events-none"
+                />
+              </div>
 
-            <div className="relative w-[90px] sm:w-[100px] md:w-[110px] aspect-[118/187]">
-              <Image
-                src="/tracks mobile/image 15.png"
-                alt=""
-                fill
-                priority
-                draggable={false}
-                className="object-contain pointer-events-none"
-              />
+              <div className="relative w-[92px] sm:w-[105px] aspect-[118/187]">
+                <Image
+                  src="/tracks mobile/image 15.png"
+                  alt=""
+                  fill
+                  priority
+                  draggable={false}
+                  className="object-contain pointer-events-none"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -314,8 +340,8 @@ export default function TracksSection() {
 
       {/* Desktop Fan Layout (>= lg) */}
       <div className="hidden lg:flex flex-col items-center justify-center w-full h-full">
-        <div className="relative w-[min(95vw,1450px)] max-w-[1450px] h-full flex flex-col justify-center">
-          <div className="relative flex-1 min-h-0 w-full">
+        <div className="relative w-[min(92vw,1320px,calc((100dvh-320px)*1432/611))] max-w-[1320px] flex flex-col items-center justify-center">
+          <div className="relative w-full aspect-[1432/611]">
           {tracks.map((track, i) => {
             const isHovered = hoveredIdx === i;
             const isAnyHovered = hoveredIdx !== null;
@@ -325,8 +351,6 @@ export default function TracksSection() {
             return (
               <motion.div
                 key={track.id}
-                onMouseEnter={() => setHoveredIdx(i)}
-                onMouseLeave={() => setHoveredIdx(null)}
                 style={{
                   left: track.left,
                   width: track.width,
@@ -340,7 +364,7 @@ export default function TracksSection() {
                   filter: isAnyHovered && !isHovered ? "brightness(0.85) blur(0px)" : "brightness(1) blur(0px)",
                 }}
                 transition={{ type: "spring", stiffness: 260, damping: 24 }}
-                className="absolute bottom-0 h-[101%] origin-bottom cursor-pointer select-none"
+                className="absolute bottom-0 h-[101%] origin-bottom select-none pointer-events-none"
               >
                 <div className="relative w-full h-full">
                   <motion.div
@@ -379,18 +403,36 @@ export default function TracksSection() {
               </motion.div>
             );
           })}
+
+            {/* Native SVG hit overlay for pixel-perfect hover detection with zero gaps */}
+            <svg
+              viewBox="0 0 1432 611"
+              preserveAspectRatio="none"
+              className="absolute inset-0 w-full h-full z-30 pointer-events-none select-none"
+            >
+              {DESKTOP_HIT_PATHS.map((pathD, i) => (
+                <path
+                  key={i}
+                  d={pathD}
+                  fill="rgba(0,0,0,0.001)"
+                  className="pointer-events-auto cursor-pointer"
+                  onMouseEnter={() => setHoveredIdx(i)}
+                  onMouseLeave={() => setHoveredIdx(null)}
+                />
+              ))}
+            </svg>
         </div>
 
-        <div className="flex items-center justify-center gap-6 shrink-0 z-20 select-none pointer-events-none pb-1">
-          <div className="relative w-[200px] xl:w-[220px] aspect-[508/451]">
+        <div className="flex items-center justify-center gap-6 sm:gap-8 -mt-2 sm:-mt-3 z-20 select-none pointer-events-none">
+          <div className="relative w-[190px] xl:w-[220px] aspect-[508/451]">
             <Image src="/tracks/image 16.png" alt="" fill priority draggable={false} className="object-contain" />
           </div>
 
-          <div className="relative w-[240px] xl:w-[270px] h-[164px] xl:h-[185px]">
+          <div className="relative w-[240px] xl:w-[280px] h-[164px] xl:h-[190px]">
             <Image src="/tracks/Brain.svg" alt="Brain Scribble" fill priority draggable={false} className="object-contain" />
           </div>
 
-          <div className="relative w-[200px] xl:w-[220px] aspect-[382/258]">
+          <div className="relative w-[190px] xl:w-[220px] aspect-[382/258]">
             <Image src="/tracks/image 15.png" alt="" fill priority draggable={false} className="object-contain" />
           </div>
         </div>
