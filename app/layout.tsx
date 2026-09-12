@@ -1,6 +1,21 @@
 import "./globals.css";
 import type { Metadata } from "next";
+import { Bebas_Neue, Zilla_Slab_Highlight } from "next/font/google";
 import PageTransition from "@/components/Providers/PageTransition";
+
+const bebasNeue = Bebas_Neue({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-bebas-neue",
+  display: "swap",
+});
+
+const zillaSlabHighlight = Zilla_Slab_Highlight({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-zilla",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: {
@@ -48,7 +63,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="bg-black text-white antialiased">
+      <body className={`${bebasNeue.variable} ${zillaSlabHighlight.variable} bg-black text-white antialiased`}>
         <PageTransition>{children}</PageTransition>
       </body>
     </html>

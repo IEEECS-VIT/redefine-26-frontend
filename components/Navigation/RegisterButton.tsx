@@ -1,13 +1,18 @@
 "use client";
 
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 
 export default function RegisterButton() {
+  const router = useRouter();
+
   return (
     <div className="absolute right-4 top-[13px] z-50 overflow-visible sm:right-6 sm:top-[11px] md:right-10 md:top-[17px] lg:top-[21px] xl:top-[20px]">
       {/* Animated Button */}
       <motion.button
+        type="button"
+        onClick={() => router.push("/register")}
         whileHover={{
           scale: 1.05,
           y: -2,
@@ -17,6 +22,7 @@ export default function RegisterButton() {
         }}
         transition={{ duration: 0.2, ease: "easeOut" }}
         className="cursor-pointer select-none"
+        aria-label="Register"
       >
         <div className="relative w-[120px] sm:w-[180px] md:w-[210px] lg:w-[230px] xl:w-[250px]">
           <Image

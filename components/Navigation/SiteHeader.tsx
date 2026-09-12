@@ -20,9 +20,17 @@ const NAV_LINKS: NavLink[] = [
   { label: "FAQ", href: "/faq", img: "/tracks/FAQ.svg", width: "70px" },
 ];
 
-export default function SiteHeader() {
+export default function SiteHeader({ hideRegisterButton }: { hideRegisterButton?: boolean } = {}) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname();
+
+
+  const isRegisterPage = hideRegisterButton || pathname === "/register";
+
+  const handleNavClick = (href: string) => {
+    setMobileOpen(false);
+    router.push(href);
+  };
 
   const isActive = (href: string) => pathname === href;
 
@@ -91,6 +99,31 @@ export default function SiteHeader() {
               />
             </div>
           </Link>
+=======
+          {/* Register Button (hidden on small mobile, shown on sm+, hidden on register page) */}
+          {!isRegisterPage ? (
+            <motion.button
+              type="button"
+              onClick={() => router.push("/register")}
+              whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.96 }}
+              transition={{ duration: 0.2 }}
+              className="hidden cursor-pointer select-none transition-transform duration-200 hover:-translate-y-0.5 sm:block"
+              aria-label="Register"
+            >
+              <div className="relative aspect-[2.8/1] w-[175px] sm:w-[200px] md:w-[220px] lg:w-[240px] xl:w-[275px]">
+                <Image
+                  src="/redefine-2026/register.svg"
+                  alt="Register"
+                  fill
+                  priority
+                  className="pointer-events-none select-none object-contain"
+                />
+              </div>
+            </motion.button>
+          ) : (
+            <div className="hidden lg:block w-12 sm:w-14 md:w-16 lg:w-[70px] xl:w-20 pointer-events-none" aria-hidden="true" />
+          )}
 
           {/* Hamburger (mobile only) */}
           <button
@@ -153,6 +186,7 @@ export default function SiteHeader() {
                 </Link>
               ))}
 
+
               <Link
                 href="/#register"
                 prefetch={true}
@@ -161,6 +195,18 @@ export default function SiteHeader() {
               >
                 Register
               </Link>
+              {!isRegisterPage && (
+                <motion.button
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ delay: NAV_LINKS.length * 0.06, duration: 0.3, ease: "easeOut" }}
+                  onClick={() => handleNavClick("/register")}
+                  className="mt-4 cursor-pointer rounded-xl bg-pink-500 px-8 py-3 text-base font-semibold text-white shadow-lg shadow-pink-500/25 transition-transform hover:scale-105"
+                >
+                  Register
+                </motion.button>
+              )}
             </div>
           </motion.div>
         )}
