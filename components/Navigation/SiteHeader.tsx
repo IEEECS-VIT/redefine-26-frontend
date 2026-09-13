@@ -5,6 +5,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import NavThread from "./NavThread";
 
 interface NavLink {
   label: string;
@@ -43,6 +44,19 @@ export default function SiteHeader({ hideRegisterButton }: { hideRegisterButton?
           prefetch={true}
           className="relative h-12 w-12 shrink-0 transition-transform duration-200 hover:scale-105 active:scale-95 sm:h-14 sm:w-14 md:h-16 md:w-16 lg:h-[70px] lg:w-[70px] xl:h-20 xl:w-20"
         >
+      <motion.header
+        data-site-header="figma-responsive"
+        data-site-logo-size="56-88"
+        data-site-register-size="120-210"
+        data-site-register-layout="right-edge-responsive"
+        data-site-header-fit="responsive-row"
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, ease: "easeOut" }}
+        className="sticky top-0 z-50 m-0 flex w-full max-w-none items-center justify-between border-b border-white/5 bg-black/95 px-5 py-5 backdrop-blur-md sm:px-8 md:px-12 md:py-6 min-[900px]:h-[clamp(4.5rem,11vh,6.5rem)] min-[900px]:border-0 min-[900px]:bg-black min-[900px]:p-0 min-[900px]:backdrop-blur-none"
+      >
+        {/* Left: Logo */}
+        <Link href="/" className="relative h-12 w-12 shrink-0 transition-transform duration-300 hover:scale-105 sm:h-14 sm:w-14 md:h-16 md:w-16 min-[900px]:absolute min-[900px]:left-[clamp(1rem,2.4vw,2.2rem)] min-[900px]:top-1/2 min-[900px]:aspect-[115/112] min-[900px]:h-auto min-[900px]:w-[clamp(3.5rem,6vw,5.5rem)] min-[900px]:-translate-y-1/2">
           <Image
             src="/redefine-2026/redefine.jpeg"
             alt="Redefine Logo"
@@ -99,7 +113,6 @@ export default function SiteHeader({ hideRegisterButton }: { hideRegisterButton?
               />
             </div>
           </Link>
-=======
           {/* Register Button (hidden on small mobile, shown on sm+, hidden on register page) */}
           {!isRegisterPage ? (
             <motion.button
@@ -111,7 +124,7 @@ export default function SiteHeader({ hideRegisterButton }: { hideRegisterButton?
               className="hidden cursor-pointer select-none transition-transform duration-200 hover:-translate-y-0.5 sm:block"
               aria-label="Register"
             >
-              <div className="relative aspect-[2.8/1] w-[175px] sm:w-[200px] md:w-[220px] lg:w-[240px] xl:w-[275px]">
+              <div className="relative aspect-[193/61] w-[175px] sm:w-[200px] md:w-[220px] min-[900px]:w-[clamp(7.5rem,14vw,13.125rem)]">
                 <Image
                   src="/redefine-2026/register.svg"
                   alt="Register"
@@ -122,7 +135,7 @@ export default function SiteHeader({ hideRegisterButton }: { hideRegisterButton?
               </div>
             </motion.button>
           ) : (
-            <div className="hidden lg:block w-12 sm:w-14 md:w-16 lg:w-[70px] xl:w-20 pointer-events-none" aria-hidden="true" />
+            <div className="hidden w-12 pointer-events-none sm:w-14 md:w-16 min-[900px]:block min-[900px]:w-[clamp(7.5rem,14vw,13.125rem)]" aria-hidden="true" />
           )}
 
           {/* Hamburger (mobile only) */}

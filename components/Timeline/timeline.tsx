@@ -2,12 +2,25 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
+import TimelineThreads from "./TimelineThreads";
 
 type Phase = {
   id: number;
   label: string;
   asset: string;
   date: string;
+};
+
+type DecorativeNote = {
+  id: string;
+  top: string;
+  left: string;
+  width: string;
+  height: string;
+  rotate: number;
+  color: string;
+  lines: number;
+  pin: "left" | "center" | "right";
 };
 
 const phases: Phase[] = [
@@ -18,9 +31,22 @@ const phases: Phase[] = [
   { id: 5, label: "Phase 05", asset: "/timeline/Phase 05.svg", date: "XX Aug 2026 - YY Aug 2026" },
 ];
 
-function Pin({ className = "" }: { className?: string }) {
+const outerNotes: DecorativeNote[] = [
+  { id: "top-gap-left", top: "14%", left: "35.5%", width: "7.5%", height: "17%", rotate: -2, color: "#E57E96", lines: 5, pin: "center" },
+  { id: "top-gap-right", top: "15%", left: "81.5%", width: "8%", height: "16%", rotate: 3, color: "#D04C6B", lines: 4, pin: "center" },
+  { id: "bottom-gap-right", top: "76%", left: "68.5%", width: "8%", height: "17%", rotate: -3, color: "#F5B7C7", lines: 5, pin: "right" },
+  { id: "west-lower", top: "61%", left: "0.5%", width: "7%", height: "10%", rotate: -4, color: "#F5B7C7", lines: 3, pin: "right" },
+  { id: "east-upper", top: "38%", left: "92.5%", width: "7%", height: "11%", rotate: 4, color: "#F5B7C7", lines: 4, pin: "left" },
+  { id: "west-bottom", top: "89%", left: "1%", width: "8%", height: "9%", rotate: 3, color: "#E57E96", lines: 3, pin: "center" },
+  { id: "east-bottom", top: "90%", left: "92%", width: "7%", height: "9%", rotate: -3, color: "#F5B7C7", lines: 3, pin: "center" },
+];
+
+function Pin({ className = "", anchor }: { className?: string; anchor?: number }) {
   return (
-    <div className={`w-3 h-3 md:w-3.5 md:h-3.5 bg-black rounded-full shadow-sm shrink-0 z-10 ${className}`} />
+    <div
+      data-timeline-anchor={anchor}
+      className={`w-3 h-3 md:w-3.5 md:h-3.5 bg-black rounded-full shadow-sm shrink-0 z-10 ${className}`}
+    />
   );
 }
 
@@ -34,16 +60,49 @@ function NotebookLines({ count = 7, className = "" }: { count?: number; classNam
   );
 }
 
+function OuterNote({ note }: { note: DecorativeNote }) {
+  const pinPosition = note.pin === "left" ? "left-3" : note.pin === "right" ? "right-3" : "left-1/2 -translate-x-1/2";
+
+  return (
+    <div
+      data-timeline-decor-note={note.id}
+      className="absolute overflow-hidden rounded-sm shadow-md"
+      style={{
+        top: note.top,
+        left: note.left,
+        width: note.width,
+        height: note.height,
+        transform: `rotate(${note.rotate}deg)`,
+        backgroundColor: note.color,
+        zIndex: 5,
+      }}
+    >
+      <Pin className={`absolute top-2 ${pinPosition}`} />
+      <NotebookLines count={note.lines} />
+    </div>
+  );
+}
+
 export default function Timeline() {
   return (
-    <section className="relative isolate h-full w-full overflow-hidden bg-black text-white flex flex-col justify-between p-[clamp(0.5rem,1.5vh,1.25rem)]">
+    <section className="relative isolate flex h-full w-full items-center justify-center overflow-hidden bg-black text-white">
 
       {/* Desktop Collage Container (lg and up) */}
-      <div className="relative mx-auto my-auto hidden lg:block select-none overflow-hidden h-full w-auto max-w-full aspect-[16/9.5]">
+      <div
+        data-timeline-layout="desktop"
+        data-timeline-stage="viewport"
+        data-canvas-ratio="1440/1024"
+        className="relative hidden select-none overflow-hidden min-[900px]:block"
+        style={{ width: "100vw", height: "100dvh" }}
+      >
         
         {/* Center TIMELINE Title */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
-          <div className="relative w-[46vw] max-w-[580px] aspect-[565/109]">
+          <div
+            data-timeline-title-size="compact"
+            data-timeline-title-position="lowered"
+            className="relative aspect-[565/109] w-[39vw] max-w-[500px] translate-y-[clamp(1rem,3vh,2rem)]"
+          >
             <Image
               src="/timeline/TIMELINE.svg"
               alt="TIMELINE"
@@ -53,6 +112,11 @@ export default function Timeline() {
             />
           </div>
         </div>
+
+        {/* Extra outer notes extend the collage into the open edge space. */}
+        {outerNotes.map((note) => (
+          <OuterNote key={note.id} note={note} />
+        ))}
 
         {/* --- TOP ROW CARDS --- */}
         {/* Deco Top Left Far Backer */}
@@ -78,7 +142,7 @@ export default function Timeline() {
           className="absolute bg-[#F9CDD7] rounded-sm shadow-lg p-4 flex flex-col items-center justify-center"
           style={{ top: '21%', left: '1.5%', width: '15%', height: '38%', transform: 'rotate(-4deg)', zIndex: 15 }}
         >
-          <Pin className="absolute top-3.5 left-1/2 -translate-x-1/2" />
+          <Pin anchor={5} className="absolute top-3.5 left-1/2 -translate-x-1/2" />
           <div className="relative w-full h-10 mt-2">
             <Image src="/timeline/Phase 05.svg" alt="Phase 05" fill className="object-contain" />
           </div>
@@ -110,7 +174,7 @@ export default function Timeline() {
           className="absolute bg-[#F9CDD7] rounded-sm shadow-lg p-4 flex flex-col items-center justify-center"
           style={{ top: '15%', left: '40.5%', width: '15.5%', height: '19%', transform: 'rotate(0.5deg)', zIndex: 15 }}
         >
-          <Pin className="absolute top-2.5 left-1/2 -translate-x-1/2" />
+          <Pin anchor={1} className="absolute top-2.5 left-1/2 -translate-x-1/2" />
           <div className="relative w-full h-8 mt-1">
             <Image src="/timeline/Phase 01.svg" alt="Phase 01" fill className="object-contain" />
           </div>
@@ -142,7 +206,7 @@ export default function Timeline() {
           className="absolute bg-[#F9CDD7] rounded-sm shadow-lg p-4 flex flex-col items-center justify-center"
           style={{ top: '25%', left: '75%', width: '17%', height: '20%', transform: 'rotate(-3deg)', zIndex: 15 }}
         >
-          <Pin className="absolute top-2.5 left-1/2 -translate-x-1/2" />
+          <Pin anchor={2} className="absolute top-2.5 left-1/2 -translate-x-1/2" />
           <div className="relative w-full h-8 mt-1">
             <Image src="/timeline/Phase 02.svg" alt="Phase 02" fill className="object-contain" />
           </div>
@@ -192,7 +256,7 @@ export default function Timeline() {
           className="absolute bg-[#F9CDD7] rounded-sm shadow-lg p-4 flex flex-col items-center justify-center"
           style={{ top: '70.5%', left: '75.5%', width: '19%', height: '23%', transform: 'rotate(2deg)', zIndex: 15 }}
         >
-          <Pin className="absolute top-2.5 left-1/2 -translate-x-1/2" />
+          <Pin anchor={3} className="absolute top-2.5 left-1/2 -translate-x-1/2" />
           <div className="relative w-full h-9 mt-1">
             <Image src="/timeline/Phase 03.svg" alt="Phase 03" fill className="object-contain" />
           </div>
@@ -226,7 +290,8 @@ export default function Timeline() {
 
         {/* Deco Bottom Center-Right Lined */}
         <div
-          className="absolute bg-[#F5B7C7] rounded-sm shadow-md overflow-hidden"
+          data-timeline-bottom-palette="varied"
+          className="absolute overflow-hidden rounded-sm bg-[#E99AB0] shadow-md"
           style={{ top: '70.5%', left: '49.5%', width: '21.5%', height: '31%', transform: 'rotate(1deg)', zIndex: 6 }}
         >
           <Pin className="absolute top-2.5 left-1/2 -translate-x-1/2" />
@@ -253,7 +318,7 @@ export default function Timeline() {
           className="absolute bg-[#F9CDD7] rounded-sm shadow-lg p-5 flex flex-col items-center justify-center"
           style={{ top: '68.5%', left: '11.5%', width: '23.5%', height: '26%', transform: 'rotate(-3deg)', zIndex: 15 }}
         >
-          <Pin className="absolute top-3 right-6" />
+          <Pin anchor={4} className="absolute top-3 right-6" />
           <div className="relative w-full h-10 mt-1">
             <Image src="/timeline/Phase 04.svg" alt="Phase 04" fill className="object-contain" />
           </div>
@@ -331,41 +396,38 @@ export default function Timeline() {
 
       </div>
 
-      {/* Mobile / Tablet Layout (< lg) */}
-      <div className="relative w-full max-w-xl mx-auto px-5 py-2 lg:hidden flex flex-col items-center h-full z-10 gap-2">
-        <div className="relative w-[60vw] max-w-[320px] aspect-[565/109] shrink-0">
-          <Image
-            src="/timeline/TIMELINE.svg"
-            alt="TIMELINE"
-            fill
-            priority
-            className="object-contain drop-shadow-[0_0_20px_rgba(255,255,255,0.2)]"
-          />
-        </div>
+      {/* Mobile / Tablet collage (< lg) */}
+      <div
+        data-timeline-layout="mobile"
+        data-canvas-ratio="402/874"
+        className="relative overflow-hidden min-[900px]:hidden"
+        style={{
+          width: "min(100vw, calc(100dvh * 0.459954))",
+          height: "min(100dvh, calc(100vw / 0.459954))",
+        }}
+      >
+        <TimelineThreads />
 
-        {/* Vertical timeline connecting line */}
-        <div className="relative w-full flex-1 min-h-0 flex flex-col gap-2 items-center">
-          <div className="absolute top-0 bottom-0 left-1/2 w-0.5 bg-white/40 -translate-x-1/2 pointer-events-none" />
-
+        <div className="absolute inset-0 z-10">
           {phases.map((phase, idx) => (
-            <motion.div
+            <div
               key={phase.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: idx * 0.1 }}
-              className="relative flex-1 min-h-0 w-full max-w-sm bg-[#F9CDD7] rounded-md shadow-xl border border-pink-300/30 flex flex-col items-center justify-center overflow-hidden"
+              data-mobile-phase-card="expanded"
+              className="absolute left-1/2 flex h-[10.5%] w-[48%] -translate-x-1/2 flex-col items-center justify-center rounded-sm shadow-xl"
               style={{
-                transform: `rotate(${idx % 2 === 0 ? '-2deg' : '2deg'})`,
+                top: `${[18, 33, 48, 63, 78][idx]}%`,
+                rotate: `${[-4, 3, -3, 2, -2][idx]}deg`,
+                backgroundColor: ["#fac2cf", "#fac2cf", "#df6989", "#d04c6b", "#c1325f"][idx],
               }}
             >
-              <Pin className="absolute top-2 left-1/2 -translate-x-1/2" />
-              <div className="relative w-[45%] h-[55%] min-h-0">
+              <Pin anchor={idx + 1} className="absolute left-1/2 top-1 -translate-x-1/2 scale-75" />
+              <div className="relative h-[42%] w-[78%]">
                 <Image src={phase.asset} alt={phase.label} fill className="object-contain" />
               </div>
-              <p className="text-[10px] sm:text-xs font-semibold text-black mt-1 text-center whitespace-nowrap shrink-0">
+              <p className="mt-[2%] whitespace-nowrap text-center text-[clamp(5px,1.55vw,8px)] font-semibold text-black">
                 {phase.date}
               </p>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>
