@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { motion } from "framer-motion";
 
 type Letter = {
@@ -69,32 +69,21 @@ const menu: MenuItem[] = [
 ];
 
 export default function SideMenu() {
-  const router = useRouter();
-
-  const navigate = (id: string) => {
-    router.push(`/${id}`);
-  };
-
   return (
     <>
       {menu.map((item) => (
-        <motion.button
+        <Link
           key={item.id}
-          onClick={() => navigate(item.id)}
-          className={`absolute z-40 flex ${item.className}`}
-          initial={{
-            opacity: 0,
-            y: 20,
-          }}
-          animate={{
-            opacity: 1,
-            y: 0,
-          }}
-          transition={{
-            duration: 0.8,
-          }}
+          href={`/${item.id}`}
+          prefetch={true}
+          className={`absolute z-40 flex ${item.className} cursor-pointer transition-transform hover:scale-105 active:scale-95`}
         >
-          <div className="flex items-end gap-[1px] lg:gap-[2px]">
+          <motion.div
+            className="flex items-end gap-[1px] lg:gap-[2px]"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
             {item.letters.map((letter, i) => (
               <motion.div
                 key={i}
@@ -117,8 +106,8 @@ export default function SideMenu() {
                 />
               </motion.div>
             ))}
-          </div>
-        </motion.button>
+          </motion.div>
+        </Link>
       ))}
     </>
   );
