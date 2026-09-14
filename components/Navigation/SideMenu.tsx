@@ -116,6 +116,11 @@ export default function SideMenu({ isSignedIn }: SideMenuProps) {
                   rotate: letter.rotate ?? 0,
                   y: letter.y ?? 0,
                 }}
+                whileHover={{
+                  y: (letter.y ?? 0) - 4,
+                  rotate: (letter.rotate ?? 0) + ((letter.rotate ?? 0) >= 0 ? 2 : -2),
+                }}
+                transition={{ type: "spring", stiffness: 420, damping: 18 }}
               >
                 {letter.src ? (
                   <Image
