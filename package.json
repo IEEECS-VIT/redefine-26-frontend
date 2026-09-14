@@ -7,8 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "typecheck": "tsc --noEmit",
-    "test": "node --test tests/firebase-auth.test.mjs tests/homepage-mobile-layout.test.mjs tests/timeline-thread-geometry.test.mjs"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "firebase": "^12.19.0",

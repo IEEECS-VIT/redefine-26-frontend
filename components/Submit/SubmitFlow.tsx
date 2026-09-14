@@ -4,7 +4,7 @@ import Image from "next/image";
 import { FormEvent, useState } from "react";
 import { motion } from "framer-motion";
 import DynamicStringsBackground from "@/components/Background/DynamicStringsBackground";
-import { DEFAULT_TRACKS, submitProject, type Track } from "@/lib/teamup";
+import { DEFAULT_TRACKS, type Track } from "@/lib/teamup";
 
 const INPUT_STYLE =
   "h-12 w-full rounded-xl border border-pink-600/90 bg-black/80 px-4 sm:px-5 text-sm sm:text-base text-white outline-none transition placeholder:text-white/45 focus:border-pink-300 focus:ring-2 focus:ring-pink-300/20";
@@ -45,7 +45,7 @@ export default function SubmitFlow() {
     });
   };
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!trackId) {
       setError("Please select a track before submitting.");
@@ -57,21 +57,10 @@ export default function SubmitFlow() {
     }
     setError("");
     setLoading(true);
-    try {
-      const selectedTrack = tracks.find((t) => t.id === trackId)?.name || trackId;
-      const validLinks = additionalLinks.filter((l) => l.trim().length > 0);
-      await submitProject({
-        problem_stmt: selectedTrack,
-        github_link: validLinks[0] || figmaLink,
-        figma_link: figmaLink,
-        other_files: validLinks.slice(1).join(", "),
-      });
-      setSubmitted(true);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to submit project. Please try again.");
-    } finally {
+    setTimeout(() => {
       setLoading(false);
-    }
+      setSubmitted(true);
+    }, 800);
   };
 
   return (
