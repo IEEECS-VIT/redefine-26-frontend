@@ -1,9 +1,4 @@
-// Team Up — data layer.
-//
-// Every function here is the single seam between the UI and the backend.
-// When a real API is available set NEXT_PUBLIC_API_URL and these helpers
-// will use it. Without it they fall back to deterministic mock data so the
-// flow can be built and demoed end-to-end right now.
+
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
