@@ -6,12 +6,14 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { subscribeToAuthState } from "@/lib/auth";
+import { getMyTeam } from "@/lib/teamup";
 import NavThread from "./NavThread";
 import { getHeaderAction, getHeaderNavLinks } from "./navigationLinks";
 
 export default function SiteHeader({ hideRegisterButton }: { hideRegisterButton?: boolean } = {}) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [isSignedIn, setIsSignedIn] = useState(false);
+  const [isLeader, setIsLeader] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
   const navLinks = getHeaderNavLinks(isSignedIn);
@@ -20,6 +22,28 @@ export default function SiteHeader({ hideRegisterButton }: { hideRegisterButton?
   useEffect(() => {
     return subscribeToAuthState((user) => setIsSignedIn(Boolean(user)));
   }, []);
+
+  useEffect(() => {
+    let active = true;
+    if (isSignedIn) {
+      getMyTeam()
+        .then((team) => {
+          if (active) {
+            setIsLeader(Boolean(team?.isLeader));
+          }
+        })
+        .catch(() => {
+          if (active) {
+            setIsLeader(false);
+          }
+        });
+    } else {
+      setIsLeader(false);
+    }
+    return () => {
+      active = false;
+    };
+  }, [isSignedIn, pathname]);
 
   useEffect(() => {
     if (mobileOpen) {
@@ -32,7 +56,10 @@ export default function SiteHeader({ hideRegisterButton }: { hideRegisterButton?
     };
   }, [mobileOpen]);
 
-  const hideHeaderAction = hideRegisterButton || pathname === headerAction.href;
+  const hideHeaderAction =
+    hideRegisterButton ||
+    pathname === headerAction.href ||
+    (headerAction.href === "/submit" && !isLeader);
 
   const handleNavClick = (href: string) => {
     setMobileOpen(false);
@@ -84,9 +111,9 @@ export default function SiteHeader({ hideRegisterButton }: { hideRegisterButton?
           ))}
         </nav>
 
-        {/* Right: Register + Hamburger */}
+        {/* Right: Register / Submit + Hamburger */}
         <div className="flex items-center gap-4 min-[900px]:absolute min-[900px]:right-[clamp(1rem,2.4vw,2.2rem)] min-[900px]:top-1/2 min-[900px]:-translate-y-1/2">
-          {/* Auth-aware action (hidden on small mobile and on its destination page) */}
+          {/* Auth-aware action (hidden on small mobile, on destination page, or if Submit when not leader) */}
           {!hideHeaderAction ? (
             <Link href={headerAction.href} prefetch={true} className="hidden sm:block" aria-label={headerAction.label}>
               <motion.div
