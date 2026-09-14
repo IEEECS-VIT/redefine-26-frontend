@@ -42,7 +42,7 @@ const menu: MenuItem[] = [
   },
   {
     id: "faq",
-    className: "left-[6%] top-[36%] md:left-[15%] md:bottom-[25%]",
+    className: "left-[6%] top-[36%] md:left-[15%] md:top-auto md:bottom-[25%]",
     letters: [
       { src: "/redefine-2026/F.svg", alt: "F", rotate: -6 },
       { src: "/redefine-2026/A.svg", alt: "A", rotate: 5, y: -2 },
@@ -66,7 +66,7 @@ const menu: MenuItem[] = [
 const signedOutItem: MenuItem = {
   id: "sign-in",
   href: "/register",
-  className: "right-[6%] top-[29%] md:right-[15%] md:bottom-[34%]",
+  className: "right-[6%] top-[29%] md:right-[15%] md:top-auto md:bottom-[34%]",
   letters: [
     { src: "/redefine-2026/S.svg", alt: "S", rotate: -5 },
     { src: "/redefine-2026/I.svg", alt: "I", rotate: 4 },
@@ -80,7 +80,7 @@ const signedOutItem: MenuItem = {
 const signedInItem: MenuItem = {
   id: "team",
   href: "/team",
-  className: "right-[6%] top-[29%] md:right-[15%] md:bottom-[34%]",
+  className: "right-[6%] top-[29%] md:right-[15%] md:top-auto md:bottom-[34%]",
   letters: [
     { src: "/redefine-2026/T.svg", alt: "T", rotate: -5 },
     { src: "/redefine-2026/E.svg", alt: "E", rotate: 4 },
@@ -100,13 +100,15 @@ export default function SideMenu({ isSignedIn }: SideMenuProps) {
           href={item.href ?? `/${item.id}`}
           prefetch={true}
           aria-label={item.id === "sign-in" ? "Sign in" : item.id.replace("-", " ")}
-          className={`absolute z-40 flex ${item.className} cursor-pointer`}
+          className={`absolute z-40 hover:z-50 flex ${item.className} cursor-pointer select-none`}
         >
           <motion.div
             className="flex items-end gap-[1px] lg:gap-[2px]"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            whileHover={{ scale: 1.08 }}
+            whileTap={{ scale: 0.95 }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
           >
             {item.letters.map((letter, i) => (
               <motion.div
@@ -117,10 +119,12 @@ export default function SideMenu({ isSignedIn }: SideMenuProps) {
                   y: letter.y ?? 0,
                 }}
                 whileHover={{
-                  y: (letter.y ?? 0) - 4,
-                  rotate: (letter.rotate ?? 0) + ((letter.rotate ?? 0) >= 0 ? 2 : -2),
+                  scale: 1.28,
+                  y: (letter.y ?? 0) - 8,
+                  rotate: (letter.rotate ?? 0) + 6,
+                  zIndex: 20,
+                  transition: { duration: 0.15, ease: "easeOut" },
                 }}
-                transition={{ type: "spring", stiffness: 420, damping: 18 }}
               >
                 {letter.src ? (
                   <Image
