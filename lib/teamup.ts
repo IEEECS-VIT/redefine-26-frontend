@@ -78,6 +78,7 @@ function makeMockCode(name: string): string {
 async function getAuthHeader(): Promise<Record<string, string>> {
   try {
     const auth = getFirebaseAuth();
+    await auth.authStateReady();
     const token = await auth.currentUser?.getIdToken();
     if (token) {
       return { Authorization: `Bearer ${token}` };
@@ -89,16 +90,7 @@ async function getAuthHeader(): Promise<Record<string, string>> {
 }
 
 export async function fetchTracks(): Promise<Track[]> {
-  if (!API_URL) {
-    return delay(DEFAULT_TRACKS);
-  }
-  try {
-    const res = await fetch(`${API_URL}/tracks`);
-    if (!res.ok) return DEFAULT_TRACKS;
-    return await res.json();
-  } catch {
-    return DEFAULT_TRACKS;
-  }
+  return DEFAULT_TRACKS;
 }
 
 export async function createTeam(payload: CreateTeamPayload): Promise<Team> {
@@ -207,71 +199,6 @@ export async function getMyTeam(): Promise<TeamResponse | null> {
   }
 }
 
-export async function removeTeamMember(memberEmail: string): Promise<{ message: string }> {
-  const authHeader = await getAuthHeader();
-  if (!API_URL || !authHeader.Authorization) {
-    return delay({ message: "Member removed successfully" });
-  }
-
-  const res = await fetch(`${API_URL}/teams/remove-member`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      ...authHeader,
-    },
-    body: JSON.stringify({ memberEmail }),
-  });
-
-  const data = await res.json().catch(() => ({}));
-  if (!res.ok) {
-    throw new Error(data.message || "Failed to remove member.");
-  }
-
-  return data;
-}
-
-export async function deleteTeam(): Promise<{ message: string }> {
-  const authHeader = await getAuthHeader();
-  if (!API_URL || !authHeader.Authorization) {
-    return delay({ message: "Team deleted successfully" });
-  }
-
-  const res = await fetch(`${API_URL}/teams/delete`, {
-    method: "DELETE",
-    headers: {
-      ...authHeader,
-    },
-  });
-
-  const data = await res.json().catch(() => ({}));
-  if (!res.ok) {
-    throw new Error(data.message || "Failed to delete team.");
-  }
-
-  return data;
-}
-
-export async function leaveTeam(): Promise<{ message: string }> {
-  const authHeader = await getAuthHeader();
-  if (!API_URL || !authHeader.Authorization) {
-    return delay({ message: "Action completed successfully" });
-  }
-
-  const res = await fetch(`${API_URL}/teams/leave-team`, {
-    method: "DELETE",
-    headers: {
-      ...authHeader,
-    },
-  });
-
-  const data = await res.json().catch(() => ({}));
-  if (!res.ok) {
-    throw new Error(data.message || "Failed to leave team.");
-  }
-
-  return data;
-}
-
 export function saveCurrentTeam(team: Team): void {
   if (typeof window !== "undefined") {
     localStorage.setItem("redefine_current_team", JSON.stringify(team));
@@ -309,6 +236,47 @@ export async function submitProject(payload: SubmitProjectPayload): Promise<void
 
   if (!res.ok) {
     let message = "The server could not record the submission. Please try again.";
+    try {
+      const data = await res.json();
+      if (data?.message) message = data.message;
+    } catch {
+      // ignore body parse errors
+    }
+    throw new Error(message);
+  }
+}
+
+export async function updateProject(payload: SubmitProjectPayload): Promise<void> {
+  if (!API_URL) {
+    await delay(null, 800);
+    return;
+  }
+
+  const auth = getFirebaseAuth();
+  await auth.authStateReady();
+  const user = auth.currentUser;
+  if (!user) {
+    throw new Error("Not signed in.");
+  }
+  const idToken = await user.getIdToken();
+
+  const body: SubmitProjectPayload = {
+    track: payload.track,
+    figma_link: payload.figma_link,
+    other_links: payload.other_links?.filter((link) => link.trim() !== "") ?? [],
+  };
+
+  const res = await fetch(`${API_URL}/teams/project/update`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${idToken}`,
+    },
+    body: JSON.stringify(body),
+  });
+
+  if (!res.ok) {
+    let message = "The server could not update the submission. Please try again.";
     try {
       const data = await res.json();
       if (data?.message) message = data.message;
