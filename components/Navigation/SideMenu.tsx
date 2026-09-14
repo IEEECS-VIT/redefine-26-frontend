@@ -3,9 +3,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import LetterG from "./LetterG";
 
 type Letter = {
-  src: string;
+  src?: string;
+  component?: "G";
   alt: string;
   rotate?: number;
   y?: number;
@@ -14,8 +16,13 @@ type Letter = {
 
 type MenuItem = {
   id: string;
+  href?: string;
   className: string;
   letters: Letter[];
+};
+
+type SideMenuProps = {
+  isSignedIn: boolean;
 };
 
 const menu: MenuItem[] = [
@@ -54,28 +61,45 @@ const menu: MenuItem[] = [
       { src: "/redefine-2026/S.svg", alt: "S", rotate: 5 },
     ],
   },
-  {
-    id: "team-up",
-    className: "right-[6%] top-[29%] md:right-[15%] md:bottom-[34%]",
-    letters: [
-      { src: "/redefine-2026/T.svg", alt: "T", rotate: -5 },
-      { src: "/redefine-2026/E.svg", alt: "E", rotate: 4 },
-      { src: "/redefine-2026/A.svg", alt: "A", rotate: -4 },
-      { src: "/redefine-2026/M.svg", alt: "M", rotate: 5 },
-      { src: "/redefine-2026/U.svg", alt: "U", rotate: -6 },
-      { src: "/redefine-2026/P.svg", alt: "P", rotate: 7 },
-    ],
-  },
 ];
 
-export default function SideMenu() {
+const signedOutItem: MenuItem = {
+  id: "sign-in",
+  href: "/register",
+  className: "right-[6%] top-[29%] md:right-[15%] md:bottom-[34%]",
+  letters: [
+    { src: "/redefine-2026/S.svg", alt: "S", rotate: -5 },
+    { src: "/redefine-2026/I.svg", alt: "I", rotate: 4 },
+    { component: "G", alt: "G", rotate: -4 },
+    { src: "/redefine-2026/N.svg", alt: "N", rotate: 5 },
+    { src: "/redefine-2026/I.svg", alt: "I", rotate: -6 },
+    { src: "/redefine-2026/N.svg", alt: "N", rotate: 7 },
+  ],
+};
+
+const signedInItem: MenuItem = {
+  id: "team",
+  href: "/team",
+  className: "right-[6%] top-[29%] md:right-[15%] md:bottom-[34%]",
+  letters: [
+    { src: "/redefine-2026/T.svg", alt: "T", rotate: -5 },
+    { src: "/redefine-2026/E.svg", alt: "E", rotate: 4 },
+    { src: "/redefine-2026/A.svg", alt: "A", rotate: -4 },
+    { src: "/redefine-2026/M.svg", alt: "M", rotate: 5 },
+  ],
+};
+
+export default function SideMenu({ isSignedIn }: SideMenuProps) {
+  const items = [...menu, isSignedIn ? signedInItem : signedOutItem];
+
   return (
     <>
-      {menu.map((item) => (
+      {items.map((item) => (
         <Link
           key={item.id}
-          href={`/${item.id}`}
+          href={item.href ?? `/${item.id}`}
           prefetch={true}
+          aria-label={item.id === "sign-in" ? "Sign in" : item.id.replace("-", " ")}
           className={`absolute z-40 flex ${item.className} cursor-pointer transition-transform hover:scale-105 active:scale-95`}
         >
           <motion.div
@@ -92,18 +116,24 @@ export default function SideMenu() {
                   rotate: letter.rotate ?? 0,
                   y: letter.y ?? 0,
                 }}
+                whileHover={{
+                  y: (letter.y ?? 0) - 4,
+                  rotate: (letter.rotate ?? 0) + ((letter.rotate ?? 0) >= 0 ? 2 : -2),
+                }}
+                transition={{ type: "spring", stiffness: 420, damping: 18 }}
               >
-                <Image
-                  src={letter.src}
-                  alt={letter.alt}
-                  fill
-                  draggable={false}
-                  className="
-                    object-contain
-                    select-none
-                    drop-shadow-[0_4px_6px_rgba(0,0,0,0.45)]
-                  "
-                />
+                {letter.src ? (
+                  <Image
+                    src={letter.src}
+                    alt={letter.alt}
+                    fill
+                    sizes="clamp(22px, 5vw, 40px)"
+                    draggable={false}
+                    className="object-contain select-none drop-shadow-[0_4px_6px_rgba(0,0,0,0.45)]"
+                  />
+                ) : letter.component === "G" ? (
+                  <LetterG className="relative h-full w-full drop-shadow-[0_4px_6px_rgba(0,0,0,0.45)]" />
+                ) : null}
               </motion.div>
             ))}
           </motion.div>
