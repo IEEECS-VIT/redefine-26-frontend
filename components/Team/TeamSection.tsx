@@ -2,150 +2,236 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
+import DesktopBackgroundThreads from "@/components/Team/DesktopBackgroundThreads";
+import DynamicStringsBackground from "@/components/Background/DynamicStringsBackground";
 
 export interface TeamMember {
   id: string;
   name: string;
   rollNo: string;
-  silhouette: string;
-  layout: "silhouette-left" | "silhouette-right";
+  silhouette?: string;
+  layout?: "silhouette-left" | "silhouette-right";
 }
 
 export const DEFAULT_MEMBERS: TeamMember[] = [
-  { id: "member-1", name: "Shashwat Shrye", rollNo: "25BEL0010", silhouette: "/team/image 30.png", layout: "silhouette-left" },
-  { id: "member-2", name: "Shashwat Shrye", rollNo: "25BEL0010", silhouette: "/team/image 34.png", layout: "silhouette-left" },
-  { id: "member-3", name: "Shashwat Shrye", rollNo: "25BEL0010", silhouette: "/team/image 33.png", layout: "silhouette-right" },
-  { id: "member-4", name: "Shashwat Shrye", rollNo: "25BEL0010", silhouette: "/team/image 31.png", layout: "silhouette-right" },
+  { id: "member-1", name: "Shashwat Shrye", rollNo: "25BEL0010" },
+  { id: "member-2", name: "Shashwat Shrye", rollNo: "25BEL0010" },
+  { id: "member-3", name: "Shashwat Shrye", rollNo: "25BEL0010" },
+  { id: "member-4", name: "Shashwat Shrye", rollNo: "25BEL0010" },
 ];
 
 interface TeamSectionProps {
   teamName?: string;
   members?: TeamMember[];
+  onReset?: () => void;
 }
 
-const MAX_INSET_PCT = 24;
-const SAMPLES_PER_PANEL = 8;
-
-function insetAt(globalT: number) {
-  return MAX_INSET_PCT * Math.sin(Math.PI * globalT);
-}
-
-function panelClipPath(index: number, total: number) {
-  const points: string[] = [];
-  for (let k = 0; k <= SAMPLES_PER_PANEL; k++) {
-    const localF = k / SAMPLES_PER_PANEL;
-    const globalT = (index + localF) / total;
-    const xPct = localF * 100;
-    const yPct = insetAt(globalT);
-    points.push(`${xPct}% ${yPct}%`);
-  }
-  points.push("100% 100%", "0% 100%");
-  return `polygon(${points.join(", ")})`;
-}
+const MOBILE_PANEL_CONFIGS = [
+  {
+    silhouette: "/team/image 30.png",
+    align: "left" as const,
+    silhouetteClass: "left-1 sm:left-4 md:left-8 bottom-0 w-[95px] sm:w-[130px] md:w-[160px] h-[135px] sm:h-[175px] md:h-[210px]",
+    brainClass: "left-[50px] sm:left-[70px] md:left-[90px] top-[10px] sm:top-[16px] w-5 sm:w-7 md:w-9 h-5 sm:h-7 md:h-9",
+    textClass: "pl-[105px] sm:pl-[150px] md:pl-[190px] pr-4 items-start text-left",
+  },
+  {
+    silhouette: "/team/image 34.png",
+    align: "right" as const,
+    silhouetteClass: "right-1 sm:right-4 md:right-8 bottom-0 w-[95px] sm:w-[130px] md:w-[160px] h-[135px] sm:h-[175px] md:h-[210px]",
+    brainClass: "right-[50px] sm:right-[70px] md:right-[90px] top-[8px] sm:top-[14px] w-5 sm:w-7 md:w-9 h-5 sm:h-7 md:h-9",
+    textClass: "pl-6 sm:pl-12 md:pl-16 pr-[105px] sm:pr-[150px] md:pr-[190px] items-start text-left",
+  },
+  {
+    silhouette: "/team/image 33.png",
+    align: "left" as const,
+    silhouetteClass: "left-1 sm:left-4 md:left-8 bottom-0 w-[100px] sm:w-[135px] md:w-[165px] h-[135px] sm:h-[175px] md:h-[210px]",
+    brainClass: "left-[50px] sm:left-[70px] md:left-[90px] top-[8px] sm:top-[14px] w-5 sm:w-7 md:w-9 h-5 sm:h-7 md:h-9",
+    textClass: "pl-[105px] sm:pl-[150px] md:pl-[190px] pr-4 items-start text-left",
+  },
+  {
+    silhouette: "/team/image 31.png",
+    align: "right" as const,
+    silhouetteClass: "right-1 sm:right-4 md:right-8 bottom-0 w-[95px] sm:w-[130px] md:w-[160px] h-[135px] sm:h-[175px] md:h-[210px]",
+    brainClass: "right-[50px] sm:right-[70px] md:right-[90px] top-[8px] sm:top-[14px] w-5 sm:w-7 md:w-9 h-5 sm:h-7 md:h-9",
+    textClass: "pl-6 sm:pl-12 md:pl-16 pr-[105px] sm:pr-[150px] md:pr-[190px] items-start text-left",
+  },
+];
 
 export default function TeamSection({
   teamName = "TEAM NAME",
   members = DEFAULT_MEMBERS,
 }: TeamSectionProps) {
-  return (
-    <section
-      className="relative flex h-full w-full max-w-none flex-col items-center justify-center bg-black text-white select-none overflow-hidden px-0 mx-0"
-    >
-      {/* Decorative background vectors */}
-      <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
-        <div className="absolute left-0 top-[8%] w-[18vw] max-w-[260px] aspect-[162/513]">
-          <Image src="/team/Vector 157.png" alt="" fill priority unoptimized className="object-contain opacity-50" />
-        </div>
-        <div className="absolute top-[2%] right-[15%] w-[38vw] max-w-[550px] aspect-[408/528]">
-          <Image src="/team/Vector 157-2.png" alt="" fill priority unoptimized className="object-contain opacity-40" />
-        </div>
-        <div className="absolute top-[22%] left-[30%] w-[25vw] max-w-[360px] aspect-[330/552]">
-          <Image src="/team/Vector 157-1.png" alt="" fill priority unoptimized className="object-contain opacity-35" />
-        </div>
-      </div>
+  const displayMembers = members.length > 0 ? members.slice(0, 4) : DEFAULT_MEMBERS;
 
-      <div className="relative z-10 flex h-full min-h-0 w-full max-w-none flex-col items-center px-0 pt-6 pb-2">
-        {/* Title */}
+  return (
+    <section className="relative flex h-full w-full max-w-none flex-col items-center justify-between bg-black text-white select-none overflow-hidden px-0 mx-0">
+      <DesktopBackgroundThreads />
+      {/* Mobile view */}
+      <div className="flex flex-col lg:hidden w-full h-full min-h-screen bg-black relative isolate pb-6">
+        <DynamicStringsBackground opacity={0.5} />
+
         <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="relative w-[200px] sm:w-[260px] md:w-[360px] lg:w-[440px] xl:w-[500px] aspect-[575/79] shrink-0"
+          initial={{ opacity: 0, y: -16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="relative z-20 flex flex-col items-center justify-center pt-5 pb-4 px-4 text-center"
         >
           {teamName === "TEAM NAME" ? (
-            <Image src="/team/TEAM NAME.png" alt="Team Name" fill priority unoptimized className="object-contain" />
+            <div className="relative w-[200px] sm:w-[280px] md:w-[360px] h-10 sm:h-14 md:h-16">
+              <Image
+                src="/team/TEAM NAME.png"
+                alt="Team Name"
+                fill
+                priority
+                unoptimized
+                className="object-contain drop-shadow-[0_0_14px_rgba(255,255,255,0.4)]"
+              />
+            </div>
           ) : (
-            <h2 className="text-center font-extrabold uppercase tracking-widest text-xl sm:text-2xl lg:text-4xl xl:text-5xl text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.4)]">
+            <h2 className="font-extrabold uppercase tracking-widest text-2xl sm:text-4xl md:text-5xl text-white drop-shadow-[0_0_16px_rgba(255,255,255,0.5)]">
               {teamName}
             </h2>
           )}
         </motion.div>
 
-        {/* Panel row */}
-        <div className="relative mt-[clamp(1rem,3vh,3.5rem)] w-full flex-1 min-h-0">
-          <div
-            className="absolute bottom-0 left-0 right-0 h-10 lg:h-14 z-0"
-            style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0.55), rgba(0,0,0,0.85))" }}
-          />
-
-          <div className="relative z-10 flex h-full w-full gap-[6px] sm:gap-[8px] lg:gap-[14px] px-1 sm:px-2 lg:px-0">
-            {members.map((member, index) => {
-              const isSilhouetteLeft = member.layout === "silhouette-left";
-              return (
-                <motion.div
-                  key={member.id}
-                  initial={{ opacity: 0, y: 40 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: index * 0.12 }}
-                  whileHover={{ scale: 1.01, y: -4 }}
-                  className="relative flex-1 h-full group cursor-pointer"
-                  style={{ clipPath: panelClipPath(index, members.length) }}
-                >
-                  <div
-                    className="absolute inset-0"
-                    style={{ background: "linear-gradient(to bottom, #d6336c 0%, #f06595 55%, #fcdce8 100%)" }}
+        {/* Mobile member cards */}
+        <div className="relative z-10 flex flex-col w-full flex-1 divide-y-4 divide-black border-y-4 border-black">
+          {displayMembers.map((member, index) => {
+            const config = MOBILE_PANEL_CONFIGS[index % MOBILE_PANEL_CONFIGS.length];
+            return (
+              <motion.div
+                key={member.id || index}
+                initial={{ opacity: 0, x: config.align === "left" ? -30 : 30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="relative w-full h-[145px] sm:h-[185px] md:h-[225px] overflow-hidden bg-[linear-gradient(180deg,#9B1A45_0%,#CE3566_55%,#F3799D_100%)] flex items-center shadow-[inset_0_0_24px_rgba(0,0,0,0.3)]"
+              >
+                <div className={`absolute z-10 ${config.silhouetteClass}`}>
+                  <Image
+                    src={member.silhouette || config.silhouette}
+                    alt={member.name}
+                    fill
+                    className="object-contain object-bottom"
                   />
+                </div>
 
-                  <div className="relative z-10 flex items-end justify-between h-full px-1 sm:px-2 lg:px-4 pb-[8%]">
-                    {isSilhouetteLeft ? (
-                      <>
-                        <div className="relative h-[64%] w-[54%] flex items-end justify-center">
-                          <Image src={member.silhouette} alt={member.name} fill priority unoptimized className="object-contain object-bottom" />
-                        </div>
-                        <NameBlock member={member} />
-                      </>
-                    ) : (
-                      <>
-                        <NameBlock member={member} />
-                        <div className="relative h-[64%] w-[54%] flex items-end justify-center">
-                          <Image src={member.silhouette} alt={member.name} fill priority unoptimized className="object-contain object-bottom" />
-                        </div>
-                      </>
-                    )}
-                  </div>
-                </motion.div>
-              );
-            })}
+                <div className={`absolute z-20 pointer-events-none ${config.brainClass}`}>
+                  <Image
+                    src="/team/image 35.png"
+                    alt=""
+                    fill
+                    className="object-contain drop-shadow-[0_0_4px_rgba(255,255,255,0.8)]"
+                  />
+                </div>
+
+                <div className={`relative z-20 flex flex-col justify-center w-full ${config.textClass}`}>
+                  <h3 className="font-extrabold uppercase text-white text-base sm:text-2xl md:text-3xl leading-snug tracking-wide drop-shadow-[0_2px_8px_rgba(0,0,0,0.85)]">
+                    {member.name.split(" ").map((word, i) => (
+                      <span key={i} className="block">
+                        {word}
+                      </span>
+                    ))}
+                  </h3>
+                  <p className="font-mono font-bold text-white/95 text-xs sm:text-base md:text-xl tracking-widest mt-1 sm:mt-2.5 drop-shadow-[0_2px_6px_rgba(0,0,0,0.85)]">
+                    {member.rollNo}
+                  </p>
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Desktop view */}
+      <div className="hidden lg:flex relative z-10 h-full min-h-0 w-full flex-col items-center justify-between p-0 m-0 overflow-hidden">
+        {/* Title */}
+        <motion.div
+          initial={{ opacity: 0, y: -16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="relative z-20 flex flex-col items-center justify-center w-full p-0 shrink-0 m-0 pt-2"
+        >
+          {teamName === "TEAM NAME" ? (
+            <div className="relative w-[280px] sm:w-[360px] md:w-[420px] lg:w-[460px] aspect-[575/79]">
+              <Image
+                src="/team/TEAM NAME.png"
+                alt="Team Name"
+                fill
+                priority
+                unoptimized
+                className="object-contain drop-shadow-[0_0_18px_rgba(255,255,255,0.45)]"
+              />
+            </div>
+          ) : (
+            <h2 className="text-center font-extrabold uppercase tracking-widest text-4xl sm:text-5xl lg:text-6xl text-white drop-shadow-[0_0_18px_rgba(255,255,255,0.5)]">
+              {teamName}
+            </h2>
+          )}
+        </motion.div>
+
+        {/* Team artwork container */}
+        <div className="relative w-full flex-1 min-h-0 flex flex-col justify-end items-center overflow-hidden p-0 m-0">
+          <div className="relative h-full w-full max-h-full aspect-[1440/685] mx-auto flex items-end justify-center">
+            {/* Mirror Floor Reflection (dark reflection on black floor plane) */}
+            <div className="absolute top-[96%] left-0 w-full h-[32%] overflow-hidden pointer-events-none opacity-30 scale-y-[-1] origin-top blur-[0.5px] z-0">
+              <Image
+                src="/team.svg"
+                alt=""
+                fill
+                priority
+                sizes="100vw"
+                className="object-contain object-bottom pointer-events-none select-none"
+              />
+              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/60 to-black" />
+            </div>
+
+            <Image
+              src="/team.svg"
+              alt="Team Artwork"
+              fill
+              priority
+              sizes="100vw"
+              className="object-contain object-bottom pointer-events-none select-none relative z-10"
+            />
+
+            {/* Member text overlay - Commented out */}
+            {/*
+            <div className="absolute inset-0 grid grid-cols-4 w-full h-full pointer-events-none z-20">
+              {displayMembers.map((member, index) => {
+                const isLeftPanel = index < 2;
+                return (
+                  <motion.div
+                    key={member.id || index}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    className={`relative h-full w-full flex flex-col justify-center items-start ${
+                      isLeftPanel
+                        ? "pl-[46%] sm:pl-[47%] lg:pl-[48%] pr-[4%]"
+                        : "pl-[7%] sm:pl-[8%] lg:pl-[9%] pr-[41%]"
+                    } pt-[4%]`}
+                  >
+                    <div className="font-extrabold text-white text-[clamp(0.875rem,1.75vw,2.25rem)] leading-[1.12] tracking-wide drop-shadow-[0_2px_12px_rgba(0,0,0,0.95)] text-left">
+                      {member.name.split(" ").map((word, i) => (
+                        <span key={i} className="block">
+                          {word}
+                        </span>
+                      ))}
+                    </div>
+                    <div className="font-mono font-bold text-white/95 text-[clamp(0.7rem,1.15vw,1.35rem)] tracking-wider pt-1 sm:pt-2 drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] text-left">
+                      {member.rollNo}
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </div>
+            */}
           </div>
         </div>
       </div>
     </section>
-  );
-}
-
-function NameBlock({ member }: { member: TeamMember }) {
-  return (
-    <div className="flex flex-col justify-end items-start text-left w-[44%] space-y-0.5 sm:space-y-1">
-      <div className="font-bold text-white text-[10px] sm:text-sm lg:text-xl xl:text-2xl leading-tight tracking-wide">
-        {member.name.split(" ").map((word, i) => (
-          <span key={i} className="block">{word}</span>
-        ))}
-      </div>
-      <div className="font-mono font-bold text-white/95 text-[8px] sm:text-xs lg:text-sm xl:text-base tracking-wider pt-0.5 sm:pt-1">
-        {member.rollNo}
-      </div>
-    </div>
   );
 }
