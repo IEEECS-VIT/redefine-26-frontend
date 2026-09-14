@@ -12,7 +12,7 @@ export default function SectionPage({ children, hideRegisterButton }: SectionPag
   return (
     <main className="relative flex h-dvh w-full flex-col overflow-hidden bg-black font-sans text-white">
       <SiteHeader hideRegisterButton={hideRegisterButton} />
-      <div className="relative min-h-0 flex-1 w-full h-full overflow-hidden flex flex-col">{children}</div>
+      <div className="relative z-0 isolate min-h-0 flex-1 w-full h-full overflow-hidden flex flex-col">{children}</div>
     </main>
   );
 }
