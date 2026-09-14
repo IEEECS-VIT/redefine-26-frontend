@@ -4,23 +4,23 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { initiateGoogleSignIn, type StudentType } from "@/lib/auth";
+import { useToast } from "@/components/Providers/ToastProvider";
 import WigglyCurvesBackground from "./WigglyCurvesBackground";
 
 export default function RegisterPortal() {
   const router = useRouter();
+  const { showError, showSuccess } = useToast();
   const [loadingType, setLoadingType] = useState<StudentType | null>(null);
-  const [errorMsg, setErrorMsg] = useState("");
 
   const handleSignIn = async (type: StudentType) => {
-    setErrorMsg("");
     setLoadingType(type);
     try {
       await initiateGoogleSignIn(type);
+      showSuccess("Welcome back!", "You're signed in. Redirecting to your team…");
       router.push("/team");
     } catch (err) {
-      setErrorMsg(
-        err instanceof Error ? err.message : "Failed to initiate sign in. Please try again."
-      );
+      const message = err instanceof Error ? err.message : "Failed to initiate sign in. Please try again.";
+      showError("Sign In Failed", message);
     } finally {
       setLoadingType(null);
     }
@@ -53,12 +53,6 @@ export default function RegisterPortal() {
             isLoading={loadingType === "internal"}
           />
         </div>
-
-        {errorMsg && (
-          <p role="alert" className="text-center font-sans text-sm text-pink-300">
-            {errorMsg}
-          </p>
-        )}
       </div>
     </div>
   );

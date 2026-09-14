@@ -4,6 +4,7 @@ import Image from "next/image";
 import { FormEvent, useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/navigation";
+import { useToast } from "@/components/Providers/ToastProvider";
 import {
   createTeam,
   fetchTracks,
@@ -141,6 +142,7 @@ import DesktopBackgroundThreads from "@/components/Team/DesktopBackgroundThreads
 
 export default function TeamUpFlow({ onTeamFormed }: TeamUpFlowProps) {
   const router = useRouter();
+  const { showError, showSuccess } = useToast();
   const [step, setStep] = useState<Step>("choose");
   const [tracks, setTracks] = useState<Track[]>(DEFAULT_TRACKS);
 
@@ -148,7 +150,6 @@ export default function TeamUpFlow({ onTeamFormed }: TeamUpFlowProps) {
   const [trackId, setTrackId] = useState("");
   const [teamCode, setTeamCode] = useState("");
 
-  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -166,30 +167,29 @@ export default function TeamUpFlow({ onTeamFormed }: TeamUpFlowProps) {
   }, []);
 
   const go = (next: Step) => {
-    setError("");
     setStep(next);
   };
 
   const back = () => {
-    setError("");
     setStep("choose");
   };
 
   const handleFinalize = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!teamName.trim() || !trackId) {
-      setError("Add a team name and select a track to continue.");
+      showError("Incomplete Details", "Add a team name and select a track to continue.");
       return;
     }
-    setError("");
     setLoading(true);
     try {
       const team = await createTeam({ name: teamName, trackId });
       saveCurrentTeam(team);
       onTeamFormed?.(team);
+      showSuccess("Team Created!", "Your team is ready. Redirecting to your team page…");
       router.push("/team");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
+      const message = err instanceof Error ? err.message : "Something went wrong. Please try again.";
+      showError("Could Not Create Team", message);
     } finally {
       setLoading(false);
     }
@@ -198,18 +198,19 @@ export default function TeamUpFlow({ onTeamFormed }: TeamUpFlowProps) {
   const handleJoin = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!teamCode.trim()) {
-      setError("Enter your team code to continue.");
+      showError("Missing Team Code", "Enter your team code to continue.");
       return;
     }
-    setError("");
     setLoading(true);
     try {
       const team = await joinTeam({ code: teamCode });
       saveCurrentTeam(team);
       onTeamFormed?.(team);
+      showSuccess("Team Joined!", "You're in. Redirecting to your team page…");
       router.push("/team");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
+      const message = err instanceof Error ? err.message : "Something went wrong. Please try again.";
+      showError("Could Not Join Team", message);
     } finally {
       setLoading(false);
     }
@@ -323,8 +324,6 @@ export default function TeamUpFlow({ onTeamFormed }: TeamUpFlowProps) {
                         </div>
                       </div>
                     </div>
-
-                    {error && <p role="alert" className="text-xs sm:text-sm text-pink-200 text-center">{error}</p>}
                   </div>
 
                   <motion.button
@@ -370,7 +369,6 @@ export default function TeamUpFlow({ onTeamFormed }: TeamUpFlowProps) {
                         className="h-14 sm:h-20 w-full rounded-xl border border-pink-600 bg-transparent px-4 text-center text-base sm:text-xl uppercase tracking-[0.15em] text-white outline-none transition focus:border-pink-300 focus:ring-2 focus:ring-pink-300/20"
                       />
                     </div>
-                    {error && <p role="alert" className="text-xs sm:text-sm text-pink-200 text-center">{error}</p>}
                   </div>
 
                   <motion.button

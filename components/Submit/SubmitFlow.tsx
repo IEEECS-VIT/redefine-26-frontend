@@ -5,6 +5,7 @@ import { FormEvent, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import DynamicStringsBackground from "@/components/Background/DynamicStringsBackground";
 import { DEFAULT_TRACKS, fetchTeam, submitProject, type Track } from "@/lib/teamup";
+import { useToast } from "@/components/Providers/ToastProvider";
 
 const INPUT_STYLE =
   "h-12 w-full rounded-xl border border-pink-600/90 bg-black/80 px-4 sm:px-5 text-sm sm:text-base text-white outline-none transition placeholder:text-white/45 focus:border-pink-300 focus:ring-2 focus:ring-pink-300/20";
@@ -30,8 +31,8 @@ export default function SubmitFlow() {
   const [alreadySubmitted, setAlreadySubmitted] = useState(false);
   const [editing, setEditing] = useState(false);
   const [loadingPage, setLoadingPage] = useState(true);
-  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const { showError, showSuccess } = useToast();
 
   useEffect(() => {
     let cancelled = false;
@@ -82,17 +83,17 @@ export default function SubmitFlow() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!trackId) {
-      setError("Please select a track before submitting.");
+      showError("Missing Track", "Please select a track before submitting.");
       return;
     }
     if (!figmaLink.trim()) {
-      setError("Please enter your Figma link.");
+      showError("Missing Figma Link", "Please enter your Figma link.");
       return;
     }
-    setError("");
     setLoading(true);
     try {
       const track = tracks.find((t) => t.id === trackId);
+      const wasEditing = editing;
       await submitProject({
         track: track?.name ?? trackId,
         figma_link: figmaLink.trim(),
@@ -100,8 +101,15 @@ export default function SubmitFlow() {
       });
       setAlreadySubmitted(true);
       setEditing(false);
+      showSuccess(
+        wasEditing ? "Submission Updated" : "Submission Received!",
+        wasEditing
+          ? "Your team's submission has been updated."
+          : "Your track, figma link and other links have been recorded.",
+      );
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to submit. Please try again.");
+      const message = err instanceof Error ? err.message : "Failed to submit. Please try again.";
+      showError("Submission Failed", message);
     } finally {
       setLoading(false);
     }
@@ -235,8 +243,6 @@ export default function SubmitFlow() {
                       </button>
                     )}
                   </div>
-
-                  {error && <p role="alert" className="text-xs sm:text-sm text-pink-300 text-center">{error}</p>}
 
                   {editing && (
                     <button

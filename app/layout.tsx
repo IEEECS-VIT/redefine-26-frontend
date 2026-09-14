@@ -2,6 +2,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Bebas_Neue, Zilla_Slab_Highlight } from "next/font/google";
 import PageTransition from "@/components/Providers/PageTransition";
+import ToastProvider from "@/components/Providers/ToastProvider";
 
 const bebasNeue = Bebas_Neue({
   weight: "400",
@@ -64,7 +65,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${bebasNeue.variable} ${zillaSlabHighlight.variable} bg-black text-white antialiased`}>
-        <PageTransition>{children}</PageTransition>
+        <ToastProvider>
+          <PageTransition>{children}</PageTransition>
+        </ToastProvider>
       </body>
     </html>
   );
