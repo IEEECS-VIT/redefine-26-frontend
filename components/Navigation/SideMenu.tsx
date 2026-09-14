@@ -21,7 +21,7 @@ type MenuItem = {
 const menu: MenuItem[] = [
   {
     id: "timeline",
-    className: "left-[6%] top-[22%] md:left-[10%] md:top-[42%]",
+    className: "left-[5%] top-[24%] md:left-[10%] md:top-[42%]",
     letters: [
       { src: "/redefine-2026/T.svg", alt: "T", rotate: -6 },
       { src: "/redefine-2026/I.svg", alt: "I", rotate: 3, y: -5 },
@@ -35,7 +35,7 @@ const menu: MenuItem[] = [
   },
   {
     id: "faq",
-    className: "left-[6%] top-[36%] md:left-[15%] md:bottom-[25%]",
+    className: "left-[7%] top-[38%] md:left-[15%] md:bottom-[25%]",
     letters: [
       { src: "/redefine-2026/F.svg", alt: "F", rotate: -6 },
       { src: "/redefine-2026/A.svg", alt: "A", rotate: 5, y: -2 },
@@ -44,7 +44,7 @@ const menu: MenuItem[] = [
   },
   {
     id: "tracks",
-    className: "right-[6%] top-[22%] md:right-[15%] md:top-[37%]",
+    className: "right-[5%] top-[24%] md:right-[15%] md:top-[37%]",
     letters: [
       { src: "/redefine-2026/T.svg", alt: "T", rotate: -5 },
       { src: "/redefine-2026/R.svg", alt: "R", rotate: 4 },
@@ -56,7 +56,7 @@ const menu: MenuItem[] = [
   },
   {
     id: "team-up",
-    className: "right-[6%] top-[29%] md:right-[15%] md:bottom-[34%]",
+    className: "right-[7%] top-[38%] md:right-[15%] md:bottom-[34%]",
     letters: [
       { src: "/redefine-2026/T.svg", alt: "T", rotate: -5 },
       { src: "/redefine-2026/E.svg", alt: "E", rotate: 4 },
@@ -70,13 +70,13 @@ const menu: MenuItem[] = [
 
 export default function SideMenu() {
   return (
-    <>
+    <nav className="absolute inset-0 z-40 pointer-events-none" data-home-menu-layout="responsive-sides">
       {menu.map((item) => (
         <Link
           key={item.id}
           href={`/${item.id}`}
           prefetch={true}
-          className={`absolute z-40 flex ${item.className} cursor-pointer transition-transform hover:scale-105 active:scale-95`}
+          className={`pointer-events-auto absolute flex ${item.className} cursor-pointer`}
         >
           <motion.div
             className="flex items-end gap-[1px] lg:gap-[2px]"
@@ -87,7 +87,7 @@ export default function SideMenu() {
             {item.letters.map((letter, i) => (
               <motion.div
                 key={i}
-                className="relative h-8 w-[22px] sm:h-9 sm:w-6 md:h-10 md:w-7 lg:h-14 lg:w-10"
+                className="relative h-7 w-[18px] sm:h-9 sm:w-6 md:h-10 md:w-7 lg:h-14 lg:w-10"
                 style={{
                   rotate: letter.rotate ?? 0,
                   y: letter.y ?? 0,
@@ -109,6 +109,6 @@ export default function SideMenu() {
           </motion.div>
         </Link>
       ))}
-    </>
+    </nav>
   );
 }
