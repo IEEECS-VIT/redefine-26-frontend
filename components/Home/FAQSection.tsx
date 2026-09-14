@@ -48,7 +48,7 @@ function AccordionItem({
   onToggle: () => void;
 }) {
   return (
-    <div className="overflow-hidden rounded-xl border border-pink-600/70 bg-black/85 backdrop-blur-sm transition duration-200 hover:border-pink-400 shadow-[0_4px_20px_rgba(236,72,153,0.15)]">
+    <div className="overflow-hidden rounded-xl border border-pink-600/70 bg-black/30 lg:bg-black/85 backdrop-blur-md lg:backdrop-blur-sm transition duration-200 hover:border-pink-400 shadow-[0_4px_20px_rgba(236,72,153,0.15)]">
       <button
         type="button"
         onClick={onToggle}
@@ -89,15 +89,29 @@ export default function FAQSection() {
       {/* Dynamic Background Strings */}
       <DynamicStringsBackground opacity={0.4} />
 
+      {/* Mobile Background Artwork (faqart-mobile.svg dynamically centered behind questions for < lg screens) */}
+      <div className="absolute inset-0 z-0 flex items-center justify-center overflow-hidden pointer-events-none lg:hidden">
+        <div className="relative h-full w-full opacity-80 sm:opacity-90">
+          <Image
+            src="/faqart-mobile.svg"
+            alt="FAQ Question Mark Background"
+            fill
+            priority
+            sizes="(max-width: 1023px) 100vw, 50vw"
+            className="object-contain object-center"
+          />
+        </div>
+      </div>
+
       <div className="relative z-10 flex h-full w-full flex-col justify-center px-4 py-4 sm:px-8 lg:px-16 lg:py-6">
         <div className="mx-auto flex h-full w-full max-w-[1440px] flex-col items-center justify-center gap-8 lg:flex-row lg:gap-10">
-          {/* Left Side Artwork: faqart.svg - 15% bigger and shifted towards center */}
+          {/* Desktop Left Side Artwork: faqart.svg - exact original desktop settings */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="relative flex w-full flex-1 items-center justify-center lg:w-[48%] lg:justify-end min-h-[310px] lg:min-h-0 h-[54vh] sm:h-[64vh] lg:h-[92vh] max-h-[900px] shrink-0 lg:translate-x-20"
+            className="relative hidden lg:flex w-full flex-1 items-center justify-center lg:w-[48%] lg:justify-end min-h-[310px] lg:min-h-0 h-[54vh] sm:h-[64vh] lg:h-[92vh] max-h-[900px] shrink-0 lg:translate-x-20"
           >
             <div className="relative h-full w-full aspect-[1440/1024] overflow-visible">
               <Image
@@ -111,7 +125,7 @@ export default function FAQSection() {
             </div>
           </motion.div>
 
-          {/* Right Side FAQ Accordion List */}
+          {/* Right Side FAQ Accordion List - exact original desktop settings */}
           <div className="relative flex w-full flex-col justify-center lg:w-[52%] xl:w-[48%] max-w-3xl lg:max-w-none lg:translate-x-[6%] xl:translate-x-[10%]">
             <div className="flex flex-col gap-3.5 sm:gap-4.5">
               {FAQ_DATA.map((item, idx) => (
@@ -136,4 +150,7 @@ export default function FAQSection() {
     </section>
   );
 }
+
+
+
 
