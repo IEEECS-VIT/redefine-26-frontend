@@ -27,3 +27,9 @@ const SIGNED_IN_LINK: NavLink = {
 export function getHeaderNavLinks(isSignedIn: boolean): NavLink[] {
   return [...SHARED_LINKS, isSignedIn ? SIGNED_IN_LINK : SIGNED_OUT_LINK];
 }
+
+export function getHeaderAction(isSignedIn: boolean): { label: string; href: string } {
+  return isSignedIn
+    ? { label: "Submit", href: "/submit" }
+    : { label: "Sign In", href: "/register" };
+}

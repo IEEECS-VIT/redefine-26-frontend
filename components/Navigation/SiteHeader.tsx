@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { subscribeToAuthState } from "@/lib/auth";
 import NavThread from "./NavThread";
-import { getHeaderNavLinks } from "./navigationLinks";
+import { getHeaderAction, getHeaderNavLinks } from "./navigationLinks";
 
 export default function SiteHeader({ hideRegisterButton }: { hideRegisterButton?: boolean } = {}) {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -15,6 +15,7 @@ export default function SiteHeader({ hideRegisterButton }: { hideRegisterButton?
   const router = useRouter();
   const pathname = usePathname();
   const navLinks = getHeaderNavLinks(isSignedIn);
+  const headerAction = getHeaderAction(isSignedIn);
 
   useEffect(() => {
     return subscribeToAuthState((user) => setIsSignedIn(Boolean(user)));
@@ -31,7 +32,7 @@ export default function SiteHeader({ hideRegisterButton }: { hideRegisterButton?
     };
   }, [mobileOpen]);
 
-  const isRegisterPage = hideRegisterButton || pathname === "/register";
+  const hideHeaderAction = hideRegisterButton || pathname === headerAction.href;
 
   const handleNavClick = (href: string) => {
     setMobileOpen(false);
@@ -85,23 +86,17 @@ export default function SiteHeader({ hideRegisterButton }: { hideRegisterButton?
 
         {/* Right: Register + Hamburger */}
         <div className="flex items-center gap-4 min-[900px]:absolute min-[900px]:right-[clamp(1rem,2.4vw,2.2rem)] min-[900px]:top-1/2 min-[900px]:-translate-y-1/2">
-          {/* Register Button (hidden on small mobile, shown on sm+, hidden on register page) */}
-          {!isRegisterPage ? (
-            <Link href="/register" prefetch={true} className="hidden sm:block" aria-label="Register">
+          {/* Auth-aware action (hidden on small mobile and on its destination page) */}
+          {!hideHeaderAction ? (
+            <Link href={headerAction.href} prefetch={true} className="hidden sm:block" aria-label={headerAction.label}>
               <motion.div
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.96 }}
                 transition={{ duration: 0.2 }}
                 className="cursor-pointer select-none transition-transform duration-200 hover:-translate-y-0.5"
               >
-                <div className="relative aspect-[193/61] w-[175px] sm:w-[200px] md:w-[220px] min-[900px]:w-[clamp(7.5rem,14vw,13.125rem)]">
-                  <Image
-                    src="/redefine-2026/register.svg"
-                    alt="Register"
-                    fill
-                    priority
-                    className="pointer-events-none select-none object-contain"
-                  />
+                <div className="flex aspect-[193/61] w-[175px] items-center justify-center rounded-[19px] bg-black font-[var(--font-bebas-neue)] text-[clamp(1.1rem,2vw,1.65rem)] uppercase leading-none text-[#f7f1f1] shadow-[5px_5px_1px_#fac2cf,0_4px_30px_rgba(255,194,207,0.25)] sm:w-[200px] md:w-[220px] min-[900px]:w-[clamp(7.5rem,14vw,13.125rem)]">
+                  {headerAction.label}
                 </div>
               </motion.div>
             </Link>
@@ -163,16 +158,16 @@ export default function SiteHeader({ hideRegisterButton }: { hideRegisterButton?
                 </motion.button>
               ))}
 
-              {!isRegisterPage && (
+              {!hideHeaderAction && (
                 <motion.button
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
                   transition={{ delay: navLinks.length * 0.06, duration: 0.3, ease: "easeOut" }}
-                  onClick={() => handleNavClick("/register")}
+                  onClick={() => handleNavClick(headerAction.href)}
                   className="mt-4 cursor-pointer rounded-xl bg-pink-500 px-8 py-3 text-base font-semibold text-white shadow-lg shadow-pink-500/25 transition-transform hover:scale-105"
                 >
-                  Register
+                  {headerAction.label}
                 </motion.button>
               )}
             </div>
