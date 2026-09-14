@@ -5,7 +5,7 @@ import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { subscribeToAuthState } from "@/lib/auth";
+import { signOutUser, subscribeToAuthState } from "@/lib/auth";
 import { getMyTeam } from "@/lib/teamup";
 import NavThread from "./NavThread";
 import { getHeaderAction, getHeaderNavLinks } from "./navigationLinks";
@@ -60,6 +60,12 @@ export default function SiteHeader({ hideRegisterButton }: { hideRegisterButton?
     hideRegisterButton ||
     pathname === headerAction.href ||
     (headerAction.href === "/submit" && !isLeader);
+
+  const handleSignOut = async () => {
+    await signOutUser();
+    setMobileOpen(false);
+    router.push("/");
+  };
 
   const handleNavClick = (href: string) => {
     setMobileOpen(false);
@@ -122,13 +128,26 @@ export default function SiteHeader({ hideRegisterButton }: { hideRegisterButton?
                 transition={{ duration: 0.2 }}
                 className="cursor-pointer select-none transition-transform duration-200 hover:-translate-y-0.5"
               >
-                <div className="flex aspect-[193/61] w-[175px] items-center justify-center rounded-[19px] bg-black font-[var(--font-bebas-neue)] text-[clamp(1.1rem,2vw,1.65rem)] uppercase leading-none text-[#f7f1f1] shadow-[5px_5px_1px_#fac2cf,0_4px_30px_rgba(255,194,207,0.25)] sm:w-[200px] md:w-[220px] min-[900px]:w-[clamp(7.5rem,14vw,13.125rem)]">
+                <div className="flex aspect-[193/61] w-[120px] items-center justify-center rounded-[19px] bg-black font-[var(--font-bebas-neue)] text-[clamp(0.85rem,1.5vw,1.25rem)] uppercase leading-none font-bold text-pink-100 shadow-[5px_5px_1px_#fac2cf,0_4px_30px_rgba(255,194,207,0.25)] sm:w-[145px] md:w-[160px] min-[900px]:w-[clamp(5.5rem,10vw,9.25rem)]">
                   {headerAction.label}
                 </div>
               </motion.div>
             </Link>
           ) : (
             <div className="hidden w-12 pointer-events-none sm:w-14 md:w-16 min-[900px]:block min-[900px]:w-[clamp(7.5rem,14vw,13.125rem)]" aria-hidden="true" />
+          )}
+          {/* Sign out (signed-in only, desktop) */}
+          {isSignedIn && (
+            <button
+              type="button"
+              onClick={handleSignOut}
+              className="hidden cursor-pointer select-none transition-transform duration-200 hover:-translate-y-0.5 sm:block"
+              aria-label="Sign out"
+            >
+              <div className="flex aspect-[193/61] w-[120px] items-center justify-center rounded-[19px] bg-black font-[var(--font-bebas-neue)] text-[clamp(0.85rem,1.5vw,1.25rem)] uppercase leading-none font-bold text-pink-100 shadow-[5px_5px_1px_#fac2cf,0_4px_30px_rgba(255,194,207,0.2)] sm:w-[145px] md:w-[160px] min-[900px]:w-[clamp(5.5rem,10vw,9.25rem)]">
+                Log Out
+              </div>
+            </button>
           )}
 
           {/* Hamburger (mobile only) */}
@@ -192,9 +211,22 @@ export default function SiteHeader({ hideRegisterButton }: { hideRegisterButton?
                   exit={{ opacity: 0, y: -10 }}
                   transition={{ delay: navLinks.length * 0.06, duration: 0.3, ease: "easeOut" }}
                   onClick={() => handleNavClick(headerAction.href)}
-                  className="mt-4 cursor-pointer rounded-xl bg-pink-500 px-8 py-3 text-base font-semibold text-white shadow-lg shadow-pink-500/25 transition-transform hover:scale-105"
+                  className="mt-4 cursor-pointer rounded-xl bg-pink-500 px-8 py-3 text-base font-[var(--font-bebas-neue)] uppercase tracking-widest text-white font-bold shadow-lg shadow-pink-500/25 transition-transform hover:scale-105"
                 >
                   {headerAction.label}
+                </motion.button>
+              )}
+
+              {isSignedIn && (
+                <motion.button
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ delay: (navLinks.length + 1) * 0.06, duration: 0.3, ease: "easeOut" }}
+                  onClick={handleSignOut}
+                  className="mt-2 cursor-pointer rounded-xl border border-pink-500 bg-transparent px-8 py-3 text-base font-[var(--font-bebas-neue)] uppercase tracking-widest text-pink-100 font-bold transition-transform hover:scale-105"
+                >
+                  Log Out
                 </motion.button>
               )}
             </div>
