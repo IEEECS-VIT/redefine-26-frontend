@@ -11,7 +11,7 @@ export default function SplitBackground() {
           alt="Background"
           fill
           priority
-          sizes="100vw"
+          sizes="(max-width: 767px) 100vw, 0px"
           className="object-cover object-top select-none"
         />
       </div>
@@ -23,7 +23,7 @@ export default function SplitBackground() {
           alt="Background"
           fill
           priority
-          sizes="100vw"
+          sizes="(min-width: 768px) 100vw, 0px"
           className="object-cover object-center select-none"
         />
       </div>

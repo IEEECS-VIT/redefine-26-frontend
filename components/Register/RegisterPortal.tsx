@@ -18,7 +18,7 @@ export default function RegisterPortal() {
       await initiateGoogleSignIn(type);
       const user = getStoredUser();
       if (user) {
-        router.push("/team-up");
+        router.push("/");
       }
     } catch (err) {
       setErrorMsg(
