@@ -31,5 +31,5 @@ export function getHeaderNavLinks(isSignedIn: boolean): NavLink[] {
 export function getHeaderAction(isSignedIn: boolean): { label: string; href: string } {
   return isSignedIn
     ? { label: "Submit", href: "/submit" }
-    : { label: "Sign In", href: "/register" };
+    : { label: "Sign In", href: "/signin" };
 }

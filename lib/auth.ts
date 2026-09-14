@@ -89,7 +89,11 @@ export async function initiateGoogleSignIn(type: StudentType): Promise<AuthUser>
   await setPersistence(auth, browserLocalPersistence);
 
   const provider = new GoogleAuthProvider();
-  provider.setCustomParameters({ prompt: "select_account" });
+  const customParams: Record<string, string> = { prompt: "select_account" };
+  if (type === "internal") {
+    customParams.hd = "vitstudent.ac.in";
+  }
+  provider.setCustomParameters(customParams);
 
   const credential = await signInWithPopup(auth, provider);
   const email = credential.user.email ?? "";

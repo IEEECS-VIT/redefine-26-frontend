@@ -8,7 +8,7 @@ export default function RegisterButton() {
   return (
     <div className="absolute right-4 top-[13px] z-50 overflow-visible sm:right-6 sm:top-[11px] md:right-10 md:top-[17px] lg:top-[21px] xl:top-[20px]">
       {/* Animated Button */}
-      <Link href="/register" prefetch={true} className="inline-block" aria-label="Register">
+      <Link href="/signin" prefetch={true} className="inline-block" aria-label="Register">
         <motion.div
           whileHover={{
             scale: 1.08,

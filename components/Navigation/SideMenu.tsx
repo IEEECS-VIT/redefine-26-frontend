@@ -65,7 +65,7 @@ const menu: MenuItem[] = [
 
 const signedOutItem: MenuItem = {
   id: "sign-in",
-  href: "/register",
+  href: "/signin",
   className: "right-[7%] top-[38%] md:right-[15%] md:top-auto md:bottom-[34%]",
   letters: [
     { src: "/redefine-2026/S.svg", alt: "S", rotate: -5 },
