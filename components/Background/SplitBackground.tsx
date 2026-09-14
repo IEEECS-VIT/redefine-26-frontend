@@ -12,7 +12,7 @@ export default function SplitBackground() {
           fill
           priority
           sizes="(max-width: 767px) 100vw, 0px"
-          className="object-cover object-center select-none"
+          className="object-cover object-top select-none"
         />
       </div>
 
