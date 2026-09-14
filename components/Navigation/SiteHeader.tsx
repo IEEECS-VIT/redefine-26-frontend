@@ -3,9 +3,10 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import NavThread from "./NavThread";
+import { getMyTeam } from "@/lib/teamup";
 
 interface NavLink {
   label: string;
@@ -24,10 +25,34 @@ const NAV_LINKS: NavLink[] = [
 
 export default function SiteHeader({ hideRegisterButton }: { hideRegisterButton?: boolean } = {}) {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [isLeader, setIsLeader] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
 
+  const isTeamPage = pathname === "/team";
   const isRegisterPage = hideRegisterButton || pathname === "/register";
+
+  useEffect(() => {
+    let active = true;
+    if (pathname === "/team") {
+      getMyTeam()
+        .then((team) => {
+          if (active) {
+            setIsLeader(Boolean(team?.isLeader));
+          }
+        })
+        .catch(() => {
+          if (active) {
+            setIsLeader(false);
+          }
+        });
+    } else {
+      setIsLeader(false);
+    }
+    return () => {
+      active = false;
+    };
+  }, [pathname]);
 
   const handleNavClick = (href: string) => {
     setMobileOpen(false);
@@ -79,10 +104,33 @@ export default function SiteHeader({ hideRegisterButton }: { hideRegisterButton?
           ))}
         </nav>
 
-        {/* Right: Register + Hamburger */}
+        {/* Right: Register / Submit + Hamburger */}
         <div className="flex items-center gap-4 min-[900px]:absolute min-[900px]:right-[clamp(1rem,2.4vw,2.2rem)] min-[900px]:top-1/2 min-[900px]:-translate-y-1/2">
-          {/* Register Button (hidden on small mobile, shown on sm+, hidden on register page) */}
-          {!isRegisterPage ? (
+          {/* Action Button: On team page show Submit button ONLY IF leader, otherwise Register button (hidden on register page) */}
+          {isTeamPage ? (
+            isLeader ? (
+              <Link href="/submit" prefetch={true} className="hidden sm:block" aria-label="Submit">
+                <motion.div
+                  whileHover={{ scale: 1.05, y: -2 }}
+                  whileTap={{ scale: 0.96 }}
+                  transition={{ duration: 0.2 }}
+                  className="cursor-pointer select-none transition-transform duration-200 hover:-translate-y-0.5"
+                >
+                  <div className="relative aspect-[193/61] w-[175px] sm:w-[200px] md:w-[220px] min-[900px]:w-[clamp(7.5rem,14vw,13.125rem)]">
+                    <Image
+                      src="/redefine-2026/submit-btn.svg"
+                      alt="Submit"
+                      fill
+                      priority
+                      className="pointer-events-none select-none object-contain"
+                    />
+                  </div>
+                </motion.div>
+              </Link>
+            ) : (
+              <div className="hidden w-12 pointer-events-none sm:w-14 md:w-16 min-[900px]:block min-[900px]:w-[clamp(7.5rem,14vw,13.125rem)]" aria-hidden="true" />
+            )
+          ) : !isRegisterPage ? (
             <Link href="/register" prefetch={true} className="hidden sm:block" aria-label="Register">
               <motion.div
                 whileHover={{ scale: 1.05, y: -2 }}
@@ -159,7 +207,20 @@ export default function SiteHeader({ hideRegisterButton }: { hideRegisterButton?
                 </motion.button>
               ))}
 
-              {!isRegisterPage && (
+              {isTeamPage ? (
+                isLeader && (
+                  <motion.button
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ delay: NAV_LINKS.length * 0.06, duration: 0.3, ease: "easeOut" }}
+                    onClick={() => handleNavClick("/submit")}
+                    className="mt-4 cursor-pointer rounded-xl bg-pink-500 px-8 py-3 text-base font-semibold text-white shadow-lg shadow-pink-500/25 transition-transform hover:scale-105"
+                  >
+                    Submit
+                  </motion.button>
+                )
+              ) : !isRegisterPage ? (
                 <motion.button
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -170,7 +231,7 @@ export default function SiteHeader({ hideRegisterButton }: { hideRegisterButton?
                 >
                   Register
                 </motion.button>
-              )}
+              ) : null}
             </div>
           </motion.div>
         )}
