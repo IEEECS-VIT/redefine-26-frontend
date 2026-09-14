@@ -16,7 +16,7 @@ export default function RegisterPortal() {
     setLoadingType(type);
     try {
       await initiateGoogleSignIn(type);
-      router.push("/");
+      router.push("/team");
     } catch (err) {
       setErrorMsg(
         err instanceof Error ? err.message : "Failed to initiate sign in. Please try again."
