@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { initiateGoogleSignIn, getStoredUser, type StudentType } from "@/lib/auth";
+import { initiateGoogleSignIn, type StudentType } from "@/lib/auth";
 import WigglyCurvesBackground from "./WigglyCurvesBackground";
 
 export default function RegisterPortal() {
@@ -16,10 +16,7 @@ export default function RegisterPortal() {
     setLoadingType(type);
     try {
       await initiateGoogleSignIn(type);
-      const user = getStoredUser();
-      if (user) {
-        router.push("/");
-      }
+      router.push("/");
     } catch (err) {
       setErrorMsg(
         err instanceof Error ? err.message : "Failed to initiate sign in. Please try again."
