@@ -101,3 +101,24 @@ export async function joinTeam(payload: JoinTeamPayload): Promise<Team> {
   }
   return res.json();
 }
+
+export function saveCurrentTeam(team: Team): void {
+  if (typeof window !== "undefined") {
+    localStorage.setItem("redefine_current_team", JSON.stringify(team));
+  }
+}
+
+export function getCurrentTeam(): Team | null {
+  if (typeof window !== "undefined") {
+    const raw = localStorage.getItem("redefine_current_team");
+    if (raw) {
+      try {
+        return JSON.parse(raw);
+      } catch {
+        return null;
+      }
+    }
+  }
+  return null;
+}
+

@@ -3,7 +3,7 @@ import test from "node:test";
 
 const baseUrl = process.env.TEST_BASE_URL ?? "http://localhost:3000";
 
-for (const route of ["/timeline", "/tracks", "/team-up", "/faq"]) {
+for (const route of ["/timeline", "/tracks", "/team-up", "/team", "/faq"]) {
   test(`${route} uses the shared Figma header and active nav thread`, async () => {
     const response = await fetch(`${baseUrl}${route}`);
     const html = await response.text();

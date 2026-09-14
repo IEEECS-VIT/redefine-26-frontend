@@ -18,6 +18,7 @@ const NAV_LINKS: NavLink[] = [
   { label: "Timeline", href: "/timeline", img: "/tracks/TIMELINE.svg", width: "135px" },
   { label: "Tracks", href: "/tracks", img: "/tracks/TRACKS.svg", width: "118px" },
   { label: "Team Up", href: "/team-up", img: "/tracks/TEAM UP.svg", width: "118px" },
+  { label: "Team", href: "/team", img: "/tracks/TEAM.svg", width: "75px" },
   { label: "FAQ", href: "/faq", img: "/tracks/FAQ.svg", width: "70px" },
 ];
 
