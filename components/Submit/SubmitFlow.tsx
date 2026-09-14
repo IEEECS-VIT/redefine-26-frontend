@@ -1,10 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import DynamicStringsBackground from "@/components/Background/DynamicStringsBackground";
-import { DEFAULT_TRACKS, submitProject, type Track } from "@/lib/teamup";
+import { DEFAULT_TRACKS, fetchTeam, submitProject, type Track } from "@/lib/teamup";
 
 const INPUT_STYLE =
   "h-12 w-full rounded-xl border border-pink-600/90 bg-black/80 px-4 sm:px-5 text-sm sm:text-base text-white outline-none transition placeholder:text-white/45 focus:border-pink-300 focus:ring-2 focus:ring-pink-300/20";
@@ -27,9 +27,43 @@ export default function SubmitFlow() {
   const [trackId, setTrackId] = useState("");
   const [figmaLink, setFigmaLink] = useState("");
   const [additionalLinks, setAdditionalLinks] = useState<string[]>(["", ""]);
-  const [submitted, setSubmitted] = useState(false);
+  const [alreadySubmitted, setAlreadySubmitted] = useState(false);
+  const [editing, setEditing] = useState(false);
+  const [loadingPage, setLoadingPage] = useState(true);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function load() {
+      try {
+        const team = await fetchTeam();
+        if (cancelled) return;
+        if (team.submitted_at) {
+          setAlreadySubmitted(true);
+        }
+        // Pre-fill form with existing submission when editing
+        if (team.track) {
+          const match = tracks.find((t) => t.name.toLowerCase() === team.track!.toLowerCase());
+          if (match) setTrackId(match.id);
+        }
+        if (team.figma_link) setFigmaLink(team.figma_link);
+        if (team.other_links && team.other_links.length > 0) {
+          setAdditionalLinks(team.other_links);
+        }
+      } catch {
+        // not signed in / fetch failed — leave page in loading-off state
+      } finally {
+        if (!cancelled) setLoadingPage(false);
+      }
+    }
+
+    load();
+    return () => {
+      cancelled = true;
+    };
+  }, [tracks]);
 
   const handleAddLink = () => {
     if (additionalLinks.length < 6) {
@@ -58,17 +92,16 @@ export default function SubmitFlow() {
     setError("");
     setLoading(true);
     try {
-      const selectedTrack = tracks.find((t) => t.id === trackId)?.name || trackId;
-      const validLinks = additionalLinks.filter((l) => l.trim().length > 0);
+      const track = tracks.find((t) => t.id === trackId);
       await submitProject({
-        problem_stmt: selectedTrack,
-        github_link: validLinks[0] || figmaLink,
-        figma_link: figmaLink,
-        other_files: validLinks.slice(1).join(", "),
+        track: track?.name ?? trackId,
+        figma_link: figmaLink.trim(),
+        other_links: additionalLinks,
       });
-      setSubmitted(true);
+      setAlreadySubmitted(true);
+      setEditing(false);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to submit project. Please try again.");
+      setError(err instanceof Error ? err.message : "Failed to submit. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -103,7 +136,25 @@ export default function SubmitFlow() {
                 </h2>
               </div>
 
-              {submitted ? (
+              {loadingPage ? (
+                <div className="flex flex-1 flex-col items-center justify-center gap-4 py-8">
+                  <motion.div
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 1.2, repeat: Infinity, ease: "linear" }}
+                    className="relative h-16 w-16 sm:h-20 sm:w-20"
+                  >
+                    <Image
+                      src="/redefine-2026/redefine.jpeg"
+                      alt="Redefine"
+                      fill
+                      priority
+                      unoptimized
+                      className="object-contain"
+                    />
+                  </motion.div>
+                  <p className="text-sm text-white/60">Loading your submission…</p>
+                </div>
+              ) : alreadySubmitted && !editing ? (
                 <div className="flex flex-col items-center justify-center gap-4 py-8 text-center">
                   <div className="rounded-full bg-pink-500/20 p-4 text-pink-400">
                     <svg className="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -111,10 +162,10 @@ export default function SubmitFlow() {
                     </svg>
                   </div>
                   <h3 className="text-xl font-bold text-white">Submission Received!</h3>
-                  <p className="text-sm text-white/70">Your project link and track details have been successfully recorded.</p>
+                  <p className="text-sm text-white/70">Your team has already submitted. You can review or edit your submission below.</p>
                   <button
                     type="button"
-                    onClick={() => setSubmitted(false)}
+                    onClick={() => setEditing(true)}
                     className="mt-2 rounded-xl border border-pink-600 bg-transparent px-6 py-2 text-sm text-white transition hover:bg-pink-500/20"
                   >
                     Edit Submission
@@ -168,7 +219,7 @@ export default function SubmitFlow() {
                           type="text"
                           value={link}
                           onChange={(e) => handleLinkChange(idx, e.target.value)}
-                          placeholder={idx === 0 ? "Enter registration number" : idx === 1 ? "Enter participant name" : "Enter additional link"}
+                          placeholder={"Enter additional link"}
                           className={INPUT_STYLE}
                         />
                       ))}
@@ -187,6 +238,16 @@ export default function SubmitFlow() {
 
                   {error && <p role="alert" className="text-xs sm:text-sm text-pink-300 text-center">{error}</p>}
 
+                  {editing && (
+                    <button
+                      type="button"
+                      onClick={() => setEditing(false)}
+                      className="mt-1 text-xs text-white/50 underline decoration-white/30 underline-offset-4 transition hover:text-white/80"
+                    >
+                      Cancel — back to submitted
+                    </button>
+                  )}
+
                   {/* Submit Button */}
                   <motion.button
                     type="submit"
@@ -196,7 +257,7 @@ export default function SubmitFlow() {
                     disabled={loading}
                     className="relative mt-2 sm:mt-4 flex h-12 sm:h-14 w-full shrink-0 items-center justify-center overflow-hidden rounded-xl bg-pink-500 font-extrabold uppercase tracking-widest text-base sm:text-lg text-white shadow-[0_8px_24px_rgba(236,72,153,0.35)] transition duration-200 hover:bg-pink-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-pink-200 disabled:opacity-60"
                   >
-                    SUBMIT
+                    {editing ? "UPDATE SUBMISSION" : "SUBMIT"}
                   </motion.button>
                 </>
               )}

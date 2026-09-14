@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import SectionPage from "@/components/Layout/SectionPage";
 import SubmitFlow from "@/components/Submit/SubmitFlow";
+import RequireAuth from "@/components/Providers/RequireAuth";
 
 export const metadata: Metadata = {
   title: "Submit",
@@ -8,8 +9,10 @@ export const metadata: Metadata = {
 
 export default function SubmitPage() {
   return (
-    <SectionPage>
-      <SubmitFlow />
-    </SectionPage>
+    <RequireAuth>
+      <SectionPage>
+        <SubmitFlow />
+      </SectionPage>
+    </RequireAuth>
   );
 }
