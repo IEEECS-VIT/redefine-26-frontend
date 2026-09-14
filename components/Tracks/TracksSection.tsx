@@ -314,11 +314,12 @@ export default function TracksSection() {
               );
             })}
 
-            {/* Native SVG hit overlay for pixel-perfect hover and tap-to-toggle detection on mobile */}
+            {/* Native SVG hit overlay for pixel-perfect tap-to-toggle detection on mobile */}
             <svg
               viewBox="0 0 298 699"
               preserveAspectRatio="none"
-              className="absolute inset-0 w-full h-full z-40 pointer-events-none select-none"
+              style={{ touchAction: "manipulation" }}
+              className="absolute inset-0 w-full h-full z-30 pointer-events-none select-none"
             >
               {MOBILE_HIT_PATHS.map((pathD, i) => (
                 <path
@@ -326,8 +327,6 @@ export default function TracksSection() {
                   d={pathD}
                   fill="rgba(0,0,0,0.001)"
                   className="pointer-events-auto cursor-pointer"
-                  onMouseEnter={() => setMobileHoveredIdx(i)}
-                  onMouseLeave={() => setMobileHoveredIdx(null)}
                   onClick={(e) => {
                     e.stopPropagation();
                     setMobileHoveredIdx((prev) => (prev === i ? null : i));
