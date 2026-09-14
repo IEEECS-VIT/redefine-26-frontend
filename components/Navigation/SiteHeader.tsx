@@ -83,25 +83,24 @@ export default function SiteHeader({ hideRegisterButton }: { hideRegisterButton?
         <div className="flex items-center gap-4 min-[900px]:absolute min-[900px]:right-[clamp(1rem,2.4vw,2.2rem)] min-[900px]:top-1/2 min-[900px]:-translate-y-1/2">
           {/* Register Button (hidden on small mobile, shown on sm+, hidden on register page) */}
           {!isRegisterPage ? (
-            <motion.button
-              type="button"
-              onClick={() => router.push("/register")}
-              whileHover={{ scale: 1.05, y: -2 }}
-              whileTap={{ scale: 0.96 }}
-              transition={{ duration: 0.2 }}
-              className="hidden cursor-pointer select-none transition-transform duration-200 hover:-translate-y-0.5 sm:block"
-              aria-label="Register"
-            >
-              <div className="relative aspect-[193/61] w-[175px] sm:w-[200px] md:w-[220px] min-[900px]:w-[clamp(7.5rem,14vw,13.125rem)]">
-                <Image
-                  src="/redefine-2026/register.svg"
-                  alt="Register"
-                  fill
-                  priority
-                  className="pointer-events-none select-none object-contain"
-                />
-              </div>
-            </motion.button>
+            <Link href="/register" prefetch={true} className="hidden sm:block" aria-label="Register">
+              <motion.div
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.96 }}
+                transition={{ duration: 0.2 }}
+                className="cursor-pointer select-none transition-transform duration-200 hover:-translate-y-0.5"
+              >
+                <div className="relative aspect-[193/61] w-[175px] sm:w-[200px] md:w-[220px] min-[900px]:w-[clamp(7.5rem,14vw,13.125rem)]">
+                  <Image
+                    src="/redefine-2026/register.svg"
+                    alt="Register"
+                    fill
+                    priority
+                    className="pointer-events-none select-none object-contain"
+                  />
+                </div>
+              </motion.div>
+            </Link>
           ) : (
             <div className="hidden w-12 pointer-events-none sm:w-14 md:w-16 min-[900px]:block min-[900px]:w-[clamp(7.5rem,14vw,13.125rem)]" aria-hidden="true" />
           )}
