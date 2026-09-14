@@ -9,6 +9,7 @@ export interface TeamMember {
   id: string;
   name: string;
   rollNo: string;
+  regNo?: string;
   silhouette?: string;
   layout?: "silhouette-left" | "silhouette-right";
 }
@@ -61,7 +62,7 @@ export default function TeamSection({
   teamName = "TEAM NAME",
   members = DEFAULT_MEMBERS,
 }: TeamSectionProps) {
-  const displayMembers = members.length > 0 ? members.slice(0, 4) : DEFAULT_MEMBERS;
+  const displayMembers = members.slice(0, 4);
 
   return (
     <section className="relative flex h-full w-full max-w-none flex-col items-center justify-between bg-black text-white select-none overflow-hidden px-0 mx-0">
@@ -133,9 +134,11 @@ export default function TeamSection({
                       </span>
                     ))}
                   </h3>
-                  <p className="font-mono font-bold text-white/95 text-xs sm:text-base md:text-xl tracking-widest mt-1 sm:mt-2.5 drop-shadow-[0_2px_6px_rgba(0,0,0,0.85)]">
-                    {member.rollNo}
-                  </p>
+                  {member.rollNo ? (
+                    <p className="font-mono font-bold text-white/95 text-xs sm:text-base md:text-xl tracking-widest mt-1 sm:mt-2.5 drop-shadow-[0_2px_6px_rgba(0,0,0,0.85)]">
+                      {member.rollNo}
+                    </p>
+                  ) : null}
                 </div>
               </motion.div>
             );
@@ -195,9 +198,7 @@ export default function TeamSection({
               sizes="100vw"
               className="object-contain object-bottom pointer-events-none select-none relative z-10"
             />
-
-            {/* Member text overlay - Commented out */}
-            {/*
+            
             <div className="absolute inset-0 grid grid-cols-4 w-full h-full pointer-events-none z-20">
               {displayMembers.map((member, index) => {
                 const isLeftPanel = index < 2;
@@ -221,14 +222,16 @@ export default function TeamSection({
                         </span>
                       ))}
                     </div>
-                    <div className="font-mono font-bold text-white/95 text-[clamp(0.7rem,1.15vw,1.35rem)] tracking-wider pt-1 sm:pt-2 drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] text-left">
-                      {member.rollNo}
-                    </div>
+                    {member.rollNo ? (
+                      <div className="font-mono font-bold text-white/95 text-[clamp(0.7rem,1.15vw,1.35rem)] tracking-wider pt-1 sm:pt-2 drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] text-left">
+                        {member.rollNo}
+                      </div>
+                    ) : null}
                   </motion.div>
                 );
               })}
             </div>
-            */}
+           
           </div>
         </div>
       </div>

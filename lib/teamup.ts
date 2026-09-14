@@ -7,6 +7,25 @@ import { getFirebaseAuth } from "./firebase";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "");
 
+export type TeamMember = {
+  email: string;
+  name: string;
+};
+
+export type TeamResponse = {
+  id: string;
+  name: string;
+  code: string;
+  leaderId: string;
+  members: TeamMember[];
+  track?: string | null;
+  figma_link?: string | null;
+  other_links?: string[];
+  submitted_at?: string | null;
+  updated_at?: string | null;
+  isLeader: boolean;
+};
+
 export type Track = {
   id: string;
   name: string;
@@ -29,31 +48,10 @@ export type JoinTeamPayload = {
   code: string;
 };
 
-export type TeamMemberData = {
-  email: string;
-  name: string;
-};
-
-export type BackendTeamDetails = {
-  id: string;
-  name: string;
-  code: string;
-  leaderId: string;
-  members: TeamMemberData[];
-  problem_stmt?: string;
-  github_link?: string;
-  figma_link?: string;
-  other_files?: string;
-  submitted_at?: string;
-  updated_at?: string;
-  isLeader?: boolean;
-};
-
-export type ProjectSubmissionPayload = {
-  problem_stmt: string;
-  github_link: string;
-  figma_link?: string;
-  other_files?: string;
+export type SubmitProjectPayload = {
+  track: string;
+  figma_link: string;
+  other_links?: string[];
 };
 
 export const DEFAULT_TRACKS: Track[] = [
@@ -182,7 +180,7 @@ export async function joinTeam(payload: JoinTeamPayload): Promise<Team> {
   return team;
 }
 
-export async function getMyTeam(): Promise<BackendTeamDetails | null> {
+export async function getMyTeam(): Promise<TeamResponse | null> {
   if (!API_URL) return null;
   const authHeader = await getAuthHeader();
   if (!authHeader.Authorization) return null;
@@ -203,56 +201,10 @@ export async function getMyTeam(): Promise<BackendTeamDetails | null> {
       throw new Error("Failed to fetch team details.");
     }
 
-    return (await res.json()) as BackendTeamDetails;
+    return (await res.json()) as TeamResponse;
   } catch {
     return null;
   }
-}
-
-export async function submitProject(payload: ProjectSubmissionPayload): Promise<{ message: string }> {
-  const authHeader = await getAuthHeader();
-  if (!API_URL || !authHeader.Authorization) {
-    return delay({ message: "Project submitted/updated successfully" });
-  }
-
-  const res = await fetch(`${API_URL}/teams/project/submit`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      ...authHeader,
-    },
-    body: JSON.stringify(payload),
-  });
-
-  const data = await res.json().catch(() => ({}));
-  if (!res.ok) {
-    throw new Error(data.message || "Failed to submit project.");
-  }
-
-  return data;
-}
-
-export async function updateProject(payload: Partial<ProjectSubmissionPayload>): Promise<{ message: string }> {
-  const authHeader = await getAuthHeader();
-  if (!API_URL || !authHeader.Authorization) {
-    return delay({ message: "Project updated successfully" });
-  }
-
-  const res = await fetch(`${API_URL}/teams/project/update`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-      ...authHeader,
-    },
-    body: JSON.stringify(payload),
-  });
-
-  const data = await res.json().catch(() => ({}));
-  if (!res.ok) {
-    throw new Error(data.message || "Failed to update project.");
-  }
-
-  return data;
 }
 
 export async function removeTeamMember(memberEmail: string): Promise<{ message: string }> {
@@ -324,6 +276,88 @@ export function saveCurrentTeam(team: Team): void {
   if (typeof window !== "undefined") {
     localStorage.setItem("redefine_current_team", JSON.stringify(team));
   }
+}
+
+export async function submitProject(payload: SubmitProjectPayload): Promise<void> {
+  if (!API_URL) {
+    await delay(null, 800);
+    return;
+  }
+
+  const auth = getFirebaseAuth();
+  await auth.authStateReady();
+  const user = auth.currentUser;
+  if (!user) {
+    throw new Error("Not signed in.");
+  }
+  const idToken = await user.getIdToken();
+
+  const body: SubmitProjectPayload = {
+    track: payload.track,
+    figma_link: payload.figma_link,
+    other_links: payload.other_links?.filter((link) => link.trim() !== "") ?? [],
+  };
+
+  const res = await fetch(`${API_URL}/teams/project/submit`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${idToken}`,
+    },
+    body: JSON.stringify(body),
+  });
+
+  if (!res.ok) {
+    let message = "The server could not record the submission. Please try again.";
+    try {
+      const data = await res.json();
+      if (data?.message) message = data.message;
+    } catch {
+      // ignore body parse errors
+    }
+    throw new Error(message);
+  }
+}
+
+export async function fetchTeam(): Promise<TeamResponse> {
+  if (!API_URL) {
+    const team = getCurrentTeam();
+    return delay({
+      id: team?.id ?? "",
+      name: team?.name ?? "",
+      code: team?.code ?? "",
+      leaderId: "",
+      members: [],
+      isLeader: false,
+    });
+  }
+
+  const auth = getFirebaseAuth();
+  await auth.authStateReady();
+  const user = auth.currentUser;
+  if (!user) {
+    throw new Error("Not signed in.");
+  }
+  const idToken = await user.getIdToken();
+
+  const res = await fetch(`${API_URL}/teams/get`, {
+    headers: { Authorization: `Bearer ${idToken}` },
+  });
+
+  if (res.status === 204) {
+    return {
+      id: "",
+      name: "",
+      code: "",
+      leaderId: "",
+      members: [],
+      isLeader: false,
+    };
+  }
+  if (!res.ok) {
+    throw new Error("The server could not load the team. Please try again.");
+  }
+  return res.json() as Promise<TeamResponse>;
 }
 
 export function getCurrentTeam(): Team | null {
