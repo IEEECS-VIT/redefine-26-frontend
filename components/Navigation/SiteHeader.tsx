@@ -3,29 +3,22 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { subscribeToAuthState } from "@/lib/auth";
 import NavThread from "./NavThread";
-
-interface NavLink {
-  label: string;
-  href: string;
-  img: string;
-  width: string;
-}
-
-const NAV_LINKS: NavLink[] = [
-  { label: "Timeline", href: "/timeline", img: "/tracks/TIMELINE.svg", width: "135px" },
-  { label: "Tracks", href: "/tracks", img: "/tracks/TRACKS.svg", width: "118px" },
-  { label: "Team Up", href: "/team-up", img: "/tracks/TEAM UP.svg", width: "118px" },
-  { label: "Team", href: "/team", img: "/tracks/TEAM.svg", width: "75px" },
-  { label: "FAQ", href: "/faq", img: "/tracks/FAQ.svg", width: "70px" },
-];
+import { getHeaderNavLinks } from "./navigationLinks";
 
 export default function SiteHeader({ hideRegisterButton }: { hideRegisterButton?: boolean } = {}) {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [isSignedIn, setIsSignedIn] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
+  const navLinks = getHeaderNavLinks(isSignedIn);
+
+  useEffect(() => {
+    return subscribeToAuthState((user) => setIsSignedIn(Boolean(user)));
+  }, []);
 
   const isRegisterPage = hideRegisterButton || pathname === "/register";
 
@@ -63,7 +56,7 @@ export default function SiteHeader({ hideRegisterButton }: { hideRegisterButton?
 
         {/* Center: SVG Menu Links (Desktop) */}
         <nav className="hidden items-center gap-6 min-[900px]:absolute min-[900px]:left-1/2 min-[900px]:top-1/2 min-[900px]:flex min-[900px]:w-[min(52vw,46.5rem)] min-[900px]:-translate-x-1/2 min-[900px]:-translate-y-1/2 min-[900px]:justify-between min-[900px]:gap-0">
-          {NAV_LINKS.map((link) => (
+          {navLinks.map((link) => (
             <div key={link.label} className="relative flex flex-col items-center">
               <Link
                 href={link.href}
@@ -142,7 +135,7 @@ export default function SiteHeader({ hideRegisterButton }: { hideRegisterButton?
             className="fixed inset-0 z-40 flex flex-col bg-black/98 backdrop-blur-xl min-[900px]:hidden"
           >
             <div className="flex flex-col items-center justify-center h-full gap-8">
-              {NAV_LINKS.map((link, idx) => (
+              {navLinks.map((link, idx) => (
                 <motion.button
                   key={link.label}
                   initial={{ opacity: 0, y: 20 }}
@@ -164,7 +157,7 @@ export default function SiteHeader({ hideRegisterButton }: { hideRegisterButton?
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
-                  transition={{ delay: NAV_LINKS.length * 0.06, duration: 0.3, ease: "easeOut" }}
+                  transition={{ delay: navLinks.length * 0.06, duration: 0.3, ease: "easeOut" }}
                   onClick={() => handleNavClick("/register")}
                   className="mt-4 cursor-pointer rounded-xl bg-pink-500 px-8 py-3 text-base font-semibold text-white shadow-lg shadow-pink-500/25 transition-transform hover:scale-105"
                 >

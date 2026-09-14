@@ -1,0 +1,28 @@
+import assert from "node:assert/strict";
+import test from "node:test";
+
+test("signed-out header routes to Timeline, Tracks, and FAQ", async () => {
+  const { getHeaderNavLinks } = await import("../components/Navigation/navigationLinks.ts");
+
+  assert.deepEqual(
+    getHeaderNavLinks(false).map(({ label, href }) => ({ label, href })),
+    [
+      { label: "Timeline", href: "/timeline" },
+      { label: "Tracks", href: "/tracks" },
+      { label: "FAQ", href: "/faq" },
+    ],
+  );
+});
+
+test("signed-in header routes to Timeline, Tracks, and Team", async () => {
+  const { getHeaderNavLinks } = await import("../components/Navigation/navigationLinks.ts");
+
+  assert.deepEqual(
+    getHeaderNavLinks(true).map(({ label, href }) => ({ label, href })),
+    [
+      { label: "Timeline", href: "/timeline" },
+      { label: "Tracks", href: "/tracks" },
+      { label: "Team", href: "/team" },
+    ],
+  );
+});
