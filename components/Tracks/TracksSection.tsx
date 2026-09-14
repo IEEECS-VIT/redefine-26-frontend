@@ -336,40 +336,16 @@ export default function TracksSection() {
               ))}
             </svg>
 
-            {/* Left Side: Brain and vertical wings centered on the fan blade apex */}
-            <div className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-[55%] flex flex-col items-center gap-1 sm:gap-2 z-20 select-none pointer-events-none w-[170px] sm:w-[190px]">
-              <div className="relative w-[145px] sm:w-[165px] aspect-[192/248]">
-                <Image
-                  src="/tracks mobile/image 16.png"
-                  alt=""
-                  fill
-                  priority
-                  draggable={false}
-                  className="object-contain pointer-events-none"
-                />
-              </div>
-
-              <div className="relative w-[92px] sm:w-[105px] aspect-[88/137] -my-2">
-                <Image
-                  src="/tracks mobile/Brain.png"
-                  alt="Brain"
-                  fill
-                  priority
-                  draggable={false}
-                  className="object-contain pointer-events-none"
-                />
-              </div>
-
-              <div className="relative w-[92px] sm:w-[105px] aspect-[118/187]">
-                <Image
-                  src="/tracks mobile/image 15.png"
-                  alt=""
-                  fill
-                  priority
-                  draggable={false}
-                  className="object-contain pointer-events-none"
-                />
-              </div>
+            {/* Left Side: Brain scribble centered on the fan blade apex matching Figma */}
+            <div className="absolute right-[calc(100%-2px)] top-1/2 -translate-y-1/2 w-[29.5%] aspect-[88/585] z-20 select-none pointer-events-none">
+              <Image
+                src="/tracks mobile/scribble_figma.png"
+                alt="Brain Scribble"
+                fill
+                priority
+                draggable={false}
+                className="object-contain pointer-events-none"
+              />
             </div>
           </div>
         </div>
