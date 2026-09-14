@@ -100,7 +100,7 @@ export default function SideMenu({ isSignedIn }: SideMenuProps) {
           href={item.href ?? `/${item.id}`}
           prefetch={true}
           aria-label={item.id === "sign-in" ? "Sign in" : item.id.replace("-", " ")}
-          className={`absolute z-40 flex ${item.className} cursor-pointer transition-transform hover:scale-105 active:scale-95`}
+          className={`absolute z-40 flex ${item.className} cursor-pointer`}
         >
           <motion.div
             className="flex items-end gap-[1px] lg:gap-[2px]"
