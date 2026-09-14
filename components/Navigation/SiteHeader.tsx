@@ -13,7 +13,8 @@ import { getHeaderAction, getHeaderNavLinks } from "./navigationLinks";
 export default function SiteHeader({ hideRegisterButton }: { hideRegisterButton?: boolean } = {}) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [isSignedIn, setIsSignedIn] = useState(false);
-  const [isLeader, setIsLeader] = useState(false);
+  const [leaderPopup, setLeaderPopup] = useState(false);
+  const [checkingAction, setCheckingAction] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
   const navLinks = getHeaderNavLinks(isSignedIn);
@@ -22,28 +23,6 @@ export default function SiteHeader({ hideRegisterButton }: { hideRegisterButton?
   useEffect(() => {
     return subscribeToAuthState((user) => setIsSignedIn(Boolean(user)));
   }, []);
-
-  useEffect(() => {
-    let active = true;
-    if (isSignedIn) {
-      getMyTeam()
-        .then((team) => {
-          if (active) {
-            setIsLeader(Boolean(team?.isLeader));
-          }
-        })
-        .catch(() => {
-          if (active) {
-            setIsLeader(false);
-          }
-        });
-    } else {
-      setIsLeader(false);
-    }
-    return () => {
-      active = false;
-    };
-  }, [isSignedIn, pathname]);
 
   useEffect(() => {
     if (mobileOpen) {
@@ -58,8 +37,29 @@ export default function SiteHeader({ hideRegisterButton }: { hideRegisterButton?
 
   const hideHeaderAction =
     hideRegisterButton ||
-    pathname === headerAction.href ||
-    (headerAction.href === "/submit" && !isLeader);
+    pathname === headerAction.href;
+
+  const handleHeaderAction = async () => {
+    if (headerAction.href !== "/submit") {
+      handleNavClick(headerAction.href);
+      return;
+    }
+
+    setCheckingAction(true);
+    try {
+      const team = await getMyTeam();
+      if (team?.isLeader) {
+        setMobileOpen(false);
+        router.push("/submit");
+      } else {
+        setLeaderPopup(true);
+      }
+    } catch {
+      setLeaderPopup(true);
+    } finally {
+      setCheckingAction(false);
+    }
+  };
 
   const handleSignOut = async () => {
     await signOutUser();
@@ -119,20 +119,25 @@ export default function SiteHeader({ hideRegisterButton }: { hideRegisterButton?
 
         {/* Right: Register / Submit + Hamburger */}
         <div className="flex items-center gap-4 min-[900px]:absolute min-[900px]:right-[clamp(1rem,2.4vw,2.2rem)] min-[900px]:top-1/2 min-[900px]:-translate-y-1/2">
-          {/* Auth-aware action (hidden on small mobile, on destination page, or if Submit when not leader) */}
+          {/* Auth-aware action (hidden on small mobile or on its destination page) */}
           {!hideHeaderAction ? (
-            <Link href={headerAction.href} prefetch={true} className="hidden sm:block" aria-label={headerAction.label}>
+            <button
+              type="button"
+              onClick={handleHeaderAction}
+              className="hidden sm:block cursor-pointer select-none transition-transform duration-200 hover:-translate-y-0.5"
+              aria-label={headerAction.label}
+            >
               <motion.div
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.96 }}
                 transition={{ duration: 0.2 }}
-                className="cursor-pointer select-none transition-transform duration-200 hover:-translate-y-0.5"
+                className="cursor-pointer select-none"
               >
                 <div className="flex aspect-[193/61] w-[120px] items-center justify-center rounded-[19px] bg-black font-[var(--font-bebas-neue)] text-[clamp(0.85rem,1.5vw,1.25rem)] uppercase leading-none font-bold text-pink-100 shadow-[5px_5px_1px_#fac2cf,0_4px_30px_rgba(255,194,207,0.25)] sm:w-[145px] md:w-[160px] min-[900px]:w-[clamp(5.5rem,10vw,9.25rem)]">
                   {headerAction.label}
                 </div>
               </motion.div>
-            </Link>
+            </button>
           ) : (
             <div className="hidden w-12 pointer-events-none sm:w-14 md:w-16 min-[900px]:block min-[900px]:w-[clamp(7.5rem,14vw,13.125rem)]" aria-hidden="true" />
           )}
@@ -210,10 +215,11 @@ export default function SiteHeader({ hideRegisterButton }: { hideRegisterButton?
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
                   transition={{ delay: navLinks.length * 0.06, duration: 0.3, ease: "easeOut" }}
-                  onClick={() => handleNavClick(headerAction.href)}
-                  className="mt-4 cursor-pointer rounded-xl bg-pink-500 px-8 py-3 text-base font-[var(--font-bebas-neue)] uppercase tracking-widest text-white font-bold shadow-lg shadow-pink-500/25 transition-transform hover:scale-105"
+                  onClick={handleHeaderAction}
+                  disabled={checkingAction}
+                  className="mt-4 cursor-pointer rounded-xl bg-pink-500 px-8 py-3 text-base font-[var(--font-bebas-neue)] uppercase tracking-widest text-white font-bold shadow-lg shadow-pink-500/25 transition-transform hover:scale-105 disabled:opacity-60"
                 >
-                  {headerAction.label}
+                  {checkingAction ? "CHECKING…" : headerAction.label}
                 </motion.button>
               )}
 
@@ -230,6 +236,52 @@ export default function SiteHeader({ hideRegisterButton }: { hideRegisterButton?
                 </motion.button>
               )}
             </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Leader-only popup */}
+      <AnimatePresence>
+        {leaderPopup && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            onClick={() => setLeaderPopup(false)}
+            className="fixed inset-0 z-[95] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Submit restricted"
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.94, y: 12 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.96, y: 8 }}
+              transition={{ duration: 0.25, ease: "easeOut" }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative w-full max-w-sm overflow-hidden rounded-2xl border border-pink-600/90 bg-black/95 px-6 py-8 sm:px-8 text-center shadow-[0_16px_40px_rgba(0,0,0,0.9),0_0_32px_rgba(236,72,153,0.2)]"
+            >
+              <div className="absolute left-1/2 top-0 h-px w-3/4 -translate-x-1/2 bg-gradient-to-r from-transparent via-pink-500/70 to-transparent" />
+              <div className="relative mx-auto h-12 w-12 rounded-full bg-pink-500/15 flex items-center justify-center">
+                <svg className="h-6 w-6 text-pink-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
+                </svg>
+              </div>
+              <h3 className="mt-5 font-[var(--font-bebas-neue)] text-2xl sm:text-[1.7rem] uppercase tracking-widest text-white drop-shadow-[0_0_12px_rgba(236,72,153,0.4)]">
+                Leader Only
+              </h3>
+              <p className="mt-2.5 text-sm leading-relaxed text-white/70">
+                Only the team leader can submit the project. Please ask your team leader to submit.
+              </p>
+              <button
+                type="button"
+                onClick={() => setLeaderPopup(false)}
+                className="mt-6 w-full cursor-pointer rounded-xl bg-pink-500 px-6 py-3 font-[var(--font-bebas-neue)] text-lg uppercase tracking-widest text-white shadow-[0_8px_24px_rgba(236,72,153,0.35)] transition-transform duration-200 hover:-translate-y-0.5 hover:bg-pink-400"
+              >
+                OK
+              </button>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
