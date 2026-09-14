@@ -1,23 +1,10 @@
-"use client";
+import type { Metadata } from "next";
+import TeamClientPage from "@/components/Team/TeamClientPage";
 
-import { useEffect, useState } from "react";
-import SectionPage from "@/components/Layout/SectionPage";
-import TeamSection from "@/components/Team/TeamSection";
-import { getCurrentTeam } from "@/lib/teamup";
+export const metadata: Metadata = {
+  title: "Team",
+};
 
 export default function TeamPage() {
-  const [teamName, setTeamName] = useState<string>("TEAM NAME");
-
-  useEffect(() => {
-    const activeTeam = getCurrentTeam();
-    if (activeTeam?.name) {
-      setTeamName(activeTeam.name);
-    }
-  }, []);
-
-  return (
-    <SectionPage>
-      <TeamSection teamName={teamName} />
-    </SectionPage>
-  );
+  return <TeamClientPage />;
 }

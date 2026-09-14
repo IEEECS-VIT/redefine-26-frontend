@@ -125,8 +125,8 @@ export default function FAQSection() {
             </div>
           </motion.div>
 
-          {/* Right Side FAQ Accordion List - exact original desktop settings */}
-          <div className="relative flex w-full flex-col justify-center lg:w-[52%] xl:w-[48%] max-w-3xl lg:max-w-none lg:translate-x-[6%] xl:translate-x-[10%]">
+          {/* Right Side FAQ Accordion List - shifted slightly left */}
+          <div className="relative flex w-full flex-col justify-center -translate-x-1.5 sm:-translate-x-2 lg:translate-x-0 xl:translate-x-[3%] lg:w-[52%] xl:w-[48%] max-w-3xl lg:max-w-none">
             <div className="flex flex-col gap-3.5 sm:gap-4.5">
               {FAQ_DATA.map((item, idx) => (
                 <motion.div
