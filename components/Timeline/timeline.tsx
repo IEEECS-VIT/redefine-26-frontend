@@ -408,9 +408,9 @@ export default function Timeline() {
             <div
               key={phase.id}
               data-mobile-phase-card="expanded"
-              className="absolute left-1/2 flex h-[12%] w-[56%] -translate-x-1/2 flex-col items-center justify-center rounded-sm shadow-xl"
+              className="absolute left-1/2 flex h-[10%] w-[52%] -translate-x-1/2 flex-col items-center justify-center rounded-sm shadow-xl"
               style={{
-                top: `${[14, 31, 48, 65, 82][idx]}%`,
+                top: `${[10, 27, 44, 61, 78][idx]}%`,
                 rotate: `${[-4, 3, -3, 2, -2][idx]}deg`,
                 backgroundColor: ["#fac2cf", "#fac2cf", "#df6989", "#d04c6b", "#c1325f"][idx],
               }}

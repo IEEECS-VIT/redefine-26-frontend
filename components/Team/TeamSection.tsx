@@ -45,7 +45,7 @@ const MOBILE_PANEL_CONFIGS = [
     align: "right" as const,
     silhouetteClass: "right-1 sm:right-4 md:right-8 bottom-0 w-[95px] sm:w-[130px] md:w-[160px] h-[135px] sm:h-[175px] md:h-[210px]",
     brainClass: "right-[50px] sm:right-[70px] md:right-[90px] top-[8px] sm:top-[14px] w-5 sm:w-7 md:w-9 h-5 sm:h-7 md:h-9",
-    textClass: "pl-[115px] sm:pl-[150px] md:pl-[190px] pr-4 items-start text-left",
+    textClass: "pl-[135px] sm:pl-[170px] md:pl-[210px] pr-4 items-start text-left",
   },
   {
     silhouette: "/team/image 33.webp",
@@ -59,7 +59,7 @@ const MOBILE_PANEL_CONFIGS = [
     align: "right" as const,
     silhouetteClass: "right-1 sm:right-4 md:right-8 bottom-0 w-[95px] sm:w-[130px] md:w-[160px] h-[135px] sm:h-[175px] md:h-[210px]",
     brainClass: "right-[50px] sm:right-[70px] md:right-[90px] top-[8px] sm:top-[14px] w-5 sm:w-7 md:w-9 h-5 sm:h-7 md:h-9",
-    textClass: "pl-[115px] sm:pl-[150px] md:pl-[190px] pr-4 items-start text-left",
+    textClass: "pl-[75px] sm:pl-[110px] md:pl-[150px] pr-4 items-start text-left",
   },
 ];
 
@@ -85,7 +85,7 @@ export default function TeamSection({
           initial={{ opacity: 0, y: -16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="relative z-20 flex flex-col items-center justify-center pt-5 pb-4 px-4 text-center"
+          className="relative z-20 flex flex-col items-center justify-center pt-7 pb-4 px-4 text-center"
         >
           {teamName === "TEAM NAME" ? (
             <div className="relative w-[200px] sm:w-[280px] md:w-[360px] h-10 sm:h-14 md:h-16">
@@ -120,7 +120,7 @@ export default function TeamSection({
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="relative w-full h-[145px] sm:h-[185px] md:h-[225px] overflow-hidden bg-[linear-gradient(180deg,#9B1A45_0%,#CE3566_55%,#F3799D_100%)] flex items-center shadow-[inset_0_0_24px_rgba(0,0,0,0.3)]"
+                className="relative w-full h-[145px] sm:h-[185px] md:h-[225px] overflow-hidden bg-[linear-gradient(180deg,#9B1A45_0%,#CE3566_55%,#F3799D_100%)] flex items-start shadow-[inset_0_0_24px_rgba(0,0,0,0.3)]"
               >
                 <div className={`absolute z-10 ${config.silhouetteClass}`}>
                   <Image
@@ -140,7 +140,7 @@ export default function TeamSection({
                   />
                 </div>
 
-                <div className={`relative z-20 flex flex-col justify-center w-full ${config.textClass}`}>
+                <div className={`relative z-20 flex flex-col justify-start w-full pt-4 sm:pt-6 md:pt-8 ${config.textClass}`}>
                   <h3 className="font-extrabold text-white text-base sm:text-2xl md:text-3xl leading-snug tracking-wide drop-shadow-[0_2px_8px_rgba(0,0,0,0.85)]">
                     {member.name === PLACEHOLDER_MEMBER_NAME ? (
                       <span className="block">{member.name}</span>
@@ -177,7 +177,7 @@ export default function TeamSection({
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="relative z-20 flex flex-col items-center justify-center w-full p-0 shrink-0 m-0 pt-2"
+          className="relative z-20 flex flex-col items-center justify-center w-full p-0 shrink-0 m-0 pt-4"
         >
           {teamName === "TEAM NAME" ? (
             <div className="relative w-[280px] sm:w-[360px] md:w-[420px] lg:w-[460px] aspect-[575/79]">
@@ -235,10 +235,14 @@ export default function TeamSection({
                     viewport={{ once: true }}
                     transition={{ duration: 0.5, delay: index * 0.1 }}
                     className={`relative h-full w-full flex flex-col justify-start items-start ${
-                      isLeftPanel
-                        ? "pl-[46%] sm:pl-[47%] lg:pl-[48%] pr-[4%]"
-                        : "pl-[18%] sm:pl-[19%] lg:pl-[20%] pr-[36%]"
-                    } pt-[95%]`}
+                      index === 1
+                        ? "pl-[52%] sm:pl-[53%] lg:pl-[54%] pr-[4%]"
+                        : index === 3
+                          ? "pl-[9%] sm:pl-[10%] lg:pl-[11%] pr-[36%]"
+                          : isLeftPanel
+                            ? "pl-[46%] sm:pl-[47%] lg:pl-[48%] pr-[4%]"
+                            : "pl-[18%] sm:pl-[19%] lg:pl-[20%] pr-[36%]"
+                    } pt-[80%]`}
                   >
                     <div className="font-extrabold text-white text-[clamp(0.875rem,1.75vw,2.25rem)] leading-[1.12] tracking-wide drop-shadow-[0_2px_12px_rgba(0,0,0,0.95)] text-left">
                       {member.name === PLACEHOLDER_MEMBER_NAME ? (
