@@ -2,7 +2,6 @@
 //
 // All team endpoints communicate with the backend using Firebase ID Token
 // in the Authorization header. Fallbacks are provided when offline or in demo mode.
-
 import { getFirebaseAuth } from "./firebase";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "");
