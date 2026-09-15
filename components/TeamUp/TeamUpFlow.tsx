@@ -45,7 +45,6 @@ function TeamIllustration() {
         src="/teamupart.svg"
         alt="Team Up Artwork"
         fill
-        priority
         sizes="(min-width: 1024px) 52vw, 100vw"
         className="object-contain object-bottom scale-110 sm:scale-105 origin-bottom lg:scale-100 lg:object-bottom"
       />

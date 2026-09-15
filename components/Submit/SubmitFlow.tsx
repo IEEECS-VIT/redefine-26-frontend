@@ -285,7 +285,6 @@ export default function SubmitFlow() {
               src="/submit.svg"
               alt="Submit Artwork"
               fill
-              priority
               sizes="(min-width: 1024px) 50vw, 100vw"
               className="object-contain object-bottom scale-[1.2] sm:scale-[1.15] origin-bottom translate-x-[20%] lg:scale-[1.2] lg:object-bottom"
             />

@@ -241,7 +241,6 @@ export default function TracksSection() {
                 src="/tracks mobile/Polygon 8.png"
                 alt=""
                 fill
-                priority
                 draggable={false}
                 className="object-contain pointer-events-none"
               />
@@ -284,7 +283,6 @@ export default function TracksSection() {
                         src={track.mobileBlade}
                         alt=""
                         fill
-                        priority
                         draggable={false}
                         className="object-contain pointer-events-none"
                       />
@@ -305,7 +303,6 @@ export default function TracksSection() {
                         src={track.mobileTitle}
                         alt={track.title}
                         fill
-                        priority
                         className="object-contain pointer-events-none"
                       />
                     </div>
@@ -341,7 +338,6 @@ export default function TracksSection() {
                 src="/tracks mobile/scribble_figma.png"
                 alt="Brain Scribble"
                 fill
-                priority
                 draggable={false}
                 className="object-contain pointer-events-none"
               />
@@ -388,7 +384,6 @@ export default function TracksSection() {
                       src={track.bladeSvg}
                       alt=""
                       fill
-                      priority
                       draggable={false}
                       className="object-contain pointer-events-none"
                     />
@@ -437,15 +432,15 @@ export default function TracksSection() {
 
         <div className="flex items-center justify-center gap-6 sm:gap-8 -mt-2 sm:-mt-3 z-20 select-none pointer-events-none">
           <div className="relative w-[190px] xl:w-[220px] aspect-[508/451]">
-            <Image src="/tracks/image 16.png" alt="" fill priority draggable={false} className="object-contain" />
+            <Image src="/tracks/image 16.png" alt="" fill draggable={false} className="object-contain" />
           </div>
 
           <div className="relative w-[240px] xl:w-[280px] h-[164px] xl:h-[190px]">
-            <Image src="/tracks/Brain.svg" alt="Brain Scribble" fill priority draggable={false} className="object-contain" />
+            <Image src="/tracks/Brain.svg" alt="Brain Scribble" fill draggable={false} className="object-contain" />
           </div>
 
           <div className="relative w-[190px] xl:w-[220px] aspect-[382/258]">
-            <Image src="/tracks/image 15.png" alt="" fill priority draggable={false} className="object-contain" />
+            <Image src="/tracks/image 15.png" alt="" fill draggable={false} className="object-contain" />
           </div>
         </div>
       </div>
