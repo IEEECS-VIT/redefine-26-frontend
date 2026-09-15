@@ -149,7 +149,7 @@ export default function SubmitFlow() {
               {/* Panel Header */}
               <div className="flex flex-col items-center gap-2">
                 <div className="relative h-10 w-10 sm:h-12 sm:w-12">
-                  <Image src="/buildteam/image 24.svg" alt="" fill className="object-contain" />
+                  <Image src="/buildteam/image 24.svg.webp" alt="" fill className="object-contain" />
                 </div>
                 <h2 className="text-center font-extrabold uppercase tracking-widest text-xl sm:text-2xl lg:text-3xl text-white drop-shadow-[0_0_12px_rgba(236,72,153,0.4)]">
                   SUBMISSIONS
@@ -182,7 +182,7 @@ export default function SubmitFlow() {
                 <>
                   {/* Track Selection */}
                   <div className="space-y-1.5 sm:space-y-2">
-                    <SectionHeaderLabel icon="/buildteam/image 24.svg" label="TRACK" />
+                    <SectionHeaderLabel icon="/buildteam/image 24.svg.webp" label="TRACK" />
                     <div className="relative">
                       <select
                         value={trackId}
@@ -199,14 +199,14 @@ export default function SubmitFlow() {
                         ))}
                       </select>
                       <div className="pointer-events-none absolute inset-y-0 right-4 flex items-center">
-                        <Image src="/buildteam/Polygon 10.svg" alt="" width={14} height={10} />
+                        <Image src="/buildteam/Polygon 10.svg.webp" alt="" width={14} height={10} />
                       </div>
                     </div>
                   </div>
 
                   {/* Figma Link */}
                   <div className="space-y-1.5 sm:space-y-2">
-                    <SectionHeaderLabel icon="/buildteam/image 24.svg" label="FIGMA LINK" />
+                    <SectionHeaderLabel icon="/buildteam/image 24.svg.webp" label="FIGMA LINK" />
                     <input
                       type="url"
                       value={figmaLink}
@@ -218,7 +218,7 @@ export default function SubmitFlow() {
 
                   {/* Additional Links */}
                   <div className="space-y-2">
-                    <SectionHeaderLabel icon="/buildteam/image 24.svg" label="ADDITIONAL LINKS" />
+                    <SectionHeaderLabel icon="/buildteam/image 24.svg.webp" label="ADDITIONAL LINKS" />
                     <div className="flex flex-col gap-2">
                       {additionalLinks.map((link, idx) => (
                         <input
@@ -282,7 +282,7 @@ export default function SubmitFlow() {
         >
           <div className="relative h-full w-[105%] max-w-[640px] lg:w-full lg:max-w-full aspect-[1440/1024] overflow-visible">
             <Image
-              src="/submit.svg"
+              src="/submit.svg.webp"
               alt="Submit Artwork"
               fill
               sizes="(min-width: 1024px) 50vw, 100vw"

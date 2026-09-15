@@ -24,11 +24,11 @@ type DecorativeNote = {
 };
 
 const phases: Phase[] = [
-  { id: 1, label: "Phase 01", asset: "/timeline/Phase 01.svg", date: "XX Aug 2026 - YY Aug 2026" },
-  { id: 2, label: "Phase 02", asset: "/timeline/Phase 02.svg", date: "XX Aug 2026 - YY Aug 2026" },
-  { id: 3, label: "Phase 03", asset: "/timeline/Phase 03.svg", date: "XX Aug 2026 - YY Aug 2026" },
-  { id: 4, label: "Phase 04", asset: "/timeline/Phase 04.svg", date: "XX Aug 2026 - YY Aug 2026" },
-  { id: 5, label: "Phase 05", asset: "/timeline/Phase 05.svg", date: "XX Aug 2026 - YY Aug 2026" },
+  { id: 1, label: "Phase 01", asset: "/timeline/Phase 01.svg.webp", date: "XX Aug 2026 - YY Aug 2026" },
+  { id: 2, label: "Phase 02", asset: "/timeline/Phase 02.svg.webp", date: "XX Aug 2026 - YY Aug 2026" },
+  { id: 3, label: "Phase 03", asset: "/timeline/Phase 03.svg.webp", date: "XX Aug 2026 - YY Aug 2026" },
+  { id: 4, label: "Phase 04", asset: "/timeline/Phase 04.svg.webp", date: "XX Aug 2026 - YY Aug 2026" },
+  { id: 5, label: "Phase 05", asset: "/timeline/Phase 05.svg.webp", date: "XX Aug 2026 - YY Aug 2026" },
 ];
 
 const outerNotes: DecorativeNote[] = [
@@ -104,7 +104,7 @@ export default function Timeline() {
             className="relative aspect-[565/109] w-[39vw] max-w-[500px] translate-y-[clamp(1rem,3vh,2rem)]"
           >
             <Image
-              src="/timeline/TIMELINE.svg"
+              src="/timeline/TIMELINE.svg.webp"
               alt="TIMELINE"
               fill
               className="object-contain drop-shadow-[0_0_25px_rgba(255,255,255,0.15)]"
@@ -143,7 +143,7 @@ export default function Timeline() {
         >
           <Pin anchor={5} className="absolute top-3.5 left-1/2 -translate-x-1/2" />
           <div className="relative w-full h-10 mt-2">
-            <Image src="/timeline/Phase 05.svg" alt="Phase 05" fill className="object-contain" />
+            <Image src="/timeline/Phase 05.svg.webp" alt="Phase 05" fill className="object-contain" />
           </div>
           <p className="text-[11px] xl:text-xs font-semibold text-black mt-2 text-center whitespace-nowrap">
             XX Aug 2026- YY Aug 2026
@@ -175,7 +175,7 @@ export default function Timeline() {
         >
           <Pin anchor={1} className="absolute top-2.5 left-1/2 -translate-x-1/2" />
           <div className="relative w-full h-8 mt-1">
-            <Image src="/timeline/Phase 01.svg" alt="Phase 01" fill className="object-contain" />
+            <Image src="/timeline/Phase 01.svg.webp" alt="Phase 01" fill className="object-contain" />
           </div>
           <p className="text-[11px] xl:text-xs font-semibold text-black mt-1.5 text-center whitespace-nowrap">
             XX Aug 2026- YY Aug 2026
@@ -207,7 +207,7 @@ export default function Timeline() {
         >
           <Pin anchor={2} className="absolute top-2.5 left-1/2 -translate-x-1/2" />
           <div className="relative w-full h-8 mt-1">
-            <Image src="/timeline/Phase 02.svg" alt="Phase 02" fill className="object-contain" />
+            <Image src="/timeline/Phase 02.svg.webp" alt="Phase 02" fill className="object-contain" />
           </div>
           <p className="text-[11px] xl:text-xs font-semibold text-black mt-1.5 text-center whitespace-nowrap">
             XX Aug 2026- YY Aug 2026
@@ -257,7 +257,7 @@ export default function Timeline() {
         >
           <Pin anchor={3} className="absolute top-2.5 left-1/2 -translate-x-1/2" />
           <div className="relative w-full h-9 mt-1">
-            <Image src="/timeline/Phase 03.svg" alt="Phase 03" fill className="object-contain" />
+            <Image src="/timeline/Phase 03.svg.webp" alt="Phase 03" fill className="object-contain" />
           </div>
           <p className="text-[11px] xl:text-xs font-semibold text-black mt-2 text-center whitespace-nowrap">
             XX Aug 2026- YY Aug 2026
@@ -319,7 +319,7 @@ export default function Timeline() {
         >
           <Pin anchor={4} className="absolute top-3 right-6" />
           <div className="relative w-full h-10 mt-1">
-            <Image src="/timeline/Phase 04.svg" alt="Phase 04" fill className="object-contain" />
+            <Image src="/timeline/Phase 04.svg.webp" alt="Phase 04" fill className="object-contain" />
           </div>
           <p className="text-xs xl:text-sm font-semibold text-black mt-2 text-center whitespace-nowrap">
             XX Aug 2026- YY Aug 2026

@@ -7,7 +7,7 @@ export default function DesktopBackgroundThreads() {
     <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden hidden lg:block select-none opacity-45">
       <div className="relative w-full h-full">
         <Image
-          src="/strings.svg"
+          src="/strings.svg.webp"
           alt=""
           fill
           unoptimized
