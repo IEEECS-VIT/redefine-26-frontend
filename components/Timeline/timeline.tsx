@@ -24,11 +24,11 @@ type DecorativeNote = {
 };
 
 const phases: Phase[] = [
-  { id: 1, label: "Phase 01", asset: "/timeline/Phase 01.svg", date: "XX Aug 2026 - YY Aug 2026" },
-  { id: 2, label: "Phase 02", asset: "/timeline/Phase 02.svg", date: "XX Aug 2026 - YY Aug 2026" },
-  { id: 3, label: "Phase 03", asset: "/timeline/Phase 03.svg", date: "XX Aug 2026 - YY Aug 2026" },
-  { id: 4, label: "Phase 04", asset: "/timeline/Phase 04.svg", date: "XX Aug 2026 - YY Aug 2026" },
-  { id: 5, label: "Phase 05", asset: "/timeline/Phase 05.svg", date: "XX Aug 2026 - YY Aug 2026" },
+  { id: 1, label: "Phase 01", asset: "/timeline/Phase 01.svg", date: "Designing begins · 8 AM" },
+  { id: 2, label: "Phase 02", asset: "/timeline/Phase 02.svg", date: "Review 1 · 2 PM" },
+  { id: 3, label: "Phase 03", asset: "/timeline/Phase 03.svg", date: "Review 2 · 1 AM" },
+  { id: 4, label: "Phase 04", asset: "/timeline/Phase 04.svg", date: "Final pitch · 4 AM" },
+  { id: 5, label: "Phase 05", asset: "/timeline/Phase 05.svg", date: "Prize distribution · 7 AM" },
 ];
 
 const outerNotes: DecorativeNote[] = [
@@ -146,7 +146,7 @@ export default function Timeline() {
             <Image src="/timeline/Phase 05.svg" alt="Phase 05" fill className="object-contain" />
           </div>
           <p className="text-[11px] xl:text-xs font-semibold text-black mt-2 text-center whitespace-nowrap">
-            XX Aug 2026- YY Aug 2026
+            Prize distribution · 7 AM
           </p>
         </motion.div>
 
@@ -178,7 +178,7 @@ export default function Timeline() {
             <Image src="/timeline/Phase 01.svg" alt="Phase 01" fill className="object-contain" />
           </div>
           <p className="text-[11px] xl:text-xs font-semibold text-black mt-1.5 text-center whitespace-nowrap">
-            XX Aug 2026- YY Aug 2026
+            Designing begins · 8 AM
           </p>
         </motion.div>
 
@@ -210,7 +210,7 @@ export default function Timeline() {
             <Image src="/timeline/Phase 02.svg" alt="Phase 02" fill className="object-contain" />
           </div>
           <p className="text-[11px] xl:text-xs font-semibold text-black mt-1.5 text-center whitespace-nowrap">
-            XX Aug 2026- YY Aug 2026
+            Review 1 · 2 PM
           </p>
         </motion.div>
 
@@ -260,7 +260,7 @@ export default function Timeline() {
             <Image src="/timeline/Phase 03.svg" alt="Phase 03" fill className="object-contain" />
           </div>
           <p className="text-[11px] xl:text-xs font-semibold text-black mt-2 text-center whitespace-nowrap">
-            XX Aug 2026- YY Aug 2026
+            Review 2 · 1 AM
           </p>
         </motion.div>
 
@@ -322,7 +322,7 @@ export default function Timeline() {
             <Image src="/timeline/Phase 04.svg" alt="Phase 04" fill className="object-contain" />
           </div>
           <p className="text-xs xl:text-sm font-semibold text-black mt-2 text-center whitespace-nowrap">
-            XX Aug 2026- YY Aug 2026
+            Final pitch · 4 AM
           </p>
         </motion.div>
 
