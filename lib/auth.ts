@@ -9,6 +9,7 @@ import {
   type User,
 } from "firebase/auth";
 import { getFirebaseAuth } from "./firebase";
+import { invalidateTeamCache } from "./teamup";
 import {
   isEmailAllowedForStudentType,
   type StudentType,
@@ -31,6 +32,7 @@ type SignInResponse = {
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "");
 const AUTH_STORAGE_KEY = "redefine_user_session";
+let lastSeenUid: string | null | undefined;
 
 export function getStoredUser(): AuthUser | null {
   if (typeof window === "undefined") return null;
@@ -109,6 +111,7 @@ export async function initiateGoogleSignIn(type: StudentType): Promise<AuthUser>
     const { isInTeam } = await verifyWithBackend(credential.user);
     const user = toAuthUser(credential.user, type, isInTeam);
     storeUser(user);
+    invalidateTeamCache();
     return user;
   } catch (error) {
     await signOut(auth);
@@ -129,6 +132,12 @@ export function subscribeToAuthState(callback: (user: AuthUser | null) => void):
   }
 
   return onAuthStateChanged(auth, (firebaseUser) => {
+    const uid = firebaseUser?.uid ?? null;
+    if (lastSeenUid !== undefined && lastSeenUid !== uid) {
+      invalidateTeamCache();
+    }
+    lastSeenUid = uid;
+
     if (!firebaseUser) {
       clearStoredUser();
       callback(null);
@@ -148,4 +157,5 @@ export function subscribeToAuthState(callback: (user: AuthUser | null) => void):
 export async function signOutUser(): Promise<void> {
   await signOut(getFirebaseAuth());
   clearStoredUser();
+  invalidateTeamCache();
 }
