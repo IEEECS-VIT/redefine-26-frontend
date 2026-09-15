@@ -35,120 +35,120 @@ const tracks: TrackData[] = [
   {
     id: 1,
     title: "Brutalism",
-    titleImg: "/tracks/01\u2028E-Commerce.png",
+    titleImg: "/tracks/theme_title_1.svg",
     bladeSvg: "/tracks/Mask group.svg",
     illustration: "/tracks/illustration_1.png",
     left: "-0.7%",
     width: "50.56%",
     titlePos: { left: "26%", top: "16%" },
-    titleWidth: "16%",
-    titleAspect: "149/75",
+    titleWidth: "22%",
+    titleAspect: "140/76",
 
     mobileBlade: "/tracks mobile/Mask group.png",
-    mobileTitle: "/tracks mobile/01\u2028E-Commerce.png",
-    mobileTitlePos: { left: "72.1%", top: "24.1%" },
-    mobileTitleWidth: "24.5%",
-    mobileTitleAspect: "73/36",
+    mobileTitle: "/tracks/theme_title_1.svg",
+    mobileTitlePos: { left: "80%", top: "30%" },
+    mobileTitleWidth: "25%",
+    mobileTitleAspect: "140/76",
     mobileTop: "0%",
     mobileHeight: "50.5%",
   },
   {
     id: 2,
     title: "Skeuomorphism",
-    titleImg: "/tracks/02\u2028Smart Education.png",
+    titleImg: "/tracks/theme_title_2.svg",
     bladeSvg: "/tracks/Mask group-1.svg",
     illustration: "/tracks/illustration_2.png",
     left: "18.3%",
     width: "31.28%",
-    titlePos: { left: "30%", top: "15%" },
-    titleWidth: "18%",
-    titleAspect: "119/113",
+    titlePos: { left: "33.5%", top: "15%" },
+    titleWidth: "33%",
+    titleAspect: "150/76",
 
     mobileBlade: "/tracks mobile/Mask group-1.png",
-    mobileTitle: "/tracks mobile/02\u2028Smart Education.png",
-    mobileTitlePos: { left: "74.2%", top: "22.4%" },
-    mobileTitleWidth: "19.5%",
-    mobileTitleAspect: "58/54",
+    mobileTitle: "/tracks/theme_title_2.svg",
+    mobileTitlePos: { left: "80%", top: "36%" },
+    mobileTitleWidth: "26%",
+    mobileTitleAspect: "150/76",
     mobileTop: "18.74%",
     mobileHeight: "31.33%",
   },
   {
     id: 3,
     title: "Swiss / International Style",
-    titleImg: "/tracks/03\u2028Healthcare Companion.png",
+    titleImg: "/tracks/theme_title_3.svg",
     bladeSvg: "/tracks/Mask group-2.svg",
     illustration: "/tracks/illustration_3.png",
     left: "34.5%",
     width: "17.81%",
-    titlePos: { left: "49.8%", top: "13%" },
-    titleWidth: "36%",
-    titleAspect: "136/118",
+    titlePos: { left: "51%", top: "13%" },
+    titleWidth: "56%",
+    titleAspect: "140/110",
 
     mobileBlade: "/tracks mobile/Mask group-2.png",
-    mobileTitle: "/tracks mobile/03\u2028Healthcare Companion.png",
-    mobileTitlePos: { left: "73.5%", top: "36.8%" },
-    mobileTitleWidth: "22.5%",
-    mobileTitleAspect: "67/57",
+    mobileTitle: "/tracks/theme_title_3.svg",
+    mobileTitlePos: { left: "80%", top: "55%" },
+    mobileTitleWidth: "24%",
+    mobileTitleAspect: "140/110",
     mobileTop: "34.48%",
     mobileHeight: "17.88%",
   },
   {
     id: 4,
     title: "Maximalism",
-    titleImg: "/tracks/04\u2028 Travel & Exploration.png",
+    titleImg: "/tracks/theme_title_4.svg",
     bladeSvg: "/tracks/Mask group-3.svg",
     illustration: "/tracks/illustration_4.png",
     left: "49.5%",
     width: "17.46%",
-    titlePos: { left: "57%", top: "13%" },
-    titleWidth: "36%",
-    titleAspect: "142/118",
+    titlePos: { left: "52.5%", top: "13%" },
+    titleWidth: "54%",
+    titleAspect: "140/76",
 
     mobileBlade: "/tracks mobile/Mask group-3.png",
-    mobileTitle: "/tracks mobile/04\u2028 Travel & Exploration.png",
-    mobileTitlePos: { left: "74.2%", top: "26.2%" },
-    mobileTitleWidth: "23.5%",
-    mobileTitleAspect: "70/57",
+    mobileTitle: "/tracks/theme_title_4.svg",
+    mobileTitlePos: { left: "80%", top: "48%" },
+    mobileTitleWidth: "24%",
+    mobileTitleAspect: "140/76",
     mobileTop: "49.78%",
     mobileHeight: "17.45%",
   },
   {
     id: 5,
     title: "Retro / Nostalgic UI",
-    titleImg: "/tracks/05_Finance.svg",
+    titleImg: "/tracks/theme_title_5.svg",
     bladeSvg: "/tracks/Mask group-4.svg",
     illustration: "/tracks/illustration_5.png",
     left: "49.5%",
     width: "31.15%",
-    titlePos: { left: "72%", top: "15%" },
-    titleWidth: "16%",
-    titleAspect: "93/75",
+    titlePos: { left: "67.5%", top: "15%" },
+    titleWidth: "31%",
+    titleAspect: "140/96",
 
     mobileBlade: "/tracks mobile/Mask group-4.png",
-    mobileTitle: "/tracks mobile/05\u2028Finance.png",
-    mobileTitlePos: { left: "75.8%", top: "56.4%" },
-    mobileTitleWidth: "15.4%",
-    mobileTitleAspect: "46/36",
+    mobileTitle: "/tracks/theme_title_5.svg",
+    mobileTitlePos: { left: "80%", top: "65%" },
+    mobileTitleWidth: "24%",
+    mobileTitleAspect: "140/96",
     mobileTop: "49.78%",
     mobileHeight: "31.18%",
   },
   {
     id: 6,
     title: "Dark Mode / Low-Light Design",
-    titleImg: "/tracks/06\u2028Social Impact Platform.png",
+    titleImg: "/tracks/theme_title_6.svg",
     bladeSvg: "/tracks/Mask group-5.svg",
     illustration: "/tracks/illustration_6.png",
     left: "49.5%",
     width: "50.0%",
-    titlePos: { left: "74%", top: "16%" },
-    titleWidth: "17%",
-    titleAspect: "157/113",
+    titlePos: { left: "71.5%", top: "16%" },
+    titleWidth: "23%",
+    titleAspect: "160/96",
 
     mobileBlade: "/tracks mobile/Mask group-5.png",
-    mobileTitle: "/tracks mobile/06\u2028Social Impact Platform.png",
-    mobileTitlePos: { left: "77.2%", top: "61.1%" },
-    mobileTitleWidth: "17.4%",
-    mobileTitleAspect: "52/72",
+    mobileTitle: "/tracks/theme_title_6.svg",
+    mobileTitlePos: { left: "80%", top: "70%" },
+    mobileTitleWidth: "26%",
+    mobileTitleAspect: "160/96",
     mobileTop: "49.78%",
     mobileHeight: "50.07%",
   },
@@ -237,7 +237,7 @@ function SubtracksPanel({
   onClose?: () => void;
 }) {
   return (
-    <div className="relative w-full overflow-hidden rounded-2xl border border-pink-500/80 bg-black/95 p-3 sm:p-3.5 xl:p-4 backdrop-blur-md shadow-[0_16px_40px_rgba(0,0,0,0.95),0_0_28px_rgba(236,72,153,0.22)] select-none">
+    <div className="relative w-full overflow-hidden rounded-none border border-pink-500/80 bg-black/95 p-3 sm:p-3.5 xl:p-4 backdrop-blur-md shadow-[0_16px_40px_rgba(0,0,0,0.95),0_0_28px_rgba(236,72,153,0.22)] select-none">
       {/* Top ambient highlight */}
       <div className="absolute left-1/2 top-0 h-px w-3/4 -translate-x-1/2 bg-gradient-to-r from-transparent via-pink-400/80 to-transparent" />
 
@@ -248,7 +248,7 @@ function SubtracksPanel({
             <span className="font-mono text-[10px] sm:text-xs font-bold uppercase tracking-[0.25em] text-pink-400">
               TRACK {trackNumber}
             </span>
-            <span className="rounded-full bg-pink-500/20 px-1.5 py-0.5 font-mono text-[9px] sm:text-[10px] font-semibold uppercase tracking-wider text-pink-300">
+            <span className="rounded-none bg-pink-500/20 px-1.5 py-0.5 font-mono text-[9px] sm:text-[10px] font-semibold uppercase tracking-wider text-pink-300">
               SUBTRACKS
             </span>
           </div>
@@ -263,7 +263,7 @@ function SubtracksPanel({
               e.stopPropagation();
               onClose();
             }}
-            className="shrink-0 rounded-lg p-1 text-white/60 hover:bg-pink-500/20 hover:text-white transition-colors cursor-pointer"
+            className="shrink-0 rounded-none p-1 text-white/60 hover:bg-pink-500/20 hover:text-white transition-colors cursor-pointer"
             aria-label="Close subtracks panel"
           >
             <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -280,7 +280,7 @@ function SubtracksPanel({
           return (
             <div
               key={sub.id}
-              className="group relative rounded-lg border border-pink-500/30 bg-pink-500/[0.04] p-1.5 sm:p-2 transition-colors duration-200 hover:border-pink-400/70 hover:bg-pink-500/10"
+              className="relative rounded-none border border-pink-500/30 bg-pink-500/[0.04] p-1.5 sm:p-2"
             >
               <div className="flex items-start gap-2">
                 <span className="shrink-0 font-mono text-[11px] sm:text-xs font-bold text-pink-400/90 pt-0.5">
@@ -427,7 +427,7 @@ export default function TracksSection() {
                     {/* Title overlay — font size follows the blade image scale,
                         so it's responsive without a separate breakpoint value */}
                     <div
-                      className="absolute"
+                      className="absolute -translate-x-1/2 -translate-y-1/2 pointer-events-none z-20"
                       style={{
                         left: track.mobileTitlePos.left,
                         top: track.mobileTitlePos.top,
@@ -492,11 +492,11 @@ export default function TracksSection() {
           {activeDesktopTrack && activeDesktopIdx !== null && activeDesktopIdx < 3 && (
             <motion.div
               key={`desktop-left-${activeDesktopIdx}`}
-              initial={{ opacity: 0, x: -35, scale: 0.96 }}
-              animate={{ opacity: 1, x: 0, scale: 1 }}
-              exit={{ opacity: 0, x: -25, scale: 0.96 }}
+              initial={{ opacity: 0, y: 25, scale: 0.96 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 20, scale: 0.96 }}
               transition={{ duration: 0.22, ease: "easeOut" }}
-              className="absolute left-4 xl:left-8 top-6 lg:top-8 xl:top-12 z-40 w-[290px] xl:w-[330px] pointer-events-auto"
+              className="absolute left-4 xl:left-8 bottom-6 lg:bottom-8 xl:bottom-12 z-40 w-[290px] xl:w-[330px] pointer-events-auto"
               onClick={(e) => e.stopPropagation()}
             >
               <SubtracksPanel
@@ -517,11 +517,11 @@ export default function TracksSection() {
           {activeDesktopTrack && activeDesktopIdx !== null && activeDesktopIdx >= 3 && (
             <motion.div
               key={`desktop-right-${activeDesktopIdx}`}
-              initial={{ opacity: 0, x: 35, scale: 0.96 }}
-              animate={{ opacity: 1, x: 0, scale: 1 }}
-              exit={{ opacity: 0, x: 25, scale: 0.96 }}
+              initial={{ opacity: 0, y: 25, scale: 0.96 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 20, scale: 0.96 }}
               transition={{ duration: 0.22, ease: "easeOut" }}
-              className="absolute right-4 xl:right-8 top-6 lg:top-8 xl:top-12 z-40 w-[290px] xl:w-[330px] pointer-events-auto"
+              className="absolute right-4 xl:right-8 bottom-6 lg:bottom-8 xl:bottom-12 z-40 w-[290px] xl:w-[330px] pointer-events-auto"
               onClick={(e) => e.stopPropagation()}
             >
               <SubtracksPanel
