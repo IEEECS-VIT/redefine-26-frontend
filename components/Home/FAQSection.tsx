@@ -12,29 +12,29 @@ interface FAQItem {
 
 const FAQ_DATA: FAQItem[] = [
   {
-    question: "What is Redefine?",
+    question: "Is there a specific application or software to be used for the design?",
     answer:
-      "Redefine is a designathon organized by IEEE CS VIT where participants solve real-world problems through innovative design and technology.",
+      "While we recommend and appreciate the use of Figma, there are no restrictions on the application you choose. What matters most is your idea and how you bring it to life. Happy designing!",
   },
   {
-    question: "How many members per team?",
+    question: "Are we allowed to use AI for the Designathon?",
     answer:
-      "Teams can have up to 4 members. You can build your own team or join an existing one using a team code.",
+      "Yes, AI tools are allowed, but we encourage participants to use them judiciously as a supporting tool, rather than a substitute for creativity. Use the 24 hours to explore your ideas, experiment, and let your own creative process take the lead.",
   },
   {
-    question: "What are the tracks?",
+    question: "Do we have to strictly follow the subtracks provided within our chosen track?",
     answer:
-      "There are 6 tracks: E-Commerce, Smart Education, Healthcare Companion, Travel & Exploration, Finance, and Social Impact Platform.",
+      "Not at all! The subtracks are provided as references and sources of inspiration for the creative direction. You're free to interpret your chosen track and take your design in your own direction.",
   },
   {
-    question: "Is there a registration fee?",
+    question: "What are the judging criteria?",
     answer:
-      "No, participation is completely free. Register through the button on the top right.",
+      "Your design will be evaluated on creativity, visual execution, user experience, and relevance to the chosen track. We also want to understand the thought process behind your design and how effectively it considers the user's perspective.",
   },
   {
-    question: "When does the event take place?",
+    question: "Is there a specific type of website we need to design?",
     answer:
-      "The event spans multiple phases. Check the Timeline section for exact dates.",
+      "The choice is entirely yours! While the visual direction should align with your selected track, you're free to design any type of website, from e-commerce and social platforms to something completely original. The idea is yours to explore.",
   },
 ];
 
