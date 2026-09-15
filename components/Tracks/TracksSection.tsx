@@ -237,8 +237,10 @@ function SubtracksPanel({
   return (
     <div className={`pointer-events-none select-none ${isRight ? "text-right" : "text-left"}`}>
       <h3
-        className={`font-[var(--font-bebas-neue)] font-bold uppercase leading-none tracking-[0.08em] text-pink-200 drop-shadow-[0_0_18px_rgba(236,72,153,0.3)] ${
-          compact ? "text-2xl" : "text-[clamp(2.2rem,3vw,2.75rem)]"
+        className={`font-[var(--font-bebas-neue)] font-bold uppercase leading-none tracking-[0.15em] ${
+          compact
+            ? "text-lg text-white/90"
+            : "text-2xl sm:text-3xl xl:text-4xl text-pink-200 drop-shadow-[0_0_18px_rgba(236,72,153,0.3)]"
         }`}
       >
         Subtracks
@@ -249,16 +251,16 @@ function SubtracksPanel({
           <li key={sub.id}>
             <p
               className={`font-bold tracking-wide text-white ${
-                compact ? "text-xs leading-snug" : "text-sm sm:text-base xl:text-lg"
+                compact ? "text-[11px] leading-snug" : "text-sm sm:text-base xl:text-lg"
               }`}
             >
-              <span className="text-pink-400">{sub.number}.</span> {sub.title}
+              <span className={compact ? "text-white/60" : "text-pink-400"}>{sub.number}.</span> {sub.title}
             </p>
             {sub.description && (
               <p
                 className={`text-white/45 ${
                   compact
-                    ? "mt-0.5 text-[11px] leading-snug"
+                    ? "mt-0.5 text-[9px] leading-snug"
                     : "mt-1.5 max-w-sm text-xs leading-relaxed sm:text-sm"
                 } ${isRight ? "ml-auto" : ""}`}
               >
@@ -273,39 +275,71 @@ function SubtracksPanel({
 }
 
 export default function TracksSection() {
-  const [selectedDesktopIdx, setSelectedDesktopIdx] = useState<number | null>(null);
+  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
   const [mobileHoveredIdx, setMobileHoveredIdx] = useState<number | null>(null);
 
   const activeDesktopTrack =
-    selectedDesktopIdx !== null ? TRACK_SUBTRACKS[selectedDesktopIdx + 1] : null;
+    hoveredIdx !== null ? TRACK_SUBTRACKS[hoveredIdx + 1] : null;
 
   const activeMobileTrack =
     mobileHoveredIdx !== null ? TRACK_SUBTRACKS[mobileHoveredIdx + 1] : null;
 
   return (
-    <div className="relative flex h-full w-full flex-col items-center justify-center overflow-x-hidden overflow-y-auto select-none xl:overflow-hidden">
+    <div className="relative w-full h-full flex flex-col items-center justify-center select-none overflow-hidden">
       {/* Mobile/Tablet Fan Layout (< lg) */}
       <div
-        className={`relative flex w-full min-h-full flex-col items-center px-2 py-3 select-none lg:hidden ${activeMobileTrack ? "justify-start" : "justify-center"}`}
+        className="lg:hidden flex items-center justify-center w-full h-full py-2 px-2 relative select-none overflow-hidden"
         onClick={() => setMobileHoveredIdx(null)}
       >
-        {/* Mobile Subtracks (plain page content, appears on tap/hover) */}
+        {/* Mobile Subtracks (simple centered popup) */}
         <AnimatePresence>
           {activeMobileTrack && mobileHoveredIdx !== null && (
             <motion.div
               key={`mobile-subtracks-${mobileHoveredIdx}`}
-              initial={{ opacity: 0, y: -12 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.28, ease: "easeOut" }}
-              className="relative z-40 mb-3 w-[min(90vw,360px)] shrink-0"
+              role="dialog"
+              aria-label={`${activeMobileTrack.trackName} subtracks`}
+              initial={{ opacity: 0, scale: 0.96 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.96 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+              className={`fixed inset-0 z-50 flex justify-center px-6 ${
+                mobileHoveredIdx >= 3 ? "items-end pb-24" : "items-center"
+              }`}
             >
-              <SubtracksPanel subtracks={activeMobileTrack.subtracks} compact />
+              <div
+                onClick={(e) => e.stopPropagation()}
+                className="relative max-h-[70vh] w-full max-w-[20rem] overflow-hidden bg-black p-4 shadow-2xl"
+              >
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setMobileHoveredIdx(null);
+                  }}
+                  aria-label="Close subtracks"
+                  className="absolute right-2 top-2 z-10 flex h-6 w-6 items-center justify-center text-white/60 transition-colors hover:text-white"
+                >
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    aria-hidden="true"
+                    className="h-3.5 w-3.5"
+                  >
+                    <path d="M6 6l12 12M18 6L6 18" />
+                  </svg>
+                </button>
+                <div className="max-h-[calc(70vh-2rem)] overflow-y-auto pr-5">
+                  <SubtracksPanel subtracks={activeMobileTrack.subtracks} compact />
+                </div>
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
         {/* Composition wrapper: centers both the brain scribbles on the left and fan blades on the right */}
-        <div className="relative flex w-[min(94vw,390px)] shrink-0 items-center justify-end aspect-[380/699]">
+        <div className="relative w-[min(94vw,390px)] aspect-[380/699] max-h-[calc(100dvh-130px)] flex items-center justify-end">
           {/* Fan blades wrapper with locked aspect ratio matching Polygon 8 (298x699) */}
           <div className="relative w-[78.4%] h-full aspect-[298/699] shrink-0">
             {/* Background Polygon */}
@@ -396,7 +430,7 @@ export default function TracksSection() {
                   key={i}
                   d={pathD}
                   fill="rgba(0,0,0,0.001)"
-                  className="pointer-events-auto cursor-pointer focus:outline-none focus-visible:outline-2 focus-visible:outline-pink-300"
+                  className="pointer-events-auto cursor-pointer"
                   onClick={(e) => {
                     e.stopPropagation();
                     setMobileHoveredIdx((prev) => (prev === i ? null : i));
@@ -420,21 +454,20 @@ export default function TracksSection() {
       </div>
 
       {/* Desktop Fan Layout (>= lg) */}
-      <div className="relative hidden h-full w-full flex-col items-center justify-center lg:flex">
+      <div className="hidden lg:flex flex-col items-center justify-center w-full h-full relative">
         {/* Desktop Subtracks (plain page content, appears on hover) */}
         <AnimatePresence>
-          {activeDesktopTrack && selectedDesktopIdx !== null && (
+          {activeDesktopTrack && hoveredIdx !== null && (
             <motion.div
-              key={`desktop-subtracks-${selectedDesktopIdx}`}
-              initial={{ opacity: 0, y: 22, x: selectedDesktopIdx < 3 ? -14 : 14 }}
+              key={`desktop-subtracks-${hoveredIdx}`}
+              initial={{ opacity: 0, y: 22, x: hoveredIdx < 3 ? -14 : 14 }}
               animate={{ opacity: 1, y: 0, x: 0 }}
-              exit={{ opacity: 0, y: 14, x: selectedDesktopIdx < 3 ? -8 : 8 }}
+              exit={{ opacity: 0, y: 14, x: hoveredIdx < 3 ? -8 : 8 }}
               transition={{ duration: 0.32, ease: "easeOut" }}
-              data-track-subtracks-panel
-              className={`absolute bottom-8 z-40 max-h-[calc(100%-4rem)] w-[16rem] overflow-y-auto xl:bottom-16 xl:max-h-[calc(100%-8rem)] xl:w-[18rem] ${
-                selectedDesktopIdx < 3
-                  ? "left-[clamp(1rem,2.4vw,2.2rem)]"
-                  : "right-[clamp(1rem,2.4vw,2.2rem)]"
+              className={`absolute bottom-8 xl:bottom-16 z-40 w-[16rem] xl:w-[18rem] h-[22rem] xl:h-[25rem] pointer-events-none ${
+                hoveredIdx < 3
+                  ? "left-[clamp(2rem,4vw,4rem)]"
+                  : "right-[7%]"
               }`}
             >
               <SubtracksPanel subtracks={activeDesktopTrack.subtracks} />
@@ -442,22 +475,11 @@ export default function TracksSection() {
           )}
         </AnimatePresence>
 
-        <div
-          data-track-fan
-          className={`relative flex max-w-[1320px] flex-col items-center justify-center ${
-            selectedDesktopIdx === null
-              ? "w-[min(92vw,1320px,calc((100dvh-320px)*1432/611))]"
-              : `w-[min(92vw,1320px,calc((100dvh-320px)*1432/611),calc(100vw-21rem))] xl:w-[min(92vw,1320px,calc((100dvh-320px)*1432/611),calc(100vw-25rem))] ${
-                  selectedDesktopIdx < 3
-                    ? "self-end mr-[clamp(1rem,2.4vw,2.2rem)]"
-                    : "self-start ml-[clamp(1rem,2.4vw,2.2rem)]"
-                }`
-          }`}
-        >
+        <div className="relative w-[min(92vw,1320px,calc((100dvh-320px)*1432/611))] max-w-[1320px] flex flex-col items-center justify-center">
           <div className="relative w-full aspect-[1432/611]">
           {tracks.map((track, i) => {
-            const isHovered = selectedDesktopIdx === i;
-            const isAnyHovered = selectedDesktopIdx !== null;
+            const isHovered = hoveredIdx === i;
+            const isAnyHovered = hoveredIdx !== null;
             const hover = getDesktopHover(i, tracks.length);
             const stripOnly = track.id === 1 || track.id === 6;
 
@@ -516,7 +538,7 @@ export default function TracksSection() {
             );
           })}
 
-            {/* The selection stays stable when the fan moves to make room for its details. */}
+            {/* Native SVG hit overlay for pixel-perfect hover & click detection with zero gaps */}
             <svg
               viewBox="0 0 1432 611"
               preserveAspectRatio="none"
@@ -527,17 +549,9 @@ export default function TracksSection() {
                   key={i}
                   d={pathD}
                   fill="rgba(0,0,0,0.001)"
-                  className="pointer-events-auto cursor-pointer focus:outline-none focus-visible:outline-2 focus-visible:outline-pink-300"
-                  role="button"
-                  tabIndex={0}
-                  aria-label={`Show ${tracks[i].title} subtracks`}
-                  onClick={() => setSelectedDesktopIdx((previous) => previous === i ? null : i)}
-                  onKeyDown={(event) => {
-                    if (event.key === "Enter" || event.key === " ") {
-                      event.preventDefault();
-                      setSelectedDesktopIdx((previous) => previous === i ? null : i);
-                    }
-                  }}
+                  className="pointer-events-auto cursor-pointer"
+                  onMouseEnter={() => setHoveredIdx(i)}
+                  onMouseLeave={() => setHoveredIdx(null)}
                 />
               ))}
             </svg>
