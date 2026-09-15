@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Image from "@/components/Layout/Image";
 
 export default function DesktopBackgroundThreads() {
   return (

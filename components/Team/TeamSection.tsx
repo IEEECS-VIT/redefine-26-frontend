@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Image from "@/components/Layout/Image";
 import { motion } from "framer-motion";
 import DesktopBackgroundThreads from "@/components/Team/DesktopBackgroundThreads";
 import DynamicStringsBackground from "@/components/Background/DynamicStringsBackground";
@@ -109,8 +109,7 @@ export default function TeamSection({
                   <motion.div
                     key={member.id || index}
                     initial={{ opacity: 0, x: config.align === "left" ? -20 : 20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
+                    animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.5, delay: index * 0.1 }}
                     className={`absolute w-full flex flex-col justify-center items-start ${config.paddingClass}`}
                     style={{ top: config.top, height: config.height }}
@@ -140,8 +139,7 @@ export default function TeamSection({
         {/* Title */}
         <motion.div
           initial={{ opacity: 0, y: -16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           className="relative z-20 flex flex-col items-center justify-center w-full p-0 shrink-0 m-0 pt-2"
         >
@@ -192,8 +190,7 @@ export default function TeamSection({
                   <motion.div
                     key={member.id || index}
                     initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
+                    animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: index * 0.1 }}
                     className={`relative h-full w-full flex flex-col justify-center items-start ${
                       isLeftPanel

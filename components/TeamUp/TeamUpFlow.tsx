@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Image from "@/components/Layout/Image";
 import { FormEvent, useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/navigation";
@@ -66,8 +66,7 @@ function KindButton({
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.97 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      viewport={{ once: true }}
+      animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.35 }}
       onClick={onClick}
       className="w-full"
@@ -224,8 +223,7 @@ export default function TeamUpFlow({ onTeamFormed }: TeamUpFlowProps) {
         {/* Interactive panel: Top on mobile, Right on desktop */}
         <motion.section
           initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
+          animate="visible"
           variants={reveal}
           transition={{ duration: 0.55, delay: 0.12, ease: "easeOut" }}
           className="order-1 relative z-20 flex min-h-0 w-[88vw] max-w-[350px] sm:max-w-[420px] md:max-w-[460px] lg:w-full lg:max-w-[32.875rem] h-[clamp(20rem,54vh,32rem)] min-h-[340px] lg:h-full lg:max-h-none items-center justify-center py-1 sm:py-2 lg:order-2 lg:justify-end shrink-0"
@@ -403,8 +401,7 @@ export default function TeamUpFlow({ onTeamFormed }: TeamUpFlowProps) {
         {/* Illustration: Bottom on mobile, Left on desktop */}
         <motion.section
           initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
+          animate="visible"
           variants={reveal}
           transition={{ duration: 0.55, ease: "easeOut" }}
           className="order-2 relative z-10 -mt-[clamp(2.5rem,7vh,5rem)] lg:mt-0 flex flex-1 h-[clamp(15rem,46vh,30rem)] min-h-[220px] lg:h-full w-full shrink-0 items-end justify-center overflow-hidden lg:order-1 lg:w-auto lg:justify-center"

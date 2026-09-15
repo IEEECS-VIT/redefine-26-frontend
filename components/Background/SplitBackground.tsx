@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "@/components/Layout/Image";
 import NoiseOverlay from "./NoiseOverlay";
 
 export default function SplitBackground() {

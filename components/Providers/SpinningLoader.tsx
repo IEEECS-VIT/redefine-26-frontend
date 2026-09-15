@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Image from "@/components/Layout/Image";
 import { motion, useReducedMotion } from "framer-motion";
 
 type SpinningLoaderProps = {
