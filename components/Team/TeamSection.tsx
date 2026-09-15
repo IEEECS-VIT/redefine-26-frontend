@@ -1,9 +1,13 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import Image from "@/components/Layout/Image";
 import { motion } from "framer-motion";
 import DesktopBackgroundThreads from "@/components/Team/DesktopBackgroundThreads";
 import DynamicStringsBackground from "@/components/Background/DynamicStringsBackground";
+
+const ART_WIDTH = 402;
+const ART_HEIGHT = 672;
 
 export interface TeamMember {
   id: string;
@@ -61,21 +65,48 @@ export default function TeamSection({
 }: TeamSectionProps) {
   const displayMembers = members.slice(0, 4);
 
+  // Fit geometry for the mobile artwork: the whole art stays visible (never
+  // cropped) with a margin on each side, and the overlay names use the art's
+  // own coordinates so they stay locked to the silhouettes.
+  const artRef = useRef<HTMLDivElement | null>(null);
+  const [artSize, setArtSize] = useState<{ width: number; height: number } | null>(null);
+
+  useEffect(() => {
+    const container = artRef.current;
+    if (!container) return;
+
+    const update = () => {
+      const { width, height } = container.getBoundingClientRect();
+      if (!width || !height) return;
+      const scale = Math.min(width / ART_WIDTH, height / ART_HEIGHT);
+      setArtSize({ width: ART_WIDTH * scale, height: ART_HEIGHT * scale });
+    };
+
+    update();
+    const observer = new ResizeObserver(update);
+    observer.observe(container);
+    window.addEventListener("resize", update);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", update);
+    };
+  }, []);
+
   return (
     <section className="relative flex h-full w-full max-w-none flex-col items-center justify-between bg-black text-white select-none overflow-hidden px-0 mx-0">
       <DesktopBackgroundThreads />
       {/* Mobile view */}
-      <div className="flex flex-col lg:hidden w-full h-full min-h-screen bg-black relative isolate pb-2">
+      <div className="relative isolate flex h-full w-full flex-col overflow-hidden bg-black lg:hidden">
         <DynamicStringsBackground opacity={0.5} />
 
         <motion.div
           initial={{ opacity: 0, y: -16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="relative z-20 flex flex-col items-center justify-center pt-3 pb-0 px-4 text-center shrink-0"
+          className="relative z-20 flex shrink-0 flex-col items-center justify-center px-4 pb-1 pt-3 text-center"
         >
           {teamName === "TEAM NAME" ? (
-            <div className="relative w-[180px] sm:w-[240px] md:w-[300px] h-8 sm:h-11 md:h-14">
+            <div className="relative w-[220px] sm:w-[280px] md:w-[340px] h-10 sm:h-12 md:h-16">
               <Image
                 src="/team/TEAM NAME.webp"
                 alt="Team Name"
@@ -85,51 +116,58 @@ export default function TeamSection({
               />
             </div>
           ) : (
-            <h2 className="font-extrabold uppercase tracking-widest text-xl sm:text-3xl md:text-4xl text-white drop-shadow-[0_0_16px_rgba(255,255,255,0.5)]">
+            <h2 className="font-extrabold uppercase tracking-widest text-2xl sm:text-4xl md:text-5xl text-white drop-shadow-[0_0_16px_rgba(255,255,255,0.5)]">
               {teamName}
             </h2>
           )}
         </motion.div>
 
-        {/* Mobile member artwork container */}
-        <div className="relative z-10 w-full flex-1 flex flex-col items-center justify-start px-2 pt-1 pb-2">
-          <div className="relative w-full max-w-[320px] sm:max-w-[360px] max-h-[70vh] aspect-[402/672] mx-auto overflow-hidden">
-            <Image
-              src="/teammoobile.svg"
-              alt="Team Mobile Artwork"
-              fill
-              unoptimized
-              className="object-contain pointer-events-none select-none relative z-10"
-            />
+        {/* Member artwork: full art visible, inset from the sides. */}
+        <div className="relative z-10 min-h-0 w-full flex-1 overflow-hidden">
+          <div ref={artRef} className="absolute inset-x-3 inset-y-0">
+            {artSize && (
+              <div
+                className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+                style={{ width: artSize.width, height: artSize.height }}
+              >
+                <Image
+                  src="/teammoobile.svg"
+                  alt="Team Mobile Artwork"
+                  fill
+                  unoptimized
+                  className="object-contain pointer-events-none select-none"
+                />
 
-            <div className="absolute inset-0 w-full h-full pointer-events-none z-20">
-              {displayMembers.map((member, index) => {
-                const config = MOBILE_PANEL_POSITIONS[index % MOBILE_PANEL_POSITIONS.length];
-                return (
-                  <motion.div
-                    key={member.id || index}
-                    initial={{ opacity: 0, x: config.align === "left" ? -20 : 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                    className={`absolute w-full flex flex-col justify-center items-start ${config.paddingClass}`}
-                    style={{ top: config.top, height: config.height }}
-                  >
-                    <div className="font-extrabold uppercase text-white text-[clamp(0.8rem,3.2vw,1.15rem)] leading-snug tracking-wide drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] text-left">
-                      {member.name.split(" ").map((word, i) => (
-                        <span key={i} className="block">
-                          {word}
-                        </span>
-                      ))}
-                    </div>
-                    {member.rollNo ? (
-                      <div className="font-mono font-bold text-white/95 text-[clamp(0.6rem,2.2vw,0.85rem)] tracking-widest mt-0.5 drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)] text-left">
-                        {member.rollNo}
-                      </div>
-                    ) : null}
-                  </motion.div>
-                );
-              })}
-            </div>
+                <div className="absolute inset-0 w-full h-full pointer-events-none z-20">
+                  {displayMembers.map((member, index) => {
+                    const config = MOBILE_PANEL_POSITIONS[index % MOBILE_PANEL_POSITIONS.length];
+                    return (
+                      <motion.div
+                        key={member.id || index}
+                        initial={{ opacity: 0, x: config.align === "left" ? -20 : 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.5, delay: index * 0.1 }}
+                        className={`absolute w-full flex flex-col justify-center items-start ${config.paddingClass}`}
+                        style={{ top: config.top, height: config.height }}
+                      >
+                        <div className="font-extrabold uppercase text-white text-[clamp(1.05rem,4.4vw,1.6rem)] leading-snug tracking-wide drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] text-left">
+                          {member.name.split(" ").map((word, i) => (
+                            <span key={i} className="block">
+                              {word}
+                            </span>
+                          ))}
+                        </div>
+                        {member.rollNo ? (
+                          <div className="font-mono font-bold text-white/95 text-[clamp(0.78rem,2.9vw,1.1rem)] tracking-widest mt-0.5 drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)] text-left">
+                            {member.rollNo}
+                          </div>
+                        ) : null}
+                      </motion.div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
