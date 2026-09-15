@@ -16,10 +16,10 @@ export interface TeamMember {
 }
 
 export const DEFAULT_MEMBERS: TeamMember[] = [
-  { id: "member-1", name: "Shashwat Shrye", rollNo: "25BEL0010", isLeader: true },
-  { id: "member-2", name: "Shashwat Shrye", rollNo: "25BEL0010" },
-  { id: "member-3", name: "Shashwat Shrye", rollNo: "25BEL0010" },
-  { id: "member-4", name: "Shashwat Shrye", rollNo: "25BEL0010" },
+  { id: "member-1", name: "Tanishka Sharma", rollNo: "25BDS0116", isLeader: true },
+  { id: "member-2", name: "Tanishka Sharma", rollNo: "25BDS0116" },
+  { id: "member-3", name: "Tanishka Sharma", rollNo: "25BDS0116" },
+  { id: "member-4", name: "Tanishka Sharma", rollNo: "25BDS0116" },
 ];
 
 interface TeamSectionProps {
@@ -34,28 +34,28 @@ const MOBILE_PANEL_CONFIGS = [
     align: "left" as const,
     silhouetteClass: "left-1 sm:left-4 md:left-8 bottom-0 w-[95px] sm:w-[130px] md:w-[160px] h-[135px] sm:h-[175px] md:h-[210px]",
     brainClass: "left-[50px] sm:left-[70px] md:left-[90px] top-[10px] sm:top-[16px] w-5 sm:w-7 md:w-9 h-5 sm:h-7 md:h-9",
-    textClass: "pl-[105px] sm:pl-[150px] md:pl-[190px] pr-4 items-start text-left",
+    textClass: "pl-[115px] sm:pl-[150px] md:pl-[190px] pr-4 items-start text-left",
   },
   {
     silhouette: "/team/image 34.webp",
     align: "right" as const,
     silhouetteClass: "right-1 sm:right-4 md:right-8 bottom-0 w-[95px] sm:w-[130px] md:w-[160px] h-[135px] sm:h-[175px] md:h-[210px]",
     brainClass: "right-[50px] sm:right-[70px] md:right-[90px] top-[8px] sm:top-[14px] w-5 sm:w-7 md:w-9 h-5 sm:h-7 md:h-9",
-    textClass: "pl-6 sm:pl-12 md:pl-16 pr-[105px] sm:pr-[150px] md:pr-[190px] items-start text-left",
+    textClass: "pl-[115px] sm:pl-[150px] md:pl-[190px] pr-4 items-start text-left",
   },
   {
     silhouette: "/team/image 33.webp",
     align: "left" as const,
     silhouetteClass: "left-1 sm:left-4 md:left-8 bottom-0 w-[100px] sm:w-[135px] md:w-[165px] h-[135px] sm:h-[175px] md:h-[210px]",
     brainClass: "left-[50px] sm:left-[70px] md:left-[90px] top-[8px] sm:top-[14px] w-5 sm:w-7 md:w-9 h-5 sm:h-7 md:h-9",
-    textClass: "pl-[105px] sm:pl-[150px] md:pl-[190px] pr-4 items-start text-left",
+    textClass: "pl-[115px] sm:pl-[150px] md:pl-[190px] pr-4 items-start text-left",
   },
   {
     silhouette: "/team/image 31.webp",
     align: "right" as const,
     silhouetteClass: "right-1 sm:right-4 md:right-8 bottom-0 w-[95px] sm:w-[130px] md:w-[160px] h-[135px] sm:h-[175px] md:h-[210px]",
     brainClass: "right-[50px] sm:right-[70px] md:right-[90px] top-[8px] sm:top-[14px] w-5 sm:w-7 md:w-9 h-5 sm:h-7 md:h-9",
-    textClass: "pl-6 sm:pl-12 md:pl-16 pr-[105px] sm:pr-[150px] md:pr-[190px] items-start text-left",
+    textClass: "pl-[115px] sm:pl-[150px] md:pl-[190px] pr-4 items-start text-left",
   },
 ];
 
@@ -63,7 +63,7 @@ export default function TeamSection({
   teamName = "TEAM NAME",
   members = DEFAULT_MEMBERS,
 }: TeamSectionProps) {
-  const displayMembers = members.slice(0, 4);
+  const displayMembers = (members && members.length > 0 ? members : DEFAULT_MEMBERS).slice(0, 4);
 
   return (
     <section className="relative flex h-full w-full max-w-none flex-col items-center justify-between bg-black text-white select-none overflow-hidden px-0 mx-0">
@@ -132,7 +132,7 @@ export default function TeamSection({
                 </div>
 
                 <div className={`relative z-20 flex flex-col justify-center w-full ${config.textClass}`}>
-                  <h3 className="font-extrabold uppercase text-white text-base sm:text-2xl md:text-3xl leading-snug tracking-wide drop-shadow-[0_2px_8px_rgba(0,0,0,0.85)]">
+                  <h3 className="font-extrabold text-white text-base sm:text-2xl md:text-3xl leading-snug tracking-wide drop-shadow-[0_2px_8px_rgba(0,0,0,0.85)]">
                     {member.name.split(" ").map((word, i) => (
                       <span key={i} className="block">
                         {word}
@@ -145,7 +145,7 @@ export default function TeamSection({
                     </div>
                   ) : null}
                   {member.rollNo ? (
-                    <p className="font-mono font-bold text-white/95 text-xs sm:text-base md:text-xl tracking-widest mt-1 sm:mt-2.5 drop-shadow-[0_2px_6px_rgba(0,0,0,0.85)]">
+                    <p className="font-mono font-bold text-white/95 text-xs sm:text-base md:text-xl tracking-widest mt-1.5 sm:mt-2.5 drop-shadow-[0_2px_6px_rgba(0,0,0,0.85)]">
                       {member.rollNo}
                     </p>
                   ) : null}
@@ -221,11 +221,11 @@ export default function TeamSection({
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.5, delay: index * 0.1 }}
-                    className={`relative h-full w-full flex flex-col justify-center items-start ${
+                    className={`relative h-full w-full flex flex-col justify-start items-start ${
                       isLeftPanel
                         ? "pl-[46%] sm:pl-[47%] lg:pl-[48%] pr-[4%]"
-                        : "pl-[7%] sm:pl-[8%] lg:pl-[9%] pr-[41%]"
-                    } pt-[4%]`}
+                        : "pl-[18%] sm:pl-[19%] lg:pl-[20%] pr-[36%]"
+                    } pt-[95%]`}
                   >
                     <div className="font-extrabold text-white text-[clamp(0.875rem,1.75vw,2.25rem)] leading-[1.12] tracking-wide drop-shadow-[0_2px_12px_rgba(0,0,0,0.95)] text-left">
                       {member.name.split(" ").map((word, i) => (
