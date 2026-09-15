@@ -419,7 +419,7 @@ export default function Timeline() {
               <div className="relative h-[42%] w-[78%]">
                 <Image src={phase.asset} alt={phase.label} fill className="object-contain" />
               </div>
-              <p className="mt-[2%] whitespace-nowrap text-center text-[clamp(6px,1.8vw,9px)] font-semibold text-black">
+              <p className="mt-[2%] whitespace-nowrap text-center text-[clamp(9px,2.8vw,13px)] font-semibold text-black">
                 {phase.date}
               </p>
             </div>
