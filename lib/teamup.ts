@@ -89,6 +89,53 @@ async function getAuthHeader(): Promise<Record<string, string>> {
   return {};
 }
 
+const EMPTY_TEAM_RESPONSE: TeamResponse = {
+  id: "",
+  name: "",
+  code: "",
+  leaderId: "",
+  members: [],
+  isLeader: false,
+};
+
+const TEAM_CACHE_TTL = 45_000;
+let teamCache: { data: TeamResponse | null; expiresAt: number } | null = null;
+let teamInFlight: Promise<TeamResponse | null> | null = null;
+
+export function invalidateTeamCache(): void {
+  teamCache = null;
+}
+
+async function loadTeam(): Promise<TeamResponse | null> {
+  if (!API_URL) return null;
+
+  const authHeader = await getAuthHeader();
+  if (!authHeader.Authorization) return null;
+
+  const res = await fetch(`${API_URL}/teams/get`, { headers: authHeader });
+  if (res.status === 204 || res.status === 404) return null;
+  if (!res.ok) throw new Error("The server could not load the team. Please try again.");
+  return (await res.json()) as TeamResponse;
+}
+
+async function requestTeam(options: { force?: boolean } = {}): Promise<TeamResponse | null> {
+  if (!options.force && teamCache && teamCache.expiresAt > Date.now()) {
+    return teamCache.data;
+  }
+  if (teamInFlight) return teamInFlight;
+
+  teamInFlight = loadTeam()
+    .then((data) => {
+      teamCache = { data, expiresAt: Date.now() + TEAM_CACHE_TTL };
+      return data;
+    })
+    .finally(() => {
+      teamInFlight = null;
+    });
+
+  return teamInFlight;
+}
+
 export async function fetchTracks(): Promise<Track[]> {
   return DEFAULT_TRACKS;
 }
@@ -104,6 +151,7 @@ export async function createTeam(payload: CreateTeamPayload): Promise<Team> {
       createdAt: new Date().toISOString(),
     };
     mockTeams.set(team.code, team);
+    invalidateTeamCache();
     return delay(team);
   }
 
@@ -128,6 +176,7 @@ export async function createTeam(payload: CreateTeamPayload): Promise<Team> {
     code: data.code || "",
     createdAt: new Date().toISOString(),
   };
+  invalidateTeamCache();
   return team;
 }
 
@@ -138,6 +187,7 @@ export async function joinTeam(payload: JoinTeamPayload): Promise<Team> {
   if (!API_URL || !authHeader.Authorization) {
     const existing = mockTeams.get(code);
     if (existing) {
+      invalidateTeamCache();
       return delay(existing);
     }
     throw new Error("Team not found. Please check the code and try again.");
@@ -169,31 +219,13 @@ export async function joinTeam(payload: JoinTeamPayload): Promise<Team> {
     code: code,
     createdAt: new Date().toISOString(),
   };
+  invalidateTeamCache();
   return team;
 }
 
-export async function getMyTeam(): Promise<TeamResponse | null> {
-  if (!API_URL) return null;
-  const authHeader = await getAuthHeader();
-  if (!authHeader.Authorization) return null;
-
+export async function getMyTeam(options: { force?: boolean } = {}): Promise<TeamResponse | null> {
   try {
-    const res = await fetch(`${API_URL}/teams/get`, {
-      method: "GET",
-      headers: {
-        ...authHeader,
-      },
-    });
-
-    if (res.status === 204 || res.status === 404) {
-      return null;
-    }
-
-    if (!res.ok) {
-      throw new Error("Failed to fetch team details.");
-    }
-
-    return (await res.json()) as TeamResponse;
+    return await requestTeam(options);
   } catch {
     return null;
   }
@@ -244,6 +276,8 @@ export async function submitProject(payload: SubmitProjectPayload): Promise<void
     }
     throw new Error(message);
   }
+
+  invalidateTeamCache();
 }
 
 export async function updateProject(payload: SubmitProjectPayload): Promise<void> {
@@ -285,9 +319,11 @@ export async function updateProject(payload: SubmitProjectPayload): Promise<void
     }
     throw new Error(message);
   }
+
+  invalidateTeamCache();
 }
 
-export async function fetchTeam(): Promise<TeamResponse> {
+export async function fetchTeam(options: { force?: boolean } = {}): Promise<TeamResponse> {
   if (!API_URL) {
     const team = getCurrentTeam();
     return delay({
@@ -300,32 +336,8 @@ export async function fetchTeam(): Promise<TeamResponse> {
     });
   }
 
-  const auth = getFirebaseAuth();
-  await auth.authStateReady();
-  const user = auth.currentUser;
-  if (!user) {
-    throw new Error("Not signed in.");
-  }
-  const idToken = await user.getIdToken();
-
-  const res = await fetch(`${API_URL}/teams/get`, {
-    headers: { Authorization: `Bearer ${idToken}` },
-  });
-
-  if (res.status === 204) {
-    return {
-      id: "",
-      name: "",
-      code: "",
-      leaderId: "",
-      members: [],
-      isLeader: false,
-    };
-  }
-  if (!res.ok) {
-    throw new Error("The server could not load the team. Please try again.");
-  }
-  return res.json() as Promise<TeamResponse>;
+  const team = await requestTeam(options);
+  return team ?? EMPTY_TEAM_RESPONSE;
 }
 
 export function getCurrentTeam(): Team | null {

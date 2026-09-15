@@ -10,9 +10,9 @@ test("homepage mobile navigation keeps words separated and letters compact", asy
   const source = await readFile(sideMenuPath, "utf8");
 
   assert.match(source, /data-home-menu-layout="responsive-sides"/);
-  assert.match(source, /h-7 w-\[18px\]/);
-  assert.match(source, /top-\[24%\]/);
-  assert.match(source, /top-\[38%\]/);
+  assert.match(source, /h-8 w-\[20px\]/);
+  assert.match(source, /top-\[29%\]/);
+  assert.match(source, /top-\[43%\]/);
 });
 
 test("homepage logo stays clear of the mobile title", async () => {

@@ -28,7 +28,7 @@ type SideMenuProps = {
 const menu: MenuItem[] = [
   {
     id: "timeline",
-    className: "left-[5%] top-[24%] md:left-[10%] md:top-[42%]",
+    className: "left-[5%] top-[29%] md:left-[10%] md:top-[42%]",
     letters: [
       { src: "/redefine-2026/T.svg", alt: "T", rotate: -6 },
       { src: "/redefine-2026/I.svg", alt: "I", rotate: 3, y: -5 },
@@ -42,7 +42,7 @@ const menu: MenuItem[] = [
   },
   {
     id: "faq",
-    className: "left-[7%] top-[38%] md:left-[15%] md:top-auto md:bottom-[25%]",
+    className: "left-[calc(5%_+_52.5px)] sm:left-[calc(5%_+_62.5px)] top-[43%] md:left-[15%] md:top-auto md:bottom-[25%]",
     letters: [
       { src: "/redefine-2026/F.svg", alt: "F", rotate: -6 },
       { src: "/redefine-2026/A.svg", alt: "A", rotate: 5, y: -2 },
@@ -51,7 +51,7 @@ const menu: MenuItem[] = [
   },
   {
     id: "tracks",
-    className: "right-[5%] top-[24%] md:right-[15%] md:top-[37%]",
+    className: "right-[5%] top-[34%] md:right-[15%] md:top-[37%]",
     letters: [
       { src: "/redefine-2026/T.svg", alt: "T", rotate: -5 },
       { src: "/redefine-2026/R.svg", alt: "R", rotate: 4 },
@@ -66,7 +66,7 @@ const menu: MenuItem[] = [
 const signedOutItem: MenuItem = {
   id: "sign-in",
   href: "/signin",
-  className: "right-[7%] top-[38%] md:right-[15%] md:top-auto md:bottom-[34%]",
+  className: "right-[5%] top-[48%] md:right-[15%] md:top-auto md:bottom-[34%]",
   letters: [
     { src: "/redefine-2026/S.svg", alt: "S", rotate: -5 },
     { src: "/redefine-2026/I.svg", alt: "I", rotate: 4 },
@@ -80,7 +80,7 @@ const signedOutItem: MenuItem = {
 const signedInItem: MenuItem = {
   id: "team",
   href: "/team",
-  className: "right-[7%] top-[38%] md:right-[15%] md:top-auto md:bottom-[34%]",
+  className: "right-[calc(5%_+_21px)] sm:right-[calc(5%_+_25px)] top-[48%] md:right-[15%] md:top-auto md:bottom-[34%]",
   letters: [
     { src: "/redefine-2026/T.svg", alt: "T", rotate: -5 },
     { src: "/redefine-2026/E.svg", alt: "E", rotate: 4 },
@@ -111,7 +111,7 @@ export default function SideMenu({ isSignedIn }: SideMenuProps) {
             {item.letters.map((letter, i) => (
               <motion.div
                 key={i}
-                className="relative h-7 w-[18px] sm:h-9 sm:w-6 md:h-10 md:w-7 lg:h-14 lg:w-10"
+                className="relative h-8 w-[20px] sm:h-9 sm:w-6 md:h-10 md:w-7 lg:h-14 lg:w-10"
                 style={{
                   rotate: letter.rotate ?? 0,
                   y: letter.y ?? 0,

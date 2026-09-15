@@ -48,7 +48,7 @@ function AccordionItem({
   onToggle: () => void;
 }) {
   return (
-    <div className="overflow-hidden rounded-xl border border-pink-600/70 bg-black/30 lg:bg-black/85 backdrop-blur-md lg:backdrop-blur-sm transition duration-200 hover:border-pink-400 shadow-[0_4px_20px_rgba(236,72,153,0.15)]">
+    <div className="overflow-hidden rounded-xl border border-pink-600/70 bg-black/30 lg:bg-black/85 backdrop-blur-md lg:backdrop-blur-sm transition duration-200 hover:border-pink-400">
       <button
         type="button"
         onClick={onToggle}
@@ -96,9 +96,8 @@ export default function FAQSection() {
             src="/faqart-mobile.svg"
             alt="FAQ Question Mark Background"
             fill
-            priority
             sizes="(max-width: 1023px) 100vw, 50vw"
-            className="object-contain object-center"
+            className="object-contain object-center scale-125"
           />
         </div>
       </div>
@@ -118,7 +117,6 @@ export default function FAQSection() {
                 src="/faqart.svg"
                 alt="FAQ Question Mark Artwork"
                 fill
-                priority
                 sizes="(min-width: 1024px) 50vw, 100vw"
                 className="object-contain object-center lg:object-right scale-[1.6] sm:scale-[1.62] lg:scale-[1.67] origin-center lg:origin-right translate-x-[25%] lg:translate-x-[45%]"
               />

@@ -83,7 +83,6 @@ export default function TeamSection({
                 src="/team/TEAM NAME.png"
                 alt="Team Name"
                 fill
-                priority
                 unoptimized
                 className="object-contain drop-shadow-[0_0_14px_rgba(255,255,255,0.4)]"
               />
@@ -162,7 +161,6 @@ export default function TeamSection({
                 src="/team/TEAM NAME.png"
                 alt="Team Name"
                 fill
-                priority
                 unoptimized
                 className="object-contain drop-shadow-[0_0_18px_rgba(255,255,255,0.45)]"
               />
@@ -183,7 +181,6 @@ export default function TeamSection({
                 src="/team.svg"
                 alt=""
                 fill
-                priority
                 sizes="100vw"
                 className="object-contain object-bottom pointer-events-none select-none"
               />
@@ -194,7 +191,6 @@ export default function TeamSection({
               src="/team.svg"
               alt="Team Artwork"
               fill
-              priority
               sizes="100vw"
               className="object-contain object-bottom pointer-events-none select-none relative z-10"
             />

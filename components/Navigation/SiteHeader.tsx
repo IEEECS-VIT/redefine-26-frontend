@@ -3,12 +3,21 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type CSSProperties } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { signOutUser, subscribeToAuthState } from "@/lib/auth";
 import { getMyTeam } from "@/lib/teamup";
 import NavThread from "./NavThread";
 import { getHeaderAction, getHeaderNavLinks } from "./navigationLinks";
+
+const CAP_UNIT = 17;
+
+function navLabelStyle(link: { w: number; h: number }): CSSProperties {
+  return {
+    width: `calc(var(--nav-cap, 20px) * ${(link.w / CAP_UNIT).toFixed(4)})`,
+    aspectRatio: `${link.w} / ${link.h}`,
+  };
+}
 
 export default function SiteHeader({ hideRegisterButton }: { hideRegisterButton?: boolean } = {}) {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -85,7 +94,7 @@ export default function SiteHeader({ hideRegisterButton }: { hideRegisterButton?
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4, ease: "easeOut" }}
-        className="sticky top-0 z-[70] m-0 flex w-full max-w-none items-center justify-between border-b border-white/5 bg-black/95 px-5 py-5 backdrop-blur-md sm:px-8 md:px-12 md:py-6 min-[900px]:h-[clamp(4.5rem,11vh,6.5rem)] min-[900px]:border-0 min-[900px]:bg-black min-[900px]:p-0 min-[900px]:backdrop-blur-none"
+        className="sticky top-0 z-[70] m-0 flex w-full max-w-none items-center justify-between border-b border-white/5 bg-transparent px-5 py-5 sm:px-8 md:px-12 md:py-6 min-[900px]:h-[clamp(4.5rem,11vh,6.5rem)] min-[900px]:border-0 min-[900px]:bg-transparent min-[900px]:p-0"
       >
         {/* Left: Logo */}
         <Link href="/" className="relative h-12 w-12 shrink-0 transition-transform duration-300 hover:scale-105 sm:h-14 sm:w-14 md:h-16 md:w-16 min-[900px]:absolute min-[900px]:left-[clamp(1rem,2.4vw,2.2rem)] min-[900px]:top-1/2 min-[900px]:aspect-[115/112] min-[900px]:h-auto min-[900px]:w-[clamp(3.5rem,6vw,5.5rem)] min-[900px]:-translate-y-1/2">
@@ -100,7 +109,10 @@ export default function SiteHeader({ hideRegisterButton }: { hideRegisterButton?
         </Link>
 
         {/* Center: SVG Menu Links (Desktop) */}
-        <nav className="hidden items-center gap-6 min-[900px]:absolute min-[900px]:left-1/2 min-[900px]:top-1/2 min-[900px]:flex min-[900px]:w-[min(52vw,46.5rem)] min-[900px]:-translate-x-1/2 min-[900px]:-translate-y-1/2 min-[900px]:justify-between min-[900px]:gap-0">
+        <nav
+          className="hidden items-center gap-6 min-[900px]:absolute min-[900px]:left-1/2 min-[900px]:top-1/2 min-[900px]:flex min-[900px]:w-[min(52vw,46.5rem)] min-[900px]:-translate-x-1/2 min-[900px]:-translate-y-1/2 min-[900px]:justify-between min-[900px]:gap-0"
+          style={{ "--nav-cap": "clamp(1rem, 1.7vw, 1.2rem)" } as CSSProperties}
+        >
           {navLinks.map((link) => (
             <div key={link.label} className="relative flex flex-col items-center">
               <Link
@@ -108,7 +120,7 @@ export default function SiteHeader({ hideRegisterButton }: { hideRegisterButton?
                 aria-current={isActive(link.href) ? "page" : undefined}
                 className="transition-all duration-200 hover:-translate-y-0.5 hover:opacity-75"
               >
-                <div className="relative h-[clamp(1rem,1.7vw,1.5rem)]" style={{ width: link.width }}>
+                <div className="relative" style={navLabelStyle(link)}>
                   <Image src={link.img} alt={link.label} fill className="object-contain" />
                 </div>
               </Link>
@@ -124,7 +136,9 @@ export default function SiteHeader({ hideRegisterButton }: { hideRegisterButton?
             <button
               type="button"
               onClick={handleHeaderAction}
-              className="hidden sm:block cursor-pointer select-none transition-transform duration-200 hover:-translate-y-0.5"
+              disabled={checkingAction}
+              aria-busy={checkingAction}
+              className="hidden sm:block cursor-pointer select-none transition-transform duration-200 hover:-translate-y-0.5 disabled:opacity-60"
               aria-label={headerAction.label}
             >
               <motion.div
@@ -134,7 +148,7 @@ export default function SiteHeader({ hideRegisterButton }: { hideRegisterButton?
                 className="cursor-pointer select-none"
               >
                 <div className="flex aspect-[193/61] w-[120px] items-center justify-center rounded-[19px] bg-black font-[var(--font-bebas-neue)] text-[clamp(0.85rem,1.5vw,1.25rem)] uppercase leading-none font-bold text-pink-100 shadow-[5px_5px_1px_#fac2cf,0_4px_30px_rgba(255,194,207,0.25)] sm:w-[145px] md:w-[160px] min-[900px]:w-[clamp(5.5rem,10vw,9.25rem)]">
-                  {headerAction.label}
+                  {checkingAction ? "Checking…" : headerAction.label}
                 </div>
               </motion.div>
             </button>
@@ -202,10 +216,9 @@ export default function SiteHeader({ hideRegisterButton }: { hideRegisterButton?
                   onClick={() => handleNavClick(link.href)}
                   className="flex flex-col items-center gap-2"
                 >
-                  <div className="relative h-[26px]" style={{ width: link.width }}>
+                  <div className="relative" style={navLabelStyle(link)}>
                     <Image src={link.img} alt={link.label} fill className="object-contain" />
                   </div>
-                  <span className={`text-sm ${isActive(link.href) ? "text-white" : "text-white/50"}`}>{link.label}</span>
                 </motion.button>
               ))}
 
