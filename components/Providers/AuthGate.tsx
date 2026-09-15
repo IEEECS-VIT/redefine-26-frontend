@@ -46,7 +46,6 @@ export default function AuthGate({ mode, children }: AuthGateProps) {
 
   useEffect(() => {
     let cancelled = false;
-
     async function check() {
       try {
         const auth = getFirebaseAuth();

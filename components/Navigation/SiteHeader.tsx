@@ -99,7 +99,7 @@ export default function SiteHeader({ hideRegisterButton }: { hideRegisterButton?
         {/* Left: Logo */}
         <Link href="/" className="relative h-12 w-12 shrink-0 transition-transform duration-300 hover:scale-105 sm:h-14 sm:w-14 md:h-16 md:w-16 min-[900px]:absolute min-[900px]:left-[clamp(1rem,2.4vw,2.2rem)] min-[900px]:top-1/2 min-[900px]:aspect-[115/112] min-[900px]:h-auto min-[900px]:w-[clamp(3.5rem,6vw,5.5rem)] min-[900px]:-translate-y-1/2">
           <Image
-            src="/redefine-2026/redefine.webp"
+            src="/logo.png"
             alt="Redefine Logo"
             fill
             priority

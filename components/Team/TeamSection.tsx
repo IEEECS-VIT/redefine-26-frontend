@@ -12,14 +12,13 @@ export interface TeamMember {
   regNo?: string;
   silhouette?: string;
   layout?: "silhouette-left" | "silhouette-right";
-  isLeader?: boolean;
 }
 
 export const DEFAULT_MEMBERS: TeamMember[] = [
-  { id: "member-1", name: "Tanishka Sharma", rollNo: "25BDS0116", isLeader: true },
-  { id: "member-2", name: "Tanishka Sharma", rollNo: "25BDS0116" },
-  { id: "member-3", name: "Tanishka Sharma", rollNo: "25BDS0116" },
-  { id: "member-4", name: "Tanishka Sharma", rollNo: "25BDS0116" },
+  { id: "member-1", name: "Shashwat Shrye", rollNo: "25BEL0010" },
+  { id: "member-2", name: "Shashwat Shrye", rollNo: "25BEL0010" },
+  { id: "member-3", name: "Shashwat Shrye", rollNo: "25BEL0010" },
+  { id: "member-4", name: "Shashwat Shrye", rollNo: "25BEL0010" },
 ];
 
 interface TeamSectionProps {
@@ -28,34 +27,30 @@ interface TeamSectionProps {
   onReset?: () => void;
 }
 
-const MOBILE_PANEL_CONFIGS = [
+const MOBILE_PANEL_POSITIONS = [
   {
-    silhouette: "/team/image 30.webp",
-    align: "left" as const,
-    silhouetteClass: "left-1 sm:left-4 md:left-8 bottom-0 w-[95px] sm:w-[130px] md:w-[160px] h-[135px] sm:h-[175px] md:h-[210px]",
-    brainClass: "left-[50px] sm:left-[70px] md:left-[90px] top-[10px] sm:top-[16px] w-5 sm:w-7 md:w-9 h-5 sm:h-7 md:h-9",
-    textClass: "pl-[115px] sm:pl-[150px] md:pl-[190px] pr-4 items-start text-left",
-  },
-  {
-    silhouette: "/team/image 34.webp",
+    top: "0%",
+    height: "27.5%",
+    paddingClass: "pl-[40%] pr-[6%]",
     align: "right" as const,
-    silhouetteClass: "right-1 sm:right-4 md:right-8 bottom-0 w-[95px] sm:w-[130px] md:w-[160px] h-[135px] sm:h-[175px] md:h-[210px]",
-    brainClass: "right-[50px] sm:right-[70px] md:right-[90px] top-[8px] sm:top-[14px] w-5 sm:w-7 md:w-9 h-5 sm:h-7 md:h-9",
-    textClass: "pl-[115px] sm:pl-[150px] md:pl-[190px] pr-4 items-start text-left",
   },
   {
-    silhouette: "/team/image 33.webp",
+    top: "27.5%",
+    height: "24.5%",
+    paddingClass: "pl-[8%] pr-[40%]",
     align: "left" as const,
-    silhouetteClass: "left-1 sm:left-4 md:left-8 bottom-0 w-[100px] sm:w-[135px] md:w-[165px] h-[135px] sm:h-[175px] md:h-[210px]",
-    brainClass: "left-[50px] sm:left-[70px] md:left-[90px] top-[8px] sm:top-[14px] w-5 sm:w-7 md:w-9 h-5 sm:h-7 md:h-9",
-    textClass: "pl-[115px] sm:pl-[150px] md:pl-[190px] pr-4 items-start text-left",
   },
   {
-    silhouette: "/team/image 31.webp",
+    top: "52%",
+    height: "23.5%",
+    paddingClass: "pl-[40%] pr-[6%]",
     align: "right" as const,
-    silhouetteClass: "right-1 sm:right-4 md:right-8 bottom-0 w-[95px] sm:w-[130px] md:w-[160px] h-[135px] sm:h-[175px] md:h-[210px]",
-    brainClass: "right-[50px] sm:right-[70px] md:right-[90px] top-[8px] sm:top-[14px] w-5 sm:w-7 md:w-9 h-5 sm:h-7 md:h-9",
-    textClass: "pl-[115px] sm:pl-[150px] md:pl-[190px] pr-4 items-start text-left",
+  },
+  {
+    top: "75.5%",
+    height: "24.5%",
+    paddingClass: "pl-[8%] pr-[40%]",
+    align: "left" as const,
   },
 ];
 
@@ -63,23 +58,23 @@ export default function TeamSection({
   teamName = "TEAM NAME",
   members = DEFAULT_MEMBERS,
 }: TeamSectionProps) {
-  const displayMembers = (members && members.length > 0 ? members : DEFAULT_MEMBERS).slice(0, 4);
+  const displayMembers = members.slice(0, 4);
 
   return (
     <section className="relative flex h-full w-full max-w-none flex-col items-center justify-between bg-black text-white select-none overflow-hidden px-0 mx-0">
       <DesktopBackgroundThreads />
       {/* Mobile view */}
-      <div className="flex flex-col lg:hidden w-full h-full min-h-screen bg-black relative isolate pb-6">
+      <div className="flex flex-col lg:hidden w-full h-full min-h-screen bg-black relative isolate pb-2">
         <DynamicStringsBackground opacity={0.5} />
 
         <motion.div
           initial={{ opacity: 0, y: -16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="relative z-20 flex flex-col items-center justify-center pt-5 pb-4 px-4 text-center"
+          className="relative z-20 flex flex-col items-center justify-center pt-3 pb-0 px-4 text-center shrink-0"
         >
           {teamName === "TEAM NAME" ? (
-            <div className="relative w-[200px] sm:w-[280px] md:w-[360px] h-10 sm:h-14 md:h-16">
+            <div className="relative w-[180px] sm:w-[240px] md:w-[300px] h-8 sm:h-11 md:h-14">
               <Image
                 src="/team/TEAM NAME.webp"
                 alt="Team Name"
@@ -89,70 +84,53 @@ export default function TeamSection({
               />
             </div>
           ) : (
-            <div className="flex flex-col items-center gap-0.5">
-              <span className="font-mono font-bold text-[10px] sm:text-xs uppercase tracking-[0.25em] text-pink-300 drop-shadow-[0_0_8px_rgba(236,72,153,0.5)]">
-                Team Name
-              </span>
-              <h2 className="font-extrabold uppercase tracking-widest text-2xl sm:text-4xl md:text-5xl text-white drop-shadow-[0_0_16px_rgba(255,255,255,0.5)]">
-                {teamName}
-              </h2>
-            </div>
+            <h2 className="font-extrabold uppercase tracking-widest text-xl sm:text-3xl md:text-4xl text-white drop-shadow-[0_0_16px_rgba(255,255,255,0.5)]">
+              {teamName}
+            </h2>
           )}
         </motion.div>
 
-        {/* Mobile member cards */}
-        <div className="relative z-10 flex flex-col w-full flex-1 divide-y-4 divide-black border-y-4 border-black">
-          {displayMembers.map((member, index) => {
-            const config = MOBILE_PANEL_CONFIGS[index % MOBILE_PANEL_CONFIGS.length];
-            return (
-              <motion.div
-                key={member.id || index}
-                initial={{ opacity: 0, x: config.align === "left" ? -30 : 30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="relative w-full h-[145px] sm:h-[185px] md:h-[225px] overflow-hidden bg-[linear-gradient(180deg,#9B1A45_0%,#CE3566_55%,#F3799D_100%)] flex items-center shadow-[inset_0_0_24px_rgba(0,0,0,0.3)]"
-              >
-                <div className={`absolute z-10 ${config.silhouetteClass}`}>
-                  <Image
-                    src={member.silhouette || config.silhouette}
-                    alt={member.name}
-                    fill
-                    className="object-contain object-bottom"
-                  />
-                </div>
+        {/* Mobile member artwork container */}
+        <div className="relative z-10 w-full flex-1 flex flex-col items-center justify-start px-2 pt-1 pb-2">
+          <div className="relative w-full max-w-[320px] sm:max-w-[360px] max-h-[70vh] aspect-[402/672] mx-auto overflow-hidden">
+            <Image
+              src="/teammoobile.svg"
+              alt="Team Mobile Artwork"
+              fill
+              unoptimized
+              className="object-contain pointer-events-none select-none relative z-10"
+            />
 
-                <div className={`absolute z-20 pointer-events-none ${config.brainClass}`}>
-                  <Image
-                    src="/team/image 35.webp"
-                    alt=""
-                    fill
-                    className="object-contain drop-shadow-[0_0_4px_rgba(255,255,255,0.8)]"
-                  />
-                </div>
-
-                <div className={`relative z-20 flex flex-col justify-center w-full ${config.textClass}`}>
-                  <h3 className="font-extrabold text-white text-base sm:text-2xl md:text-3xl leading-snug tracking-wide drop-shadow-[0_2px_8px_rgba(0,0,0,0.85)]">
-                    {member.name.split(" ").map((word, i) => (
-                      <span key={i} className="block">
-                        {word}
-                      </span>
-                    ))}
-                  </h3>
-                  {member.isLeader ? (
-                    <div className="font-extrabold text-pink-200 text-xs sm:text-base md:text-lg leading-tight tracking-wide mt-0.5 drop-shadow-[0_2px_8px_rgba(0,0,0,0.85)]">
-                      (Leader)
+            <div className="absolute inset-0 w-full h-full pointer-events-none z-20">
+              {displayMembers.map((member, index) => {
+                const config = MOBILE_PANEL_POSITIONS[index % MOBILE_PANEL_POSITIONS.length];
+                return (
+                  <motion.div
+                    key={member.id || index}
+                    initial={{ opacity: 0, x: config.align === "left" ? -20 : 20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    className={`absolute w-full flex flex-col justify-center items-start ${config.paddingClass}`}
+                    style={{ top: config.top, height: config.height }}
+                  >
+                    <div className="font-extrabold uppercase text-white text-[clamp(0.8rem,3.2vw,1.15rem)] leading-snug tracking-wide drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] text-left">
+                      {member.name.split(" ").map((word, i) => (
+                        <span key={i} className="block">
+                          {word}
+                        </span>
+                      ))}
                     </div>
-                  ) : null}
-                  {member.rollNo ? (
-                    <p className="font-mono font-bold text-white/95 text-xs sm:text-base md:text-xl tracking-widest mt-1.5 sm:mt-2.5 drop-shadow-[0_2px_6px_rgba(0,0,0,0.85)]">
-                      {member.rollNo}
-                    </p>
-                  ) : null}
-                </div>
-              </motion.div>
-            );
-          })}
+                    {member.rollNo ? (
+                      <div className="font-mono font-bold text-white/95 text-[clamp(0.6rem,2.2vw,0.85rem)] tracking-widest mt-0.5 drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)] text-left">
+                        {member.rollNo}
+                      </div>
+                    ) : null}
+                  </motion.div>
+                );
+              })}
+            </div>
+          </div>
         </div>
       </div>
 
@@ -177,14 +155,9 @@ export default function TeamSection({
               />
             </div>
           ) : (
-            <div className="flex flex-col items-center gap-0.5">
-              <span className="font-mono font-bold text-xs sm:text-sm uppercase tracking-[0.3em] text-pink-300 drop-shadow-[0_0_8px_rgba(236,72,153,0.5)]">
-                Team Name
-              </span>
-              <h2 className="text-center font-extrabold uppercase tracking-widest text-4xl sm:text-5xl lg:text-6xl text-white drop-shadow-[0_0_18px_rgba(255,255,255,0.5)]">
-                {teamName}
-              </h2>
-            </div>
+            <h2 className="text-center font-extrabold uppercase tracking-widest text-4xl sm:text-5xl lg:text-6xl text-white drop-shadow-[0_0_18px_rgba(255,255,255,0.5)]">
+              {teamName}
+            </h2>
           )}
         </motion.div>
 
@@ -221,11 +194,11 @@ export default function TeamSection({
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.5, delay: index * 0.1 }}
-                    className={`relative h-full w-full flex flex-col justify-start items-start ${
+                    className={`relative h-full w-full flex flex-col justify-center items-start ${
                       isLeftPanel
                         ? "pl-[46%] sm:pl-[47%] lg:pl-[48%] pr-[4%]"
-                        : "pl-[18%] sm:pl-[19%] lg:pl-[20%] pr-[36%]"
-                    } pt-[95%]`}
+                        : "pl-[7%] sm:pl-[8%] lg:pl-[9%] pr-[41%]"
+                    } pt-[4%]`}
                   >
                     <div className="font-extrabold text-white text-[clamp(0.875rem,1.75vw,2.25rem)] leading-[1.12] tracking-wide drop-shadow-[0_2px_12px_rgba(0,0,0,0.95)] text-left">
                       {member.name.split(" ").map((word, i) => (
@@ -234,11 +207,6 @@ export default function TeamSection({
                         </span>
                       ))}
                     </div>
-                    {member.isLeader ? (
-                      <div className="font-extrabold text-pink-200 text-[clamp(0.75rem,1.2vw,1.35rem)] leading-none tracking-wide pt-1 drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] text-left">
-                        (Leader)
-                      </div>
-                    ) : null}
                     {member.rollNo ? (
                       <div className="font-mono font-bold text-white/95 text-[clamp(0.7rem,1.15vw,1.35rem)] tracking-wider pt-1 sm:pt-2 drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] text-left">
                         {member.rollNo}

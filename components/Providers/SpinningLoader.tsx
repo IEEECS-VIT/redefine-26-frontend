@@ -39,7 +39,7 @@ export default function SpinningLoader({
         className="relative h-16 w-16 shrink-0 sm:h-20 sm:w-20"
       >
         <Image
-          src="/redefine-2026/redefine.webp"
+          src="/logo.png"
           alt=""
           aria-hidden
           fill
