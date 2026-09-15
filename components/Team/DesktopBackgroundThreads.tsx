@@ -10,7 +10,6 @@ export default function DesktopBackgroundThreads() {
           src="/strings.svg"
           alt=""
           fill
-          priority
           unoptimized
           className="object-cover object-center scale-105"
         />
