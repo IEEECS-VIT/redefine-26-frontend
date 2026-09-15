@@ -12,6 +12,7 @@ export interface TeamMember {
   regNo?: string;
   silhouette?: string;
   layout?: "silhouette-left" | "silhouette-right";
+  isLeader?: boolean;
 }
 
 export const DEFAULT_MEMBERS: TeamMember[] = [
