@@ -140,7 +140,7 @@ import DesktopBackgroundThreads from "@/components/Team/DesktopBackgroundThreads
 
 export default function TeamUpFlow({ onTeamFormed }: TeamUpFlowProps) {
   const router = useRouter();
-  const { showError, showSuccess } = useToast();
+  const { error, success } = useToast();
   const [step, setStep] = useState<Step>("choose");
   const [tracks, setTracks] = useState<Track[]>(DEFAULT_TRACKS);
 
@@ -175,7 +175,7 @@ export default function TeamUpFlow({ onTeamFormed }: TeamUpFlowProps) {
   const handleFinalize = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!teamName.trim() || !trackId) {
-      showError("Incomplete Details", "Add a team name and select a track to continue.");
+      error("Incomplete Details", "Add a team name and select a track to continue.");
       return;
     }
     setLoading(true);
@@ -183,11 +183,11 @@ export default function TeamUpFlow({ onTeamFormed }: TeamUpFlowProps) {
       const team = await createTeam({ name: teamName, trackId });
       saveCurrentTeam(team);
       onTeamFormed?.(team);
-      showSuccess("Team Created!", "Your team is ready. Redirecting to your team page…");
+      success("Team Created!", "Your team is ready. Redirecting to your team page…");
       router.push("/team");
     } catch (err) {
       const message = err instanceof Error ? err.message : "Something went wrong. Please try again.";
-      showError("Could Not Create Team", message);
+      error("Could Not Create Team", message);
     } finally {
       setLoading(false);
     }
@@ -196,7 +196,7 @@ export default function TeamUpFlow({ onTeamFormed }: TeamUpFlowProps) {
   const handleJoin = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!teamCode.trim()) {
-      showError("Missing Team Code", "Enter your team code to continue.");
+      error("Missing Team Code", "Enter your team code to continue.");
       return;
     }
     setLoading(true);
@@ -204,11 +204,11 @@ export default function TeamUpFlow({ onTeamFormed }: TeamUpFlowProps) {
       const team = await joinTeam({ code: teamCode });
       saveCurrentTeam(team);
       onTeamFormed?.(team);
-      showSuccess("Team Joined!", "You're in. Redirecting to your team page…");
+      success("Team Joined!", "You're in. Redirecting to your team page…");
       router.push("/team");
     } catch (err) {
       const message = err instanceof Error ? err.message : "Something went wrong. Please try again.";
-      showError("Could Not Join Team", message);
+      error("Could Not Join Team", message);
     } finally {
       setLoading(false);
     }

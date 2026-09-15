@@ -9,18 +9,18 @@ import WigglyCurvesBackground from "./WigglyCurvesBackground";
 
 export default function RegisterPortal() {
   const router = useRouter();
-  const { showError, showSuccess } = useToast();
+  const { error, success } = useToast();
   const [loadingType, setLoadingType] = useState<StudentType | null>(null);
 
   const handleSignIn = async (type: StudentType) => {
     setLoadingType(type);
     try {
       await initiateGoogleSignIn(type);
-      showSuccess("Welcome back!", "You're signed in. Redirecting to your team…");
+      success("Welcome back!", "You're signed in. Redirecting to your team…");
       router.push("/team");
     } catch (err) {
       const message = err instanceof Error ? err.message : "Failed to initiate sign in. Please try again.";
-      showError("Sign In Failed", message);
+      error("Sign In Failed", message);
     } finally {
       setLoadingType(null);
     }

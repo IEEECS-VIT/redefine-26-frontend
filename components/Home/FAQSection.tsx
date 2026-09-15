@@ -52,7 +52,7 @@ function AccordionItem({
       <button
         type="button"
         onClick={onToggle}
-        className="flex w-full items-center justify-between px-6 py-4.5 text-left text-base font-semibold text-white transition hover:bg-pink-500/10 sm:px-7 sm:py-5 sm:text-lg md:text-xl lg:text-2xl"
+        className="flex w-full items-center justify-between px-7 py-5 text-left text-base font-semibold text-white transition hover:bg-pink-500/10 sm:px-8 sm:py-6 sm:text-lg md:text-xl lg:text-2xl"
       >
         <span>{item.question}</span>
         <motion.span
@@ -71,7 +71,7 @@ function AccordionItem({
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.25, ease: "easeInOut" }}
           >
-            <div className="px-6 pb-5 text-sm text-white/75 sm:px-7 sm:pb-6 sm:text-base md:text-lg leading-relaxed">
+            <div className="px-7 pb-6 text-sm text-white/75 sm:px-8 sm:pb-7 sm:text-base md:text-lg leading-relaxed">
               {item.answer}
             </div>
           </motion.div>

@@ -145,7 +145,7 @@ export default function Timeline() {
           <div className="relative w-full h-10 mt-2">
             <Image src="/timeline/Phase 05.svg.webp" alt="Phase 05" fill className="object-contain" />
           </div>
-          <p className="text-[11px] xl:text-xs font-semibold text-black mt-2 text-center whitespace-nowrap">
+          <p className="text-sm xl:text-base font-semibold text-black mt-2 text-center whitespace-nowrap">
             Prize distribution · 7 AM
           </p>
         </motion.div>
@@ -177,7 +177,7 @@ export default function Timeline() {
           <div className="relative w-full h-8 mt-1">
             <Image src="/timeline/Phase 01.svg.webp" alt="Phase 01" fill className="object-contain" />
           </div>
-          <p className="text-[11px] xl:text-xs font-semibold text-black mt-1.5 text-center whitespace-nowrap">
+          <p className="text-sm xl:text-base font-semibold text-black mt-1.5 text-center whitespace-nowrap">
             Designing begins · 8 AM
           </p>
         </motion.div>
@@ -209,7 +209,7 @@ export default function Timeline() {
           <div className="relative w-full h-8 mt-1">
             <Image src="/timeline/Phase 02.svg.webp" alt="Phase 02" fill className="object-contain" />
           </div>
-          <p className="text-[11px] xl:text-xs font-semibold text-black mt-1.5 text-center whitespace-nowrap">
+          <p className="text-sm xl:text-base font-semibold text-black mt-1.5 text-center whitespace-nowrap">
             Review 1 · 2 PM
           </p>
         </motion.div>
@@ -259,7 +259,7 @@ export default function Timeline() {
           <div className="relative w-full h-9 mt-1">
             <Image src="/timeline/Phase 03.svg.webp" alt="Phase 03" fill className="object-contain" />
           </div>
-          <p className="text-[11px] xl:text-xs font-semibold text-black mt-2 text-center whitespace-nowrap">
+          <p className="text-sm xl:text-base font-semibold text-black mt-2 text-center whitespace-nowrap">
             Review 2 · 1 AM
           </p>
         </motion.div>
@@ -321,7 +321,7 @@ export default function Timeline() {
           <div className="relative w-full h-10 mt-1">
             <Image src="/timeline/Phase 04.svg.webp" alt="Phase 04" fill className="object-contain" />
           </div>
-          <p className="text-xs xl:text-sm font-semibold text-black mt-2 text-center whitespace-nowrap">
+          <p className="text-sm xl:text-base font-semibold text-black mt-2 text-center whitespace-nowrap">
             Final pitch · 4 AM
           </p>
         </motion.div>
@@ -399,7 +399,7 @@ export default function Timeline() {
       <div
         data-timeline-layout="mobile"
         data-canvas-ratio="viewport"
-        className="relative h-full w-full overflow-hidden min-[900px]:hidden"
+        className="relative h-full w-full translate-y-[3vh] overflow-hidden min-[900px]:hidden"
       >
         <TimelineThreads />
 
@@ -419,7 +419,7 @@ export default function Timeline() {
               <div className="relative h-[42%] w-[78%]">
                 <Image src={phase.asset} alt={phase.label} fill className="object-contain" />
               </div>
-              <p className="mt-[2%] whitespace-nowrap text-center text-[clamp(9px,2.8vw,13px)] font-semibold text-black">
+              <p className="mt-[2%] whitespace-nowrap text-center text-[clamp(13px,4vw,17px)] font-semibold text-black">
                 {phase.date}
               </p>
             </div>

@@ -39,7 +39,7 @@ export default function SubmitFlow() {
   const [editing, setEditing] = useState(false);
   const [loadingPage, setLoadingPage] = useState(true);
   const [loading, setLoading] = useState(false);
-  const { showError, showSuccess } = useToast();
+  const { error, success } = useToast();
 
   useEffect(() => {
     let cancelled = false;
@@ -90,11 +90,11 @@ export default function SubmitFlow() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!trackId) {
-      showError("Missing Track", "Please select a track before submitting.");
+      error("Missing Track", "Please select a track before submitting.");
       return;
     }
     if (!figmaLink.trim()) {
-      showError("Missing Figma Link", "Please enter your Figma link.");
+      error("Missing Figma Link", "Please enter your Figma link.");
       return;
     }
     setLoading(true);
@@ -113,7 +113,7 @@ export default function SubmitFlow() {
       }
       setAlreadySubmitted(true);
       setEditing(false);
-      showSuccess(
+      success(
         wasEditing ? "Submission Updated" : "Submission Received!",
         wasEditing
           ? "Your team's submission has been updated."
@@ -121,7 +121,7 @@ export default function SubmitFlow() {
       );
     } catch (err) {
       const message = err instanceof Error ? err.message : "Failed to submit. Please try again.";
-      showError("Submission Failed", message);
+      error("Submission Failed", message);
     } finally {
       setLoading(false);
     }

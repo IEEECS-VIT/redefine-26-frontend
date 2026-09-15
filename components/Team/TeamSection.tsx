@@ -185,18 +185,19 @@ export default function TeamSection({
             
             <div className="absolute inset-0 grid grid-cols-4 w-full h-full pointer-events-none z-20">
               {displayMembers.map((member, index) => {
-                const isLeftPanel = index < 2;
+                const desktopPadding = [
+                  "pl-[46%] sm:pl-[47%] lg:pl-[48%] pr-[4%]",
+                  "pl-[49%] sm:pl-[50%] lg:pl-[51%] pr-[4%]",
+                  "pl-[12%] sm:pl-[13%] lg:pl-[14%] pr-[41%]",
+                  "pl-[7%] sm:pl-[8%] lg:pl-[9%] pr-[41%]",
+                ][index % 4];
                 return (
                   <motion.div
                     key={member.id || index}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: index * 0.1 }}
-                    className={`relative h-full w-full flex flex-col justify-center items-start ${
-                      isLeftPanel
-                        ? "pl-[46%] sm:pl-[47%] lg:pl-[48%] pr-[4%]"
-                        : "pl-[7%] sm:pl-[8%] lg:pl-[9%] pr-[41%]"
-                    } pt-[4%]`}
+                    className={`relative h-full w-full flex flex-col justify-center items-start ${desktopPadding} pt-[4%]`}
                   >
                     <div className="font-extrabold text-white text-[clamp(0.875rem,1.75vw,2.25rem)] leading-[1.12] tracking-wide drop-shadow-[0_2px_12px_rgba(0,0,0,0.95)] text-left">
                       {member.name.split(" ").map((word, i) => (

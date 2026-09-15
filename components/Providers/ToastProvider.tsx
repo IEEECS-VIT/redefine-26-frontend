@@ -4,34 +4,39 @@ import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useRef,
   useState,
   type ReactNode,
 } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
+import NotificationItem, {
+  DEFAULT_DURATIONS,
+  type NotificationAction,
+  type NotificationOptions,
+  type NotificationRecord,
+  type NotificationType,
+} from "@/components/Notifications/NotificationItem";
 
-type ToastType = "error" | "success" | "info";
+type ConvenienceOptions = Pick<NotificationOptions, "duration" | "action">;
 
-interface Toast {
-  id: number;
-  type: ToastType;
-  title: string;
-  message?: string;
+export interface NotificationContextValue {
+  /** Full control: notify({ type, title, message, duration, action }). */
+  notify: (options: NotificationOptions) => number;
+  dismiss: (id: number) => void;
+  success: (title?: string, message?: string, options?: ConvenienceOptions) => number;
+  error: (title?: string, message?: string, options?: ConvenienceOptions) => number;
+  warning: (title?: string, message?: string, options?: ConvenienceOptions) => number;
+  info: (title?: string, message?: string, options?: ConvenienceOptions) => number;
 }
 
-interface ToastContextValue {
-  showError: (title: string, message?: string) => void;
-  showSuccess: (title: string, message?: string) => void;
-  showInfo: (title: string, message?: string) => void;
-}
+const MAX_VISIBLE = 4;
 
-const ToastContext = createContext<ToastContextValue | null>(null);
+const NotificationContext = createContext<NotificationContextValue | null>(null);
 
-const TOAST_DURATION = 4200;
-
-export function useToast(): ToastContextValue {
-  const ctx = useContext(ToastContext);
+export function useToast(): NotificationContextValue {
+  const ctx = useContext(NotificationContext);
   if (!ctx) {
     throw new Error("useToast must be used within a <ToastProvider>");
   }
@@ -39,125 +44,94 @@ export function useToast(): ToastContextValue {
 }
 
 export default function ToastProvider({ children }: { children: ReactNode }) {
-  const [toasts, setToasts] = useState<Toast[]>([]);
+  const [notifications, setNotifications] = useState<NotificationRecord[]>([]);
   const idRef = useRef(0);
+  const timers = useRef(new Map<number, ReturnType<typeof setTimeout>>());
 
   const dismiss = useCallback((id: number) => {
-    setToasts((prev) => prev.filter((t) => t.id !== id));
+    const timer = timers.current.get(id);
+    if (timer) {
+      clearTimeout(timer);
+      timers.current.delete(id);
+    }
+    setNotifications((prev) => prev.filter((notification) => notification.id !== id));
   }, []);
 
-  const push = useCallback(
-    (type: ToastType, title: string, message?: string) => {
+  const notify = useCallback(
+    (options: NotificationOptions) => {
+      const type: NotificationType = options.type ?? "default";
+      const duration = options.duration ?? DEFAULT_DURATIONS[type];
       const id = ++idRef.current;
-      setToasts((prev) => [...prev.slice(-3), { id, type, title, message }]);
-      window.setTimeout(() => dismiss(id), TOAST_DURATION);
+
+      const record: NotificationRecord = {
+        id,
+        type,
+        title: options.title,
+        message: options.message,
+        duration,
+        action: options.action,
+      };
+
+      setNotifications((prev) => [...prev.slice(-(MAX_VISIBLE - 1)), record]);
+
+      if (duration > 0) {
+        timers.current.set(
+          id,
+          setTimeout(() => dismiss(id), duration),
+        );
+      }
+
+      return id;
     },
     [dismiss],
   );
 
-  const value = useMemo<ToastContextValue>(
+  useEffect(() => {
+    const activeTimers = timers.current;
+    return () => {
+      activeTimers.forEach((timer) => clearTimeout(timer));
+      activeTimers.clear();
+    };
+  }, []);
+
+  const value = useMemo<NotificationContextValue>(
     () => ({
-      showError: (title, message) => push("error", title, message),
-      showSuccess: (title, message) => push("success", title, message),
-      showInfo: (title, message) => push("info", title, message),
+      notify,
+      dismiss,
+      success: (title, message, options) =>
+        notify({ ...options, type: "success", title, message }),
+      error: (title, message, options) =>
+        notify({ ...options, type: "error", title, message }),
+      warning: (title, message, options) =>
+        notify({ ...options, type: "warning", title, message }),
+      info: (title, message, options) =>
+        notify({ ...options, type: "info", title, message }),
     }),
-    [push],
+    [notify, dismiss],
   );
 
   return (
-    <ToastContext.Provider value={value}>
+    <NotificationContext.Provider value={value}>
       {children}
 
-      {/* Toast stack */}
+      {/* Notification stack — top-left below the header on desktop, full-width on mobile. */}
       <div
-        className="pointer-events-none fixed bottom-4 left-4 z-[120] flex w-full max-w-xs flex-col items-start gap-3 sm:max-w-sm sm:bottom-6 sm:left-6"
         aria-live="polite"
         aria-atomic="false"
+        className="pointer-events-none fixed inset-x-3 top-[4.75rem] z-[120] flex flex-col-reverse gap-2.5 sm:inset-x-auto sm:left-6 sm:top-24 sm:w-[22rem] min-[900px]:top-[clamp(5.5rem,13vh,7.5rem)]"
       >
-        <AnimatePresence>
-          {toasts.map((toast) => (
-            <motion.div
-              key={toast.id}
-              layout
-              initial={{ opacity: 0, x: -16, scale: 0.97 }}
-              animate={{ opacity: 1, x: 0, scale: 1 }}
-              exit={{ opacity: 0, x: -12, scale: 0.97 }}
-              transition={{ duration: 0.25, ease: "easeOut" }}
-              className="pointer-events-auto relative w-full overflow-hidden rounded-2xl border bg-black/95 px-4 py-3.5 shadow-[0_16px_40px_rgba(0,0,0,0.9)] backdrop-blur-md sm:px-5"
-              style={{
-                borderColor:
-                  toast.type === "success"
-                    ? "rgb(236 72 153 / 0.85)"
-                    : toast.type === "error"
-                      ? "rgba(244,114,182,0.9)"
-                      : "rgba(255,255,255,0.15)",
-                boxShadow:
-                  "0 16px 40px rgba(0,0,0,0.9), 0 0 28px rgba(236,72,153,0.18)",
-              }}
-              role={toast.type === "error" ? "alert" : "status"}
-            >
-              {/* top accent line */}
-              <div
-                className="absolute left-0 right-0 top-0 h-px"
-                style={{
-                  background:
-                    "linear-gradient(90deg, transparent, rgba(236,72,153,0.7), transparent)",
-                }}
-              />
-
-              <div className="flex items-start gap-3">
-                <div
-                  className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full"
-                  style={{
-                    background:
-                      toast.type === "success"
-                        ? "rgba(236,72,153,0.18)"
-                        : toast.type === "error"
-                          ? "rgba(244,114,182,0.16)"
-                          : "rgba(255,255,255,0.08)",
-                  }}
-                >
-                  {toast.type === "success" ? (
-                    <svg className="h-4 w-4 text-pink-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.4} d="M5 13l4 4L19 7" />
-                    </svg>
-                  ) : toast.type === "error" ? (
-                    <svg className="h-4 w-4 text-pink-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.4} d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
-                    </svg>
-                  ) : (
-                    <svg className="h-4 w-4 text-pink-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                  )}
-                </div>
-
-                <div className="min-w-0 flex-1">
-                  <p className="font-[var(--font-bebas-neue)] text-base uppercase leading-none tracking-widest text-white sm:text-lg">
-                    {toast.title}
-                  </p>
-                  {toast.message && (
-                    <p className="mt-1.5 text-xs leading-relaxed text-white/70 sm:text-sm">
-                      {toast.message}
-                    </p>
-                  )}
-                </div>
-
-                <button
-                  type="button"
-                  onClick={() => dismiss(toast.id)}
-                  aria-label="Dismiss notification"
-                  className="cursor-pointer rounded-md p-1 text-white/40 transition hover:text-white/90"
-                >
-                  <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </button>
-              </div>
-            </motion.div>
+        <AnimatePresence initial={false}>
+          {notifications.map((notification) => (
+            <NotificationItem
+              key={notification.id}
+              notification={notification}
+              onDismiss={dismiss}
+            />
           ))}
         </AnimatePresence>
       </div>
-    </ToastContext.Provider>
+    </NotificationContext.Provider>
   );
 }
+
+export type { NotificationAction, NotificationOptions, NotificationType };

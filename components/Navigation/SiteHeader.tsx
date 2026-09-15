@@ -7,6 +7,7 @@ import { useEffect, useState, type CSSProperties } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { signOutUser, subscribeToAuthState } from "@/lib/auth";
 import { getMyTeam } from "@/lib/teamup";
+import { useToast } from "@/components/Providers/ToastProvider";
 import NavThread from "./NavThread";
 import { getHeaderAction, getHeaderNavLinks } from "./navigationLinks";
 
@@ -22,10 +23,10 @@ function navLabelStyle(link: { w: number; h: number }): CSSProperties {
 export default function SiteHeader({ hideRegisterButton }: { hideRegisterButton?: boolean } = {}) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [isSignedIn, setIsSignedIn] = useState(false);
-  const [leaderPopup, setLeaderPopup] = useState(false);
   const [checkingAction, setCheckingAction] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
+  const { warning } = useToast();
   const navLinks = getHeaderNavLinks(isSignedIn);
   const headerAction = getHeaderAction(isSignedIn);
 
@@ -44,6 +45,22 @@ export default function SiteHeader({ hideRegisterButton }: { hideRegisterButton?
     };
   }, [mobileOpen]);
 
+  // Escape closes the mobile menu.
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setMobileOpen(false);
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [mobileOpen]);
+
+  // Always collapse the menu once the route settles (single source of truth
+  // for the open state, so navigation can never leave it stuck open).
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [pathname]);
+
   const hideHeaderAction =
     hideRegisterButton ||
     pathname === headerAction.href;
@@ -61,10 +78,16 @@ export default function SiteHeader({ hideRegisterButton }: { hideRegisterButton?
         setMobileOpen(false);
         router.push("/submit");
       } else {
-        setLeaderPopup(true);
+        warning(
+          "Leader Only",
+          "Only the team leader can submit the project. Please ask your team leader to submit.",
+        );
       }
     } catch {
-      setLeaderPopup(true);
+      warning(
+        "Leader Only",
+        "Only the team leader can submit the project. Please ask your team leader to submit.",
+      );
     } finally {
       setCheckingAction(false);
     }
@@ -94,7 +117,7 @@ export default function SiteHeader({ hideRegisterButton }: { hideRegisterButton?
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4, ease: "easeOut" }}
-        className="sticky top-0 z-[70] m-0 flex w-full max-w-none items-center justify-between border-b border-white/5 bg-transparent px-5 py-5 sm:px-8 md:px-12 md:py-6 min-[900px]:h-[clamp(4.5rem,11vh,6.5rem)] min-[900px]:border-0 min-[900px]:bg-transparent min-[900px]:p-0"
+        className="sticky top-0 z-[70] m-0 flex w-full max-w-none items-center justify-between border-b border-white/5 bg-transparent px-5 py-4 sm:px-8 sm:py-5 md:px-12 md:py-6 min-[900px]:h-[clamp(4.5rem,11vh,6.5rem)] min-[900px]:border-0 min-[900px]:bg-transparent min-[900px]:p-0"
       >
         {/* Left: Logo */}
         <Link href="/" className="relative h-12 w-12 shrink-0 transition-transform duration-300 hover:scale-105 sm:h-14 sm:w-14 md:h-16 md:w-16 min-[900px]:absolute min-[900px]:left-[clamp(1rem,2.4vw,2.2rem)] min-[900px]:top-1/2 min-[900px]:aspect-[115/112] min-[900px]:h-auto min-[900px]:w-[clamp(3.5rem,6vw,5.5rem)] min-[900px]:-translate-y-1/2">
@@ -172,27 +195,29 @@ export default function SiteHeader({ hideRegisterButton }: { hideRegisterButton?
           {/* Hamburger (mobile only) */}
           <button
             type="button"
-            onClick={() => setMobileOpen(!mobileOpen)}
-            className="relative z-50 flex h-10 w-10 flex-col items-center justify-center gap-1.5 min-[900px]:hidden"
+            onClick={() => setMobileOpen((open) => !open)}
+            className="relative -mr-2 flex h-11 w-11 items-center justify-center min-[900px]:hidden"
             aria-label={mobileOpen ? "Close menu" : "Open menu"}
             aria-expanded={mobileOpen}
             aria-controls="site-mobile-menu"
           >
-            <motion.span
-              animate={mobileOpen ? { rotate: 45, y: 6 } : { rotate: 0, y: 0 }}
-              transition={{ duration: 0.2, ease: "easeOut" }}
-              className="block h-0.5 w-6 bg-white"
-            />
-            <motion.span
-              animate={mobileOpen ? { opacity: 0, scaleX: 0 } : { opacity: 1, scaleX: 1 }}
-              transition={{ duration: 0.15 }}
-              className="block h-0.5 w-6 bg-white"
-            />
-            <motion.span
-              animate={mobileOpen ? { rotate: -45, y: -6 } : { rotate: 0, y: 0 }}
-              transition={{ duration: 0.2, ease: "easeOut" }}
-              className="block h-0.5 w-6 bg-white"
-            />
+            <span className="relative block h-[18px] w-6" aria-hidden="true">
+              <motion.span
+                animate={mobileOpen ? { y: 8, rotate: 45 } : { y: 0, rotate: 0 }}
+                transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
+                className="absolute left-0 top-0 block h-0.5 w-full origin-center bg-white"
+              />
+              <motion.span
+                animate={mobileOpen ? { opacity: 0 } : { opacity: 1 }}
+                transition={{ duration: 0.15, ease: "easeOut" }}
+                className="absolute left-0 top-2 block h-0.5 w-full bg-white"
+              />
+              <motion.span
+                animate={mobileOpen ? { y: -8, rotate: -45 } : { y: 0, rotate: 0 }}
+                transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
+                className="absolute bottom-0 left-0 block h-0.5 w-full origin-center bg-white"
+              />
+            </span>
           </button>
         </div>
       </motion.header>
@@ -201,23 +226,39 @@ export default function SiteHeader({ hideRegisterButton }: { hideRegisterButton?
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
+            key="site-mobile-menu"
+            id="site-mobile-menu"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Site navigation"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-[60] flex flex-col bg-black/98 backdrop-blur-xl min-[900px]:hidden"
-            id="site-mobile-menu"
+            transition={{ duration: 0.25, ease: "easeOut" }}
+            onClick={() => setMobileOpen(false)}
+            className="fixed inset-0 z-[60] flex flex-col items-center justify-center bg-black px-6 min-[900px]:hidden"
           >
-            <div className="flex flex-col items-center justify-center h-full gap-8">
+            <motion.div
+              onClick={(event) => event.stopPropagation()}
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 10 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+              className="flex flex-col items-center gap-7"
+              style={{ "--nav-cap": "clamp(1.4rem, 7vw, 1.9rem)" } as CSSProperties}
+            >
               {navLinks.map((link, idx) => (
                 <motion.button
                   key={link.label}
-                  initial={{ opacity: 0, y: 20 }}
+                  type="button"
+                  initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ delay: idx * 0.06, duration: 0.3, ease: "easeOut" }}
+                  exit={{ opacity: 0, y: 8 }}
+                  transition={{ delay: idx * 0.05, duration: 0.3, ease: "easeOut" }}
                   onClick={() => handleNavClick(link.href)}
-                  className="flex flex-col items-center gap-2"
+                  aria-label={link.label}
+                  aria-current={isActive(link.href) ? "page" : undefined}
+                  className="flex cursor-pointer flex-col items-center transition-opacity duration-200 hover:opacity-75"
                 >
                   <div className="relative" style={navLabelStyle(link)}>
                     <Image src={link.img} alt={link.label} fill className="object-contain" />
@@ -227,76 +268,32 @@ export default function SiteHeader({ hideRegisterButton }: { hideRegisterButton?
 
               {!hideHeaderAction && (
                 <motion.button
-                  initial={{ opacity: 0, y: 20 }}
+                  type="button"
+                  initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ delay: navLinks.length * 0.06, duration: 0.3, ease: "easeOut" }}
+                  exit={{ opacity: 0, y: 8 }}
+                  transition={{ delay: navLinks.length * 0.05, duration: 0.3, ease: "easeOut" }}
                   onClick={handleHeaderAction}
                   disabled={checkingAction}
-                  className="mt-4 cursor-pointer rounded-xl bg-pink-500 px-8 py-3 text-base font-[var(--font-bebas-neue)] uppercase tracking-widest text-white font-bold shadow-lg shadow-pink-500/25 transition-transform hover:scale-105 disabled:opacity-60"
+                  className="mt-3 flex aspect-[193/61] w-[160px] cursor-pointer select-none items-center justify-center rounded-[19px] bg-black font-[var(--font-bebas-neue)] text-[clamp(0.9rem,3.5vw,1.15rem)] uppercase leading-none font-bold text-pink-100 shadow-[5px_5px_1px_#fac2cf,0_4px_30px_rgba(255,194,207,0.25)] transition-transform duration-200 hover:-translate-y-0.5 disabled:opacity-60"
                 >
-                  {checkingAction ? "CHECKING…" : headerAction.label}
+                  {checkingAction ? "Checking…" : headerAction.label}
                 </motion.button>
               )}
 
               {isSignedIn && (
                 <motion.button
-                  initial={{ opacity: 0, y: 20 }}
+                  type="button"
+                  initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ delay: (navLinks.length + 1) * 0.06, duration: 0.3, ease: "easeOut" }}
+                  exit={{ opacity: 0, y: 8 }}
+                  transition={{ delay: (navLinks.length + 1) * 0.05, duration: 0.3, ease: "easeOut" }}
                   onClick={handleSignOut}
-                  className="mt-2 cursor-pointer rounded-xl border border-pink-500 bg-transparent px-8 py-3 text-base font-[var(--font-bebas-neue)] uppercase tracking-widest text-pink-100 font-bold transition-transform hover:scale-105"
+                  className="flex aspect-[193/61] w-[160px] cursor-pointer select-none items-center justify-center rounded-[19px] bg-black font-[var(--font-bebas-neue)] text-[clamp(0.9rem,3.5vw,1.15rem)] uppercase leading-none font-bold text-pink-100 shadow-[5px_5px_1px_#fac2cf,0_4px_30px_rgba(255,194,207,0.2)] transition-transform duration-200 hover:-translate-y-0.5"
                 >
                   Log Out
                 </motion.button>
               )}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Leader-only popup */}
-      <AnimatePresence>
-        {leaderPopup && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            onClick={() => setLeaderPopup(false)}
-            className="fixed inset-0 z-[95] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4"
-            role="dialog"
-            aria-modal="true"
-            aria-label="Submit restricted"
-          >
-            <motion.div
-              initial={{ opacity: 0, scale: 0.94, y: 12 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.96, y: 8 }}
-              transition={{ duration: 0.25, ease: "easeOut" }}
-              onClick={(e) => e.stopPropagation()}
-              className="relative w-full max-w-sm overflow-hidden rounded-2xl border border-pink-600/90 bg-black/95 px-6 py-8 sm:px-8 text-center shadow-[0_16px_40px_rgba(0,0,0,0.9),0_0_32px_rgba(236,72,153,0.2)]"
-            >
-              <div className="absolute left-1/2 top-0 h-px w-3/4 -translate-x-1/2 bg-gradient-to-r from-transparent via-pink-500/70 to-transparent" />
-              <div className="relative mx-auto h-12 w-12 rounded-full bg-pink-500/15 flex items-center justify-center">
-                <svg className="h-6 w-6 text-pink-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
-                </svg>
-              </div>
-              <h3 className="mt-5 font-[var(--font-bebas-neue)] text-2xl sm:text-[1.7rem] uppercase tracking-widest text-white drop-shadow-[0_0_12px_rgba(236,72,153,0.4)]">
-                Leader Only
-              </h3>
-              <p className="mt-2.5 text-sm leading-relaxed text-white/70">
-                Only the team leader can submit the project. Please ask your team leader to submit.
-              </p>
-              <button
-                type="button"
-                onClick={() => setLeaderPopup(false)}
-                className="mt-6 w-full cursor-pointer rounded-xl bg-pink-500 px-6 py-3 font-[var(--font-bebas-neue)] text-lg uppercase tracking-widest text-white shadow-[0_8px_24px_rgba(236,72,153,0.35)] transition-transform duration-200 hover:-translate-y-0.5 hover:bg-pink-400"
-              >
-                OK
-              </button>
             </motion.div>
           </motion.div>
         )}
