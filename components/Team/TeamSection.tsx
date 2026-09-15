@@ -12,10 +12,11 @@ export interface TeamMember {
   regNo?: string;
   silhouette?: string;
   layout?: "silhouette-left" | "silhouette-right";
+  isLeader?: boolean;
 }
 
 export const DEFAULT_MEMBERS: TeamMember[] = [
-  { id: "member-1", name: "Shashwat Shrye", rollNo: "25BEL0010" },
+  { id: "member-1", name: "Shashwat Shrye", rollNo: "25BEL0010", isLeader: true },
   { id: "member-2", name: "Shashwat Shrye", rollNo: "25BEL0010" },
   { id: "member-3", name: "Shashwat Shrye", rollNo: "25BEL0010" },
   { id: "member-4", name: "Shashwat Shrye", rollNo: "25BEL0010" },
@@ -88,9 +89,14 @@ export default function TeamSection({
               />
             </div>
           ) : (
-            <h2 className="font-extrabold uppercase tracking-widest text-2xl sm:text-4xl md:text-5xl text-white drop-shadow-[0_0_16px_rgba(255,255,255,0.5)]">
-              {teamName}
-            </h2>
+            <div className="flex flex-col items-center gap-0.5">
+              <span className="font-mono font-bold text-[10px] sm:text-xs uppercase tracking-[0.25em] text-pink-300 drop-shadow-[0_0_8px_rgba(236,72,153,0.5)]">
+                Team Name
+              </span>
+              <h2 className="font-extrabold uppercase tracking-widest text-2xl sm:text-4xl md:text-5xl text-white drop-shadow-[0_0_16px_rgba(255,255,255,0.5)]">
+                {teamName}
+              </h2>
+            </div>
           )}
         </motion.div>
 
@@ -133,6 +139,11 @@ export default function TeamSection({
                       </span>
                     ))}
                   </h3>
+                  {member.isLeader ? (
+                    <div className="font-extrabold text-pink-200 text-xs sm:text-base md:text-lg leading-tight tracking-wide mt-0.5 drop-shadow-[0_2px_8px_rgba(0,0,0,0.85)]">
+                      (Leader)
+                    </div>
+                  ) : null}
                   {member.rollNo ? (
                     <p className="font-mono font-bold text-white/95 text-xs sm:text-base md:text-xl tracking-widest mt-1 sm:mt-2.5 drop-shadow-[0_2px_6px_rgba(0,0,0,0.85)]">
                       {member.rollNo}
@@ -166,9 +177,14 @@ export default function TeamSection({
               />
             </div>
           ) : (
-            <h2 className="text-center font-extrabold uppercase tracking-widest text-4xl sm:text-5xl lg:text-6xl text-white drop-shadow-[0_0_18px_rgba(255,255,255,0.5)]">
-              {teamName}
-            </h2>
+            <div className="flex flex-col items-center gap-0.5">
+              <span className="font-mono font-bold text-xs sm:text-sm uppercase tracking-[0.3em] text-pink-300 drop-shadow-[0_0_8px_rgba(236,72,153,0.5)]">
+                Team Name
+              </span>
+              <h2 className="text-center font-extrabold uppercase tracking-widest text-4xl sm:text-5xl lg:text-6xl text-white drop-shadow-[0_0_18px_rgba(255,255,255,0.5)]">
+                {teamName}
+              </h2>
+            </div>
           )}
         </motion.div>
 
@@ -218,6 +234,11 @@ export default function TeamSection({
                         </span>
                       ))}
                     </div>
+                    {member.isLeader ? (
+                      <div className="font-extrabold text-pink-200 text-[clamp(0.75rem,1.2vw,1.35rem)] leading-none tracking-wide pt-1 drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] text-left">
+                        (Leader)
+                      </div>
+                    ) : null}
                     {member.rollNo ? (
                       <div className="font-mono font-bold text-white/95 text-[clamp(0.7rem,1.15vw,1.35rem)] tracking-wider pt-1 sm:pt-2 drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] text-left">
                         {member.rollNo}
