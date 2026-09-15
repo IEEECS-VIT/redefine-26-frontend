@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Image from "@/components/Layout/Image";
 import { motion } from "framer-motion";
 import DesktopBackgroundThreads from "@/components/Team/DesktopBackgroundThreads";
 import DynamicStringsBackground from "@/components/Background/DynamicStringsBackground";
@@ -15,12 +15,16 @@ export interface TeamMember {
   isLeader?: boolean;
 }
 
-export const DEFAULT_MEMBERS: TeamMember[] = [
-  { id: "member-1", name: "Tanishka Sharma", rollNo: "25BDS0116", isLeader: true },
-  { id: "member-2", name: "Tanishka Sharma", rollNo: "25BDS0116" },
-  { id: "member-3", name: "Tanishka Sharma", rollNo: "25BDS0116" },
-  { id: "member-4", name: "Tanishka Sharma", rollNo: "25BDS0116" },
-];
+export const PLACEHOLDER_MEMBER_NAME = "- -";
+
+export const PLACEHOLDER_MEMBERS: TeamMember[] = Array.from(
+  { length: 4 },
+  (_, index) => ({
+    id: `placeholder-${index + 1}`,
+    name: PLACEHOLDER_MEMBER_NAME,
+    rollNo: "",
+  }),
+);
 
 interface TeamSectionProps {
   teamName?: string;
@@ -59,11 +63,16 @@ const MOBILE_PANEL_CONFIGS = [
   },
 ];
 
+const MAX_MEMBERS = 4;
+
 export default function TeamSection({
   teamName = "TEAM NAME",
-  members = DEFAULT_MEMBERS,
+  members = [],
 }: TeamSectionProps) {
-  const displayMembers = (members && members.length > 0 ? members : DEFAULT_MEMBERS).slice(0, 4);
+  const displayMembers = Array.from(
+    { length: MAX_MEMBERS },
+    (_, index) => members[index] ?? PLACEHOLDER_MEMBERS[index],
+  );
 
   return (
     <section className="relative flex h-full w-full max-w-none flex-col items-center justify-between bg-black text-white select-none overflow-hidden px-0 mx-0">
@@ -133,11 +142,15 @@ export default function TeamSection({
 
                 <div className={`relative z-20 flex flex-col justify-center w-full ${config.textClass}`}>
                   <h3 className="font-extrabold text-white text-base sm:text-2xl md:text-3xl leading-snug tracking-wide drop-shadow-[0_2px_8px_rgba(0,0,0,0.85)]">
-                    {member.name.split(" ").map((word, i) => (
-                      <span key={i} className="block">
-                        {word}
-                      </span>
-                    ))}
+                    {member.name === PLACEHOLDER_MEMBER_NAME ? (
+                      <span className="block">{member.name}</span>
+                    ) : (
+                      member.name.split(" ").map((word, i) => (
+                        <span key={i} className="block">
+                          {word}
+                        </span>
+                      ))
+                    )}
                   </h3>
                   {member.isLeader ? (
                     <div className="font-extrabold text-pink-200 text-xs sm:text-base md:text-lg leading-tight tracking-wide mt-0.5 drop-shadow-[0_2px_8px_rgba(0,0,0,0.85)]">
@@ -228,11 +241,15 @@ export default function TeamSection({
                     } pt-[95%]`}
                   >
                     <div className="font-extrabold text-white text-[clamp(0.875rem,1.75vw,2.25rem)] leading-[1.12] tracking-wide drop-shadow-[0_2px_12px_rgba(0,0,0,0.95)] text-left">
-                      {member.name.split(" ").map((word, i) => (
-                        <span key={i} className="block">
-                          {word}
-                        </span>
-                      ))}
+                      {member.name === PLACEHOLDER_MEMBER_NAME ? (
+                        <span className="block">{member.name}</span>
+                      ) : (
+                        member.name.split(" ").map((word, i) => (
+                          <span key={i} className="block">
+                            {word}
+                          </span>
+                        ))
+                      )}
                     </div>
                     {member.isLeader ? (
                       <div className="font-extrabold text-pink-200 text-[clamp(0.75rem,1.2vw,1.35rem)] leading-none tracking-wide pt-1 drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] text-left">

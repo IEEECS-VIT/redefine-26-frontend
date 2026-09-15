@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Image from "@/components/Layout/Image";
 import { useState, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
