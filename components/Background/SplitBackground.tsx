@@ -12,6 +12,7 @@ export default function SplitBackground() {
           fill
           priority
           sizes="(max-width: 767px) 100vw, 0px"
+          style={{ objectPosition: "center -15%", transform: "translateY(-5%)" }}
           className="object-cover object-top select-none"
         />
       </div>
@@ -19,12 +20,12 @@ export default function SplitBackground() {
       {/* Desktop design — md breakpoint and up */}
       <div className="absolute inset-0 hidden bg-[#C1325F] md:block">
         <Image
-          src="/redefine-2026/Homepage.svg.webp"
+          src="/home.svg"
           alt="Background"
           fill
           priority
           sizes="(min-width: 768px) 100vw, 0px"
-          className="object-cover object-[center_35%] select-none"
+          className="object-cover object-[center_40%] select-none"
         />
       </div>
 
