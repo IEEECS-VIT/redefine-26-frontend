@@ -21,7 +21,7 @@ test("homepage logo stays clear of the mobile title", async () => {
   const background = await readFile(backgroundPath, "utf8");
 
   assert.match(source, /data-home-logo-layout="mobile-safe"/);
-  assert.match(source, /redefine-transparent\.webp/);
+  assert.match(source, /\/logo\.png/);
   assert.match(source, /h-9/);
   assert.match(source, /px-3 py-3/);
   assert.match(background, /object-cover object-top/);
