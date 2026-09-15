@@ -4,8 +4,15 @@ import Image from "next/image";
 import { FormEvent, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import DynamicStringsBackground from "@/components/Background/DynamicStringsBackground";
-import { DEFAULT_TRACKS, fetchTeam, submitProject, type Track } from "@/lib/teamup";
+import {
+  DEFAULT_TRACKS,
+  fetchTeam,
+  submitProject,
+  updateProject,
+  type Track,
+} from "@/lib/teamup";
 import { useToast } from "@/components/Providers/ToastProvider";
+import SpinningLoader from "@/components/Providers/SpinningLoader";
 
 const INPUT_STYLE =
   "h-12 w-full rounded-xl border border-pink-600/90 bg-black/80 px-4 sm:px-5 text-sm sm:text-base text-white outline-none transition placeholder:text-white/45 focus:border-pink-300 focus:ring-2 focus:ring-pink-300/20";
@@ -94,11 +101,16 @@ export default function SubmitFlow() {
     try {
       const track = tracks.find((t) => t.id === trackId);
       const wasEditing = editing;
-      await submitProject({
+      const payload = {
         track: track?.name ?? trackId,
         figma_link: figmaLink.trim(),
         other_links: additionalLinks,
-      });
+      };
+      if (wasEditing) {
+        await updateProject(payload);
+      } else {
+        await submitProject(payload);
+      }
       setAlreadySubmitted(true);
       setEditing(false);
       showSuccess(
@@ -145,23 +157,10 @@ export default function SubmitFlow() {
               </div>
 
               {loadingPage ? (
-                <div className="flex flex-1 flex-col items-center justify-center gap-4 py-8">
-                  <motion.div
-                    animate={{ rotate: 360 }}
-                    transition={{ duration: 1.2, repeat: Infinity, ease: "linear" }}
-                    className="relative h-16 w-16 sm:h-20 sm:w-20"
-                  >
-                    <Image
-                      src="/redefine-2026/redefine.jpeg"
-                      alt="Redefine"
-                      fill
-                      priority
-                      unoptimized
-                      className="object-contain"
-                    />
-                  </motion.div>
-                  <p className="text-sm text-white/60">Loading your submission…</p>
-                </div>
+                <SpinningLoader
+                  label="Loading your submission…"
+                  className="flex-1 py-8"
+                />
               ) : alreadySubmitted && !editing ? (
                 <div className="flex flex-col items-center justify-center gap-4 py-8 text-center">
                   <div className="rounded-full bg-pink-500/20 p-4 text-pink-400">
@@ -261,9 +260,14 @@ export default function SubmitFlow() {
                     whileTap={{ scale: 0.985 }}
                     transition={{ duration: 0.2 }}
                     disabled={loading}
+                    aria-busy={loading}
                     className="relative mt-2 sm:mt-4 flex h-12 sm:h-14 w-full shrink-0 items-center justify-center overflow-hidden rounded-xl bg-pink-500 font-extrabold uppercase tracking-widest text-base sm:text-lg text-white shadow-[0_8px_24px_rgba(236,72,153,0.35)] transition duration-200 hover:bg-pink-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-pink-200 disabled:opacity-60"
                   >
-                    {editing ? "UPDATE SUBMISSION" : "SUBMIT"}
+                    {loading
+                      ? "SUBMITTING…"
+                      : editing
+                        ? "UPDATE SUBMISSION"
+                        : "SUBMIT"}
                   </motion.button>
                 </>
               )}

@@ -399,12 +399,8 @@ export default function Timeline() {
       {/* Mobile / Tablet collage (< lg) */}
       <div
         data-timeline-layout="mobile"
-        data-canvas-ratio="402/874"
-        className="relative overflow-hidden min-[900px]:hidden"
-        style={{
-          width: "min(100vw, calc(100dvh * 0.459954))",
-          height: "min(100dvh, calc(100vw / 0.459954))",
-        }}
+        data-canvas-ratio="viewport"
+        className="relative h-full w-full overflow-hidden min-[900px]:hidden"
       >
         <TimelineThreads />
 
@@ -413,9 +409,9 @@ export default function Timeline() {
             <div
               key={phase.id}
               data-mobile-phase-card="expanded"
-              className="absolute left-1/2 flex h-[10.5%] w-[48%] -translate-x-1/2 flex-col items-center justify-center rounded-sm shadow-xl"
+              className="absolute left-1/2 flex h-[12%] w-[56%] -translate-x-1/2 flex-col items-center justify-center rounded-sm shadow-xl"
               style={{
-                top: `${[18, 33, 48, 63, 78][idx]}%`,
+                top: `${[14, 31, 48, 65, 82][idx]}%`,
                 rotate: `${[-4, 3, -3, 2, -2][idx]}deg`,
                 backgroundColor: ["#fac2cf", "#fac2cf", "#df6989", "#d04c6b", "#c1325f"][idx],
               }}
@@ -424,7 +420,7 @@ export default function Timeline() {
               <div className="relative h-[42%] w-[78%]">
                 <Image src={phase.asset} alt={phase.label} fill className="object-contain" />
               </div>
-              <p className="mt-[2%] whitespace-nowrap text-center text-[clamp(5px,1.55vw,8px)] font-semibold text-black">
+              <p className="mt-[2%] whitespace-nowrap text-center text-[clamp(6px,1.8vw,9px)] font-semibold text-black">
                 {phase.date}
               </p>
             </div>

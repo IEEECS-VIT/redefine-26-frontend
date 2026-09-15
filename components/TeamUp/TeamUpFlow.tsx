@@ -332,9 +332,16 @@ export default function TeamUpFlow({ onTeamFormed }: TeamUpFlowProps) {
                     whileTap={{ scale: 0.985 }}
                     transition={{ duration: 0.2 }}
                     disabled={loading}
+                    aria-busy={loading}
                     className="relative mt-3 sm:mt-6 flex h-12 sm:h-16 w-full shrink-0 items-center justify-center overflow-hidden rounded-xl bg-pink-400 font-bold shadow-[0_8px_24px_rgba(236,72,153,0.28)] transition-transform duration-200 hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-pink-200 disabled:opacity-60"
                   >
-                    <Image src="/buildteam/FINALISE TEAM.svg" alt="Finalise team" width={128} height={17} />
+                    {loading ? (
+                      <span className="font-[var(--font-bebas-neue)] text-lg uppercase tracking-widest text-white">
+                        Creating…
+                      </span>
+                    ) : (
+                      <Image src="/buildteam/FINALISE TEAM.svg" alt="Finalise team" width={128} height={17} />
+                    )}
                   </motion.button>
                 </PanelFrame>
               </motion.div>
@@ -377,9 +384,16 @@ export default function TeamUpFlow({ onTeamFormed }: TeamUpFlowProps) {
                     whileTap={{ scale: 0.985 }}
                     transition={{ duration: 0.2 }}
                     disabled={loading}
+                    aria-busy={loading}
                     className="relative mt-3 sm:mt-6 flex h-12 sm:h-16 w-full shrink-0 items-center justify-center overflow-hidden rounded-xl bg-pink-400 font-bold shadow-[0_8px_24px_rgba(236,72,153,0.28)] transition-transform duration-200 hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-pink-200 disabled:opacity-60"
                   >
-                    <Image src="/teamcode/DONE.svg" alt="Done" width={64} height={17} />
+                    {loading ? (
+                      <span className="font-[var(--font-bebas-neue)] text-lg uppercase tracking-widest text-white">
+                        Joining…
+                      </span>
+                    ) : (
+                      <Image src="/teamcode/DONE.svg" alt="Done" width={64} height={17} />
+                    )}
                   </motion.button>
                 </PanelFrame>
               </motion.div>

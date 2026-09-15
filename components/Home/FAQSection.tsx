@@ -48,7 +48,7 @@ function AccordionItem({
   onToggle: () => void;
 }) {
   return (
-    <div className="overflow-hidden rounded-xl border border-pink-600/70 bg-black/30 lg:bg-black/85 backdrop-blur-md lg:backdrop-blur-sm transition duration-200 hover:border-pink-400 shadow-[0_4px_20px_rgba(236,72,153,0.15)]">
+    <div className="overflow-hidden rounded-xl border border-pink-600/70 bg-black/30 lg:bg-black/85 backdrop-blur-md lg:backdrop-blur-sm transition duration-200 hover:border-pink-400">
       <button
         type="button"
         onClick={onToggle}
@@ -98,7 +98,7 @@ export default function FAQSection() {
             fill
             priority
             sizes="(max-width: 1023px) 100vw, 50vw"
-            className="object-contain object-center"
+            className="object-contain object-center scale-125"
           />
         </div>
       </div>

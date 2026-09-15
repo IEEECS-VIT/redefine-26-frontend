@@ -5,6 +5,7 @@ import {
   setPersistence,
   signInWithPopup,
   signOut,
+  type Auth,
   type User,
 } from "firebase/auth";
 import { getFirebaseAuth } from "./firebase";
@@ -117,7 +118,15 @@ export async function initiateGoogleSignIn(type: StudentType): Promise<AuthUser>
 }
 
 export function subscribeToAuthState(callback: (user: AuthUser | null) => void): () => void {
-  const auth = getFirebaseAuth();
+  let auth: Auth;
+  try {
+    auth = getFirebaseAuth();
+  } catch (error) {
+    console.error("Firebase auth is unavailable:", error);
+    clearStoredUser();
+    callback(null);
+    return () => {};
+  }
 
   return onAuthStateChanged(auth, (firebaseUser) => {
     if (!firebaseUser) {

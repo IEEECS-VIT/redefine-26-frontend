@@ -2,26 +2,29 @@ export interface NavLink {
   label: string;
   href: string;
   img: string;
-  width: string;
+  w: number;
+  h: number;
 }
 
 const SHARED_LINKS: NavLink[] = [
-  { label: "Timeline", href: "/timeline", img: "/tracks/TIMELINE.svg", width: "135px" },
-  { label: "Tracks", href: "/tracks", img: "/tracks/TRACKS.svg", width: "118px" },
+  { label: "Timeline", href: "/timeline", img: "/tracks/TIMELINE.svg", w: 121, h: 17 },
+  { label: "Tracks", href: "/tracks", img: "/tracks/TRACKS.svg", w: 109, h: 17 },
 ];
 
 const SIGNED_OUT_LINK: NavLink = {
   label: "FAQ",
   href: "/faq",
   img: "/tracks/FAQ.svg",
-  width: "70px",
+  w: 54,
+  h: 20,
 };
 
 const SIGNED_IN_LINK: NavLink = {
   label: "Team",
   href: "/team",
   img: "/tracks/TEAM.svg",
-  width: "75px",
+  w: 76,
+  h: 17,
 };
 
 export function getHeaderNavLinks(isSignedIn: boolean): NavLink[] {
