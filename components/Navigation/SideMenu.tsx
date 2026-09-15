@@ -28,7 +28,7 @@ type SideMenuProps = {
 const menu: MenuItem[] = [
   {
     id: "timeline",
-    className: "left-[5%] top-[28%] md:left-[10%] md:top-[42%]",
+    className: "left-[5%] top-[28%] md:left-[10%] md:top-[43%]",
     letters: [
       { src: "/redefine-2026/T.svg.webp", alt: "T", rotate: -6 },
       { src: "/redefine-2026/I.svg.webp", alt: "I", rotate: 3, y: -5 },
@@ -42,7 +42,7 @@ const menu: MenuItem[] = [
   },
   {
     id: "faq",
-    className: "left-[calc(5%_+_52.5px)] sm:left-[calc(5%_+_62.5px)] top-[40%] md:left-[15%] md:top-auto md:bottom-[25%]",
+    className: "left-[calc(5%_+_52.5px)] sm:left-[calc(5%_+_62.5px)] top-[40%] md:left-[15%] md:top-[66%]",
     letters: [
       { src: "/redefine-2026/F.svg.webp", alt: "F", rotate: -6 },
       { src: "/redefine-2026/A.svg.webp", alt: "A", rotate: 5, y: -2 },
@@ -51,7 +51,7 @@ const menu: MenuItem[] = [
   },
   {
     id: "tracks",
-    className: "right-[5%] top-[28%] md:right-[15%] md:top-[42%]",
+    className: "right-[5%] top-[28%] md:right-[15%] md:top-[43%]",
     letters: [
       { src: "/redefine-2026/T.svg.webp", alt: "T", rotate: -5 },
       { src: "/redefine-2026/R.svg.webp", alt: "R", rotate: 4 },
@@ -66,7 +66,7 @@ const menu: MenuItem[] = [
 const signedOutItem: MenuItem = {
   id: "sign-in",
   href: "/signin",
-  className: "right-[5%] top-[40%] md:right-[15%] md:top-auto md:bottom-[25%]",
+  className: "right-[5%] top-[40%] md:right-[15%] md:top-[66%]",
   letters: [
     { src: "/redefine-2026/S.svg.webp", alt: "S", rotate: -5 },
     { src: "/redefine-2026/I.svg.webp", alt: "I", rotate: 4 },
@@ -80,7 +80,7 @@ const signedOutItem: MenuItem = {
 const signedInItem: MenuItem = {
   id: "team",
   href: "/team",
-  className: "right-[calc(5%_+_21px)] sm:right-[calc(5%_+_25px)] top-[40%] md:right-[15%] md:top-auto md:bottom-[25%]",
+  className: "right-[calc(5%_+_21px)] sm:right-[calc(5%_+_25px)] top-[40%] md:right-[15%] md:top-[66%]",
   letters: [
     { src: "/redefine-2026/T.svg.webp", alt: "T", rotate: -5 },
     { src: "/redefine-2026/E.svg.webp", alt: "E", rotate: 4 },
@@ -93,7 +93,7 @@ export default function SideMenu({ isSignedIn }: SideMenuProps) {
   const items = [...menu, isSignedIn ? signedInItem : signedOutItem];
 
   return (
-    <nav className="absolute inset-0 z-40 pointer-events-none" data-home-menu-layout="responsive-sides">
+    <nav className="pointer-events-none absolute left-1/2 top-0 z-40 h-[max(100dvh,calc(100vw*874/402))] w-[max(100vw,calc(100dvh*402/874))] -translate-x-1/2 md:top-1/2 md:h-[max(100dvh,calc(100vw*982/1512))] md:w-[max(100vw,calc(100dvh*1512/982))] md:-translate-y-1/2" data-home-menu-layout="artwork-aligned">
       {items.map((item) => (
         <Link
           key={item.id}

@@ -174,7 +174,9 @@ export default function SiteHeader({ hideRegisterButton }: { hideRegisterButton?
             type="button"
             onClick={() => setMobileOpen(!mobileOpen)}
             className="relative z-50 flex h-10 w-10 flex-col items-center justify-center gap-1.5 min-[900px]:hidden"
-            aria-label="Toggle menu"
+            aria-label={mobileOpen ? "Close menu" : "Open menu"}
+            aria-expanded={mobileOpen}
+            aria-controls="site-mobile-menu"
           >
             <motion.span
               animate={mobileOpen ? { rotate: 45, y: 6 } : { rotate: 0, y: 0 }}
@@ -204,6 +206,7 @@ export default function SiteHeader({ hideRegisterButton }: { hideRegisterButton?
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
             className="fixed inset-0 z-[60] flex flex-col bg-black/98 backdrop-blur-xl min-[900px]:hidden"
+            id="site-mobile-menu"
           >
             <div className="flex flex-col items-center justify-center h-full gap-8">
               {navLinks.map((link, idx) => (
