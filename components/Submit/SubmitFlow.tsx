@@ -138,18 +138,29 @@ export default function SubmitFlow() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="order-1 relative z-20 flex min-h-0 w-full max-w-[36rem] h-full items-center justify-center py-1 sm:py-2 lg:order-2 lg:justify-end lg:ml-auto lg:translate-x-6 xl:translate-x-12 shrink-0"
+          className="order-1 relative z-20 flex min-h-0 w-full max-w-[46rem] h-full items-center justify-center py-1 sm:py-2 lg:order-2 lg:justify-end lg:ml-auto lg:translate-x-2 xl:translate-x-6 shrink-0"
         >
           <form
             noValidate
             onSubmit={handleSubmit}
-            className="relative flex h-full min-h-0 w-full flex-col overflow-y-auto [ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden rounded-xl border border-pink-600/90 bg-black/95 px-5 py-[clamp(1rem,2vh,1.5rem)] sm:px-8 sm:rounded-2xl shadow-[0_16px_40px_rgba(0,0,0,0.9),0_0_32px_rgba(236,72,153,0.2)] lg:bg-black lg:px-[clamp(1.5rem,3.5vw,2.5rem)] lg:py-[clamp(1rem,2.5vh,1.75rem)]"
+            className={`relative flex min-h-0 w-full flex-col overflow-y-auto [ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden rounded-2xl border border-pink-600/90 bg-black/95 px-5 py-[clamp(1rem,2vh,1.5rem)] sm:px-8 shadow-[0_16px_40px_rgba(0,0,0,0.9),0_0_32px_rgba(236,72,153,0.2)] lg:bg-black lg:px-[clamp(1.5rem,3.5vw,2.5rem)] lg:py-[clamp(1rem,2.5vh,1.75rem)] ${
+              alreadySubmitted && !editing ? "h-auto" : "h-full"
+            }`}
           >
             <div className="flex flex-1 flex-col gap-4 sm:gap-5 justify-center">
+              {editing && (
+                <button
+                  type="button"
+                  onClick={() => setEditing(false)}
+                  className="absolute left-3 top-3 z-30 flex items-center gap-1.5 rounded-xl bg-transparent px-3 py-1.5 text-xs text-white/90 transition hover:bg-pink-500/20 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-pink-300 sm:left-4 sm:top-4 sm:text-sm"
+                >
+                  <span aria-hidden>&larr;</span> Back
+                </button>
+              )}
               {/* Panel Header */}
               <div className="flex flex-col items-center gap-2">
                 <div className="relative h-10 w-10 sm:h-12 sm:w-12">
-                  <Image src="/buildteam/image 24.svg.webp" alt="" fill className="object-contain" />
+                  <Image src="/buildteam/image-24.svg.webp" alt="" fill className="object-contain" />
                 </div>
                 <h2 className="text-center font-extrabold uppercase tracking-widest text-xl sm:text-2xl lg:text-3xl text-white drop-shadow-[0_0_12px_rgba(236,72,153,0.4)]">
                   SUBMISSIONS
@@ -162,18 +173,13 @@ export default function SubmitFlow() {
                   className="flex-1 py-8"
                 />
               ) : alreadySubmitted && !editing ? (
-                <div className="flex flex-col items-center justify-center gap-4 py-8 text-center">
-                  <div className="rounded-full bg-pink-500/20 p-4 text-pink-400">
-                    <svg className="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                  </div>
-                  <h3 className="text-xl font-bold text-white">Submission Received!</h3>
+                <div className="flex flex-col items-center justify-center gap-5 py-12 text-center">
+                  <h3 className="text-lg font-bold text-white">Submission Received!</h3>
                   <p className="text-sm text-white/70">Your team has already submitted. You can review or edit your submission below.</p>
                   <button
                     type="button"
                     onClick={() => setEditing(true)}
-                    className="mt-2 rounded-xl border border-pink-600 bg-transparent px-6 py-2 text-sm text-white transition hover:bg-pink-500/20"
+                    className="mt-1 rounded-xl border border-pink-600 bg-transparent px-5 py-2 text-sm text-white transition hover:bg-pink-500/20"
                   >
                     Edit Submission
                   </button>
@@ -182,7 +188,7 @@ export default function SubmitFlow() {
                 <>
                   {/* Track Selection */}
                   <div className="space-y-1.5 sm:space-y-2">
-                    <SectionHeaderLabel icon="/buildteam/image 24.svg.webp" label="TRACK" />
+                    <SectionHeaderLabel icon="/buildteam/image-24.svg.webp" label="TRACK" />
                     <div className="relative">
                       <select
                         value={trackId}
@@ -199,14 +205,14 @@ export default function SubmitFlow() {
                         ))}
                       </select>
                       <div className="pointer-events-none absolute inset-y-0 right-4 flex items-center">
-                        <Image src="/buildteam/Polygon 10.svg.webp" alt="" width={14} height={10} />
+                        <Image src="/buildteam/Polygon-10.svg.webp" alt="" width={14} height={10} />
                       </div>
                     </div>
                   </div>
 
                   {/* Figma Link */}
                   <div className="space-y-1.5 sm:space-y-2">
-                    <SectionHeaderLabel icon="/buildteam/image 24.svg.webp" label="FIGMA LINK" />
+                    <SectionHeaderLabel icon="/buildteam/image-24.svg.webp" label="FIGMA LINK" />
                     <input
                       type="url"
                       value={figmaLink}
@@ -218,7 +224,7 @@ export default function SubmitFlow() {
 
                   {/* Additional Links */}
                   <div className="space-y-2">
-                    <SectionHeaderLabel icon="/buildteam/image 24.svg.webp" label="ADDITIONAL LINKS" />
+                    <SectionHeaderLabel icon="/buildteam/image-24.svg.webp" label="ADDITIONAL LINKS" />
                     <div className="flex flex-col gap-2">
                       {additionalLinks.map((link, idx) => (
                         <input
@@ -242,16 +248,6 @@ export default function SubmitFlow() {
                       </button>
                     )}
                   </div>
-
-                  {editing && (
-                    <button
-                      type="button"
-                      onClick={() => setEditing(false)}
-                      className="mt-1 text-xs text-white/50 underline decoration-white/30 underline-offset-4 transition hover:text-white/80"
-                    >
-                      Cancel — back to submitted
-                    </button>
-                  )}
 
                   {/* Submit Button */}
                   <motion.button

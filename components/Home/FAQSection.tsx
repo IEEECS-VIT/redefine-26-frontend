@@ -48,7 +48,7 @@ function AccordionItem({
   onToggle: () => void;
 }) {
   return (
-    <div className="overflow-hidden rounded-xl border border-pink-600/70 bg-black/30 lg:bg-black/85 backdrop-blur-md lg:backdrop-blur-sm transition duration-200 hover:border-pink-400">
+    <div className="overflow-hidden rounded-2xl border border-pink-600/70 bg-black/30 lg:bg-black/85 backdrop-blur-md lg:backdrop-blur-sm transition duration-200 hover:border-pink-400">
       <button
         type="button"
         onClick={onToggle}

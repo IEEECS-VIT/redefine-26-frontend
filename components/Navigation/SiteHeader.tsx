@@ -170,7 +170,7 @@ export default function SiteHeader({ hideRegisterButton }: { hideRegisterButton?
                 transition={{ duration: 0.2 }}
                 className="cursor-pointer select-none"
               >
-                <div className="flex aspect-[193/61] w-[120px] items-center justify-center rounded-[19px] bg-black font-[var(--font-bebas-neue)] text-[clamp(0.85rem,1.5vw,1.25rem)] uppercase leading-none font-bold text-pink-100 shadow-[5px_5px_1px_#fac2cf,0_4px_30px_rgba(255,194,207,0.25)] sm:w-[145px] md:w-[160px] min-[900px]:w-[clamp(5.5rem,10vw,9.25rem)]">
+                <div className="flex aspect-[193/61] w-[120px] items-center justify-center rounded-xl bg-black font-[var(--font-bebas-neue)] text-[clamp(0.85rem,1.5vw,1.25rem)] uppercase leading-none font-bold text-pink-100 shadow-[5px_5px_1px_#fac2cf,0_4px_30px_rgba(255,194,207,0.25)] sm:w-[145px] md:w-[160px] min-[900px]:w-[clamp(5.5rem,10vw,9.25rem)]">
                   {checkingAction ? "Checking…" : headerAction.label}
                 </div>
               </motion.div>
@@ -186,7 +186,7 @@ export default function SiteHeader({ hideRegisterButton }: { hideRegisterButton?
               className="hidden cursor-pointer select-none transition-transform duration-200 hover:-translate-y-0.5 sm:block"
               aria-label="Sign out"
             >
-              <div className="flex aspect-[193/61] w-[120px] items-center justify-center rounded-[19px] bg-black font-[var(--font-bebas-neue)] text-[clamp(0.85rem,1.5vw,1.25rem)] uppercase leading-none font-bold text-pink-100 shadow-[5px_5px_1px_#fac2cf,0_4px_30px_rgba(255,194,207,0.2)] sm:w-[145px] md:w-[160px] min-[900px]:w-[clamp(5.5rem,10vw,9.25rem)]">
+              <div className="flex aspect-[193/61] w-[120px] items-center justify-center rounded-xl bg-black font-[var(--font-bebas-neue)] text-[clamp(0.85rem,1.5vw,1.25rem)] uppercase leading-none font-bold text-pink-100 shadow-[5px_5px_1px_#fac2cf,0_4px_30px_rgba(255,194,207,0.2)] sm:w-[145px] md:w-[160px] min-[900px]:w-[clamp(5.5rem,10vw,9.25rem)]">
                 Log Out
               </div>
             </button>
@@ -275,7 +275,7 @@ export default function SiteHeader({ hideRegisterButton }: { hideRegisterButton?
                   transition={{ delay: navLinks.length * 0.05, duration: 0.3, ease: "easeOut" }}
                   onClick={handleHeaderAction}
                   disabled={checkingAction}
-                  className="mt-3 flex aspect-[193/61] w-[160px] cursor-pointer select-none items-center justify-center rounded-[19px] bg-black font-[var(--font-bebas-neue)] text-[clamp(0.9rem,3.5vw,1.15rem)] uppercase leading-none font-bold text-pink-100 shadow-[5px_5px_1px_#fac2cf,0_4px_30px_rgba(255,194,207,0.25)] transition-transform duration-200 hover:-translate-y-0.5 disabled:opacity-60"
+                  className="mt-3 flex aspect-[193/61] w-[160px] cursor-pointer select-none items-center justify-center rounded-xl bg-black font-[var(--font-bebas-neue)] text-[clamp(0.9rem,3.5vw,1.15rem)] uppercase leading-none font-bold text-pink-100 shadow-[5px_5px_1px_#fac2cf,0_4px_30px_rgba(255,194,207,0.25)] transition-transform duration-200 hover:-translate-y-0.5 disabled:opacity-60"
                 >
                   {checkingAction ? "Checking…" : headerAction.label}
                 </motion.button>
@@ -289,7 +289,7 @@ export default function SiteHeader({ hideRegisterButton }: { hideRegisterButton?
                   exit={{ opacity: 0, y: 8 }}
                   transition={{ delay: (navLinks.length + 1) * 0.05, duration: 0.3, ease: "easeOut" }}
                   onClick={handleSignOut}
-                  className="flex aspect-[193/61] w-[160px] cursor-pointer select-none items-center justify-center rounded-[19px] bg-black font-[var(--font-bebas-neue)] text-[clamp(0.9rem,3.5vw,1.15rem)] uppercase leading-none font-bold text-pink-100 shadow-[5px_5px_1px_#fac2cf,0_4px_30px_rgba(255,194,207,0.2)] transition-transform duration-200 hover:-translate-y-0.5"
+                  className="flex aspect-[193/61] w-[160px] cursor-pointer select-none items-center justify-center rounded-xl bg-black font-[var(--font-bebas-neue)] text-[clamp(0.9rem,3.5vw,1.15rem)] uppercase leading-none font-bold text-pink-100 shadow-[5px_5px_1px_#fac2cf,0_4px_30px_rgba(255,194,207,0.2)] transition-transform duration-200 hover:-translate-y-0.5"
                 >
                   Log Out
                 </motion.button>

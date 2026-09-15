@@ -24,11 +24,11 @@ type DecorativeNote = {
 };
 
 const phases: Phase[] = [
-  { id: 1, label: "Phase 01", asset: "/timeline/Phase 01.svg.webp", date: "Designing begins · 8 AM" },
-  { id: 2, label: "Phase 02", asset: "/timeline/Phase 02.svg.webp", date: "Review 1 · 2 PM" },
-  { id: 3, label: "Phase 03", asset: "/timeline/Phase 03.svg.webp", date: "Review 2 · 1 AM" },
-  { id: 4, label: "Phase 04", asset: "/timeline/Phase 04.svg.webp", date: "Final pitch · 4 AM" },
-  { id: 5, label: "Phase 05", asset: "/timeline/Phase 05.svg.webp", date: "Prize distribution · 7 AM" },
+  { id: 1, label: "Phase 01", asset: "/timeline/Phase-01.svg.webp", date: "Designing begins · 8 AM" },
+  { id: 2, label: "Phase 02", asset: "/timeline/Phase-02.svg.webp", date: "Review 1 · 2 PM" },
+  { id: 3, label: "Phase 03", asset: "/timeline/Phase-03.svg.webp", date: "Review 2 · 1 AM" },
+  { id: 4, label: "Phase 04", asset: "/timeline/Phase-04.svg.webp", date: "Final pitch · 4 AM" },
+  { id: 5, label: "Phase 05", asset: "/timeline/Phase-05.svg.webp", date: "Prize distribution · 7 AM" },
 ];
 
 const outerNotes: DecorativeNote[] = [
@@ -66,7 +66,7 @@ function OuterNote({ note }: { note: DecorativeNote }) {
   return (
     <div
       data-timeline-decor-note={note.id}
-      className="absolute overflow-hidden rounded-sm shadow-md"
+      className="absolute overflow-hidden rounded-xl shadow-md"
       style={{
         top: note.top,
         left: note.left,
@@ -120,7 +120,7 @@ export default function Timeline() {
         {/* --- TOP ROW CARDS --- */}
         {/* Deco Top Left Far Backer */}
         <div
-          className="absolute bg-[#E57E96] rounded-sm shadow-md"
+          className="absolute bg-[#E57E96] rounded-xl shadow-md"
           style={{ top: '13%', left: '4%', width: '16.5%', height: '13%', transform: 'rotate(-6deg)', zIndex: 2 }}
         >
           <Pin className="absolute top-2 left-1/2 -translate-x-1/2" />
@@ -128,7 +128,7 @@ export default function Timeline() {
 
         {/* Deco Top Left Lined */}
         <div
-          className="absolute bg-[#F5B7C7] rounded-sm shadow-md overflow-hidden"
+          className="absolute bg-[#F5B7C7] rounded-xl shadow-md overflow-hidden"
           style={{ top: '15%', left: '14%', width: '13.5%', height: '15%', transform: 'rotate(3deg)', zIndex: 5 }}
         >
           <Pin className="absolute top-2 right-3" />
@@ -138,12 +138,12 @@ export default function Timeline() {
         {/* PHASE 05 CARD (Upper Left) */}
         <motion.div
           whileHover={{ scale: 1.04, zIndex: 30 }}
-          className="absolute bg-[#F9CDD7] rounded-sm shadow-lg p-4 flex flex-col items-center justify-center"
+          className="absolute bg-[#F9CDD7] rounded-xl shadow-lg p-4 flex flex-col items-center justify-center"
           style={{ top: '21%', left: '1.5%', width: '15%', height: '38%', transform: 'rotate(-4deg)', zIndex: 15 }}
         >
           <Pin anchor={5} className="absolute top-3.5 left-1/2 -translate-x-1/2" />
           <div className="relative w-full h-10 mt-2">
-            <Image src="/timeline/Phase 05.svg.webp" alt="Phase 05" fill className="object-contain" />
+            <Image src="/timeline/Phase-05.svg.webp" alt="Phase 05" fill className="object-contain" />
           </div>
           <p className="text-sm xl:text-base font-semibold text-black mt-2 text-center whitespace-nowrap">
             Prize distribution · 7 AM
@@ -152,7 +152,7 @@ export default function Timeline() {
 
         {/* Deco Top Center Lined (Behind Phase 01) */}
         <div
-          className="absolute bg-[#F5B7C7] rounded-sm shadow-md overflow-hidden"
+          className="absolute bg-[#F5B7C7] rounded-xl shadow-md overflow-hidden"
           style={{ top: '13%', left: '26.8%', width: '11.5%', height: '30%', transform: 'rotate(4deg)', zIndex: 4 }}
         >
           <Pin className="absolute top-2 right-3" />
@@ -161,7 +161,7 @@ export default function Timeline() {
 
         {/* Deco Top Center Backer */}
         <div
-          className="absolute bg-[#E57E96] rounded-sm shadow-md"
+          className="absolute bg-[#E57E96] rounded-xl shadow-md"
           style={{ top: '16.5%', left: '24%', width: '3.5%', height: '11%', transform: 'rotate(-2deg)', zIndex: 3 }}
         >
           <Pin className="absolute top-1.5 left-1/2 -translate-x-1/2" />
@@ -170,12 +170,12 @@ export default function Timeline() {
         {/* PHASE 01 CARD (Top Center) */}
         <motion.div
           whileHover={{ scale: 1.04, zIndex: 30 }}
-          className="absolute bg-[#F9CDD7] rounded-sm shadow-lg p-4 flex flex-col items-center justify-center"
+          className="absolute bg-[#F9CDD7] rounded-xl shadow-lg p-4 flex flex-col items-center justify-center"
           style={{ top: '15%', left: '40.5%', width: '15.5%', height: '19%', transform: 'rotate(0.5deg)', zIndex: 15 }}
         >
           <Pin anchor={1} className="absolute top-2.5 left-1/2 -translate-x-1/2" />
           <div className="relative w-full h-8 mt-1">
-            <Image src="/timeline/Phase 01.svg.webp" alt="Phase 01" fill className="object-contain" />
+            <Image src="/timeline/Phase-01.svg.webp" alt="Phase 01" fill className="object-contain" />
           </div>
           <p className="text-sm xl:text-base font-semibold text-black mt-1.5 text-center whitespace-nowrap">
             Designing begins · 8 AM
@@ -184,7 +184,7 @@ export default function Timeline() {
 
         {/* Deco Top Center-Right Backer */}
         <div
-          className="absolute bg-[#E57E96] rounded-sm shadow-md"
+          className="absolute bg-[#E57E96] rounded-xl shadow-md"
           style={{ top: '12%', left: '54.2%', width: '7%', height: '21%', transform: 'rotate(5deg)', zIndex: 3 }}
         >
           <Pin className="absolute top-2 left-1/2 -translate-x-1/2" />
@@ -192,7 +192,7 @@ export default function Timeline() {
 
         {/* Deco Top Right Lined */}
         <div
-          className="absolute bg-[#F5B7C7] rounded-sm shadow-md overflow-hidden"
+          className="absolute bg-[#F5B7C7] rounded-xl shadow-md overflow-hidden"
           style={{ top: '14%', left: '59.2%', width: '19%', height: '23%', transform: 'rotate(-2deg)', zIndex: 6 }}
         >
           <Pin className="absolute top-2.5 left-1/2 -translate-x-1/2" />
@@ -202,12 +202,12 @@ export default function Timeline() {
         {/* PHASE 02 CARD (Upper Right) */}
         <motion.div
           whileHover={{ scale: 1.04, zIndex: 30 }}
-          className="absolute bg-[#F9CDD7] rounded-sm shadow-lg p-4 flex flex-col items-center justify-center"
+          className="absolute bg-[#F9CDD7] rounded-xl shadow-lg p-4 flex flex-col items-center justify-center"
           style={{ top: '25%', left: '75%', width: '17%', height: '20%', transform: 'rotate(-3deg)', zIndex: 15 }}
         >
           <Pin anchor={2} className="absolute top-2.5 left-1/2 -translate-x-1/2" />
           <div className="relative w-full h-8 mt-1">
-            <Image src="/timeline/Phase 02.svg.webp" alt="Phase 02" fill className="object-contain" />
+            <Image src="/timeline/Phase-02.svg.webp" alt="Phase 02" fill className="object-contain" />
           </div>
           <p className="text-sm xl:text-base font-semibold text-black mt-1.5 text-center whitespace-nowrap">
             Review 1 · 2 PM
@@ -216,7 +216,7 @@ export default function Timeline() {
 
         {/* Deco Top Far Right Maroon */}
         <div
-          className="absolute bg-[#B23354] rounded-sm shadow-md"
+          className="absolute bg-[#B23354] rounded-xl shadow-md"
           style={{ top: '12%', left: '85.2%', width: '11%', height: '26%', transform: 'rotate(4deg)', zIndex: 2 }}
         >
           <Pin className="absolute top-2 left-1/2 -translate-x-1/2" />
@@ -224,7 +224,7 @@ export default function Timeline() {
 
         {/* Deco Top Far Right Lined */}
         <div
-          className="absolute bg-[#F5B7C7] rounded-sm shadow-md overflow-hidden"
+          className="absolute bg-[#F5B7C7] rounded-xl shadow-md overflow-hidden"
           style={{ top: '14.5%', left: '87.5%', width: '9%', height: '18%', transform: 'rotate(-3deg)', zIndex: 4 }}
         >
           <Pin className="absolute top-2 left-1/2 -translate-x-1/2" />
@@ -234,7 +234,7 @@ export default function Timeline() {
         {/* --- RIGHT SIDE CARDS --- */}
         {/* Deco Mid Right Dark Red */}
         <div
-          className="absolute bg-[#A52B4B] rounded-sm shadow-md"
+          className="absolute bg-[#A52B4B] rounded-xl shadow-md"
           style={{ top: '36%', left: '84.6%', width: '14.5%', height: '19%', transform: 'rotate(-5deg)', zIndex: 3 }}
         >
           <Pin className="absolute top-2 left-3" />
@@ -242,7 +242,7 @@ export default function Timeline() {
 
         {/* Deco Mid Right Lined */}
         <div
-          className="absolute bg-[#F5B7C7] rounded-sm shadow-md overflow-hidden"
+          className="absolute bg-[#F5B7C7] rounded-xl shadow-md overflow-hidden"
           style={{ top: '50%', left: '87.1%', width: '12%', height: '22%', transform: 'rotate(2deg)', zIndex: 5 }}
         >
           <Pin className="absolute top-2 left-3" />
@@ -252,12 +252,12 @@ export default function Timeline() {
         {/* PHASE 03 CARD (Bottom Right) */}
         <motion.div
           whileHover={{ scale: 1.04, zIndex: 30 }}
-          className="absolute bg-[#F9CDD7] rounded-sm shadow-lg p-4 flex flex-col items-center justify-center"
+          className="absolute bg-[#F9CDD7] rounded-xl shadow-lg p-4 flex flex-col items-center justify-center"
           style={{ top: '70.5%', left: '75.5%', width: '19%', height: '23%', transform: 'rotate(2deg)', zIndex: 15 }}
         >
           <Pin anchor={3} className="absolute top-2.5 left-1/2 -translate-x-1/2" />
           <div className="relative w-full h-9 mt-1">
-            <Image src="/timeline/Phase 03.svg.webp" alt="Phase 03" fill className="object-contain" />
+            <Image src="/timeline/Phase-03.svg.webp" alt="Phase 03" fill className="object-contain" />
           </div>
           <p className="text-sm xl:text-base font-semibold text-black mt-2 text-center whitespace-nowrap">
             Review 2 · 1 AM
@@ -266,14 +266,14 @@ export default function Timeline() {
 
         {/* Deco Far Bottom-Right Maroon */}
         <div
-          className="absolute bg-[#8E213D] rounded-sm shadow-md"
+          className="absolute bg-[#8E213D] rounded-xl shadow-md"
           style={{ top: '64.5%', left: '84.8%', width: '14.5%', height: '19%', transform: 'rotate(-4deg)', zIndex: 2 }}
         />
 
         {/* --- BOTTOM ROW CARDS --- */}
         {/* Deco Bottom Right Maroon */}
         <div
-          className="absolute bg-[#B23354] rounded-sm shadow-md"
+          className="absolute bg-[#B23354] rounded-xl shadow-md"
           style={{ top: '86.5%', left: '72.8%', width: '10%', height: '14%', transform: 'rotate(3deg)', zIndex: 3 }}
         >
           <Pin className="absolute top-2 left-1/2 -translate-x-1/2" />
@@ -281,7 +281,7 @@ export default function Timeline() {
 
         {/* Deco Bottom Right Mini */}
         <div
-          className="absolute bg-[#F5B7C7] rounded-sm shadow-md"
+          className="absolute bg-[#F5B7C7] rounded-xl shadow-md"
           style={{ top: '92.5%', left: '69.5%', width: '4%', height: '7.5%', transform: 'rotate(-2deg)', zIndex: 8 }}
         >
           <Pin className="absolute top-1 left-1/2 -translate-x-1/2" />
@@ -290,7 +290,7 @@ export default function Timeline() {
         {/* Deco Bottom Center-Right Lined */}
         <div
           data-timeline-bottom-palette="varied"
-          className="absolute overflow-hidden rounded-sm bg-[#E99AB0] shadow-md"
+          className="absolute overflow-hidden rounded-xl bg-[#E99AB0] shadow-md"
           style={{ top: '70.5%', left: '49.5%', width: '21.5%', height: '31%', transform: 'rotate(1deg)', zIndex: 6 }}
         >
           <Pin className="absolute top-2.5 left-1/2 -translate-x-1/2" />
@@ -299,7 +299,7 @@ export default function Timeline() {
 
         {/* Deco Bottom Center Maroon Backer */}
         <div
-          className="absolute bg-[#8E213D] rounded-sm shadow-md"
+          className="absolute bg-[#8E213D] rounded-xl shadow-md"
           style={{ top: '66%', left: '58.5%', width: '9.8%', height: '8.5%', transform: 'rotate(3deg)', zIndex: 2 }}
         >
           <Pin className="absolute top-1.5 left-1/2 -translate-x-1/2" />
@@ -307,19 +307,19 @@ export default function Timeline() {
 
         {/* Deco Bottom Center Pink Vertical */}
         <div
-          className="absolute bg-[#E57E96] rounded-sm shadow-md"
+          className="absolute bg-[#E57E96] rounded-xl shadow-md"
           style={{ top: '76.5%', left: '36.5%', width: '10%', height: '26%', transform: 'rotate(-1deg)', zIndex: 3 }}
         />
 
         {/* PHASE 04 CARD (Lower Left) */}
         <motion.div
           whileHover={{ scale: 1.04, zIndex: 30 }}
-          className="absolute bg-[#F9CDD7] rounded-sm shadow-lg p-5 flex flex-col items-center justify-center"
+          className="absolute bg-[#F9CDD7] rounded-xl shadow-lg p-5 flex flex-col items-center justify-center"
           style={{ top: '68.5%', left: '11.5%', width: '23.5%', height: '26%', transform: 'rotate(-3deg)', zIndex: 15 }}
         >
           <Pin anchor={4} className="absolute top-3 right-6" />
           <div className="relative w-full h-10 mt-1">
-            <Image src="/timeline/Phase 04.svg.webp" alt="Phase 04" fill className="object-contain" />
+            <Image src="/timeline/Phase-04.svg.webp" alt="Phase 04" fill className="object-contain" />
           </div>
           <p className="text-sm xl:text-base font-semibold text-black mt-2 text-center whitespace-nowrap">
             Final pitch · 4 AM
@@ -328,7 +328,7 @@ export default function Timeline() {
 
         {/* Deco Bottom Center-Left Pink Square */}
         <div
-          className="absolute bg-[#E57E96] rounded-sm shadow-md"
+          className="absolute bg-[#E57E96] rounded-xl shadow-md"
           style={{ top: '76%', left: '34.5%', width: '15.5%', height: '18%', transform: 'rotate(4deg)', zIndex: 2 }}
         >
           <Pin className="absolute top-2 right-3" />
@@ -336,7 +336,7 @@ export default function Timeline() {
 
         {/* Deco Bottom Center-Left Lined */}
         <div
-          className="absolute bg-[#F5B7C7] rounded-sm shadow-md overflow-hidden"
+          className="absolute bg-[#F5B7C7] rounded-xl shadow-md overflow-hidden"
           style={{ top: '68.5%', left: '34.5%', width: '9.2%', height: '9%', transform: 'rotate(-2deg)', zIndex: 5 }}
         >
           <Pin className="absolute top-1.5 left-1/2 -translate-x-1/2" />
@@ -345,7 +345,7 @@ export default function Timeline() {
 
         {/* Deco Bottom Far-Left Maroon */}
         <div
-          className="absolute bg-[#B23354] rounded-sm shadow-md"
+          className="absolute bg-[#B23354] rounded-xl shadow-md"
           style={{ top: '75.5%', left: '7.2%', width: '9%', height: '11%', transform: 'rotate(3deg)', zIndex: 3 }}
         >
           <Pin className="absolute top-1.5 left-2" />
@@ -353,7 +353,7 @@ export default function Timeline() {
 
         {/* Deco Bottom-Left Dark Red */}
         <div
-          className="absolute bg-[#8E213D] rounded-sm shadow-md"
+          className="absolute bg-[#8E213D] rounded-xl shadow-md"
           style={{ top: '85.5%', left: '1.8%', width: '10.5%', height: '11%', transform: 'rotate(-2deg)', zIndex: 2 }}
         >
           <Pin className="absolute top-1.5 left-1/2 -translate-x-1/2" />
@@ -361,7 +361,7 @@ export default function Timeline() {
 
         {/* Deco Bottom-Left Lined Mini */}
         <div
-          className="absolute bg-[#F5B7C7] rounded-sm shadow-md overflow-hidden"
+          className="absolute bg-[#F5B7C7] rounded-xl shadow-md overflow-hidden"
           style={{ top: '80.5%', left: '2.5%', width: '5.5%', height: '7%', transform: 'rotate(5deg)', zIndex: 6 }}
         >
           <Pin className="absolute top-1 left-1/2 -translate-x-1/2" />
@@ -370,7 +370,7 @@ export default function Timeline() {
 
         {/* Deco Bottom Sticking Lined */}
         <div
-          className="absolute bg-[#F5B7C7] rounded-sm shadow-md overflow-hidden"
+          className="absolute bg-[#F5B7C7] rounded-xl shadow-md overflow-hidden"
           style={{ top: '88%', left: '17.2%', width: '10.5%', height: '12%', transform: 'rotate(0deg)', zIndex: 2 }}
         >
           <NotebookLines count={4} />
@@ -379,7 +379,7 @@ export default function Timeline() {
         {/* --- LEFT SIDE CARDS --- */}
         {/* Deco Mid Left Pink */}
         <div
-          className="absolute bg-[#F5B7C7] rounded-sm shadow-md"
+          className="absolute bg-[#F5B7C7] rounded-xl shadow-md"
           style={{ top: '51.5%', left: '4.5%', width: '14.7%', height: '16.5%', transform: 'rotate(-2deg)', zIndex: 5 }}
         >
           <Pin className="absolute top-2 right-3" />
@@ -387,7 +387,7 @@ export default function Timeline() {
 
         {/* Deco Lower Left Lined Backer */}
         <div
-          className="absolute bg-[#F5B7C7] rounded-sm shadow-md overflow-hidden"
+          className="absolute bg-[#F5B7C7] rounded-xl shadow-md overflow-hidden"
           style={{ top: '63.5%', left: '2.5%', width: '12%', height: '10.5%', transform: 'rotate(3deg)', zIndex: 2 }}
         >
           <NotebookLines count={3} />
@@ -408,7 +408,7 @@ export default function Timeline() {
             <div
               key={phase.id}
               data-mobile-phase-card="expanded"
-              className="absolute left-1/2 flex h-[10%] w-[56%] -translate-x-1/2 flex-col items-center justify-center rounded-sm shadow-xl"
+              className="absolute left-1/2 flex h-[10%] w-[56%] -translate-x-1/2 flex-col items-center justify-center rounded-xl shadow-xl"
               style={{
                 top: `${[6, 23, 40, 57, 74][idx]}%`,
                 rotate: `${[-4, 3, -3, 2, -2][idx]}deg`,

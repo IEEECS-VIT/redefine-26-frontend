@@ -80,7 +80,7 @@ function KindButton({
           whileHover={{ scale: 1.025, y: -3 }}
           whileTap={{ scale: 0.985 }}
           transition={{ duration: 0.2 }}
-          className="flex w-full flex-col items-center justify-center rounded-lg border border-pink-600/90 bg-black transition duration-200 group-hover:-translate-y-1 group-hover:bg-pink-500/10 sm:rounded-xl h-[clamp(5.5rem,14vh,7.5rem)] px-4 py-3 gap-2.5 lg:h-auto lg:aspect-[371/139] lg:gap-[clamp(0.45rem,1.2vw,0.8rem)] lg:px-5 lg:py-4"
+          className="flex w-full flex-col items-center justify-center rounded-2xl border border-pink-600/90 bg-black transition duration-200 group-hover:-translate-y-1 group-hover:bg-pink-500/10 sm:rounded-2xl h-[clamp(5.5rem,14vh,7.5rem)] px-4 py-3 gap-2.5 lg:h-auto lg:aspect-[371/139] lg:gap-[clamp(0.45rem,1.2vw,0.8rem)] lg:px-5 lg:py-4"
         >
           <div className="relative aspect-square w-8 sm:w-10 lg:w-[16%] lg:min-w-8">
             <Image src={icon} alt="" fill className="object-contain" />
@@ -104,13 +104,13 @@ function PanelFrame({
   onBack?: () => void;
 }) {
   const className =
-    "relative flex h-full min-h-0 w-full flex-col overflow-y-auto [ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden rounded-xl border border-pink-600/90 bg-black/95 px-5 py-[clamp(1rem,2.5vh,1.75rem)] sm:px-8 sm:rounded-2xl shadow-[0_16px_40px_rgba(0,0,0,0.9),0_0_32px_rgba(236,72,153,0.2)] lg:max-w-[32.875rem] lg:bg-black lg:px-[clamp(1.25rem,5vw,3rem)] lg:pb-[clamp(1.5rem,4vh,2.5rem)] lg:pt-[clamp(1rem,2vh,1.5rem)] lg:shadow-[0_0_32px_rgba(236,72,153,0.13)]";
+    "relative flex h-full min-h-0 w-full flex-col overflow-y-auto [ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden rounded-2xl border border-pink-600/90 bg-black/95 px-5 py-[clamp(1rem,2.5vh,1.75rem)] sm:px-8 sm:rounded-2xl shadow-[0_16px_40px_rgba(0,0,0,0.9),0_0_32px_rgba(236,72,153,0.2)] lg:max-w-[32.875rem] lg:bg-black lg:px-[clamp(1.25rem,5vw,3rem)] lg:pb-[clamp(1.5rem,4vh,2.5rem)] lg:pt-[clamp(1rem,2vh,1.5rem)] lg:shadow-[0_0_32px_rgba(236,72,153,0.13)]";
 
   const backButton = onBack ? (
     <button
       type="button"
       onClick={onBack}
-      className="absolute left-3 top-3 z-30 flex items-center gap-1.5 rounded-lg bg-transparent px-3 py-1.5 text-xs text-white/90 transition hover:bg-pink-500/20 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-pink-300 sm:left-4 sm:top-4 sm:text-sm"
+      className="absolute left-3 top-3 z-30 flex items-center gap-1.5 rounded-xl bg-transparent px-3 py-1.5 text-xs text-white/90 transition hover:bg-pink-500/20 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-pink-300 sm:left-4 sm:top-4 sm:text-sm"
     >
       <span aria-hidden>&larr;</span> Back
     </button>
@@ -238,17 +238,17 @@ export default function TeamUpFlow({ onTeamFormed }: TeamUpFlowProps) {
                 transition={{ duration: 0.25 }}
                 className="h-full w-full min-h-0 flex items-center justify-center"
               >
-                <div className="flex h-full min-h-0 w-full flex-col justify-center items-center overflow-y-auto [ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden rounded-xl border border-pink-600/90 bg-black/95 px-4 sm:px-6 py-[clamp(1rem,2.5vh,2rem)] shadow-[0_16px_40px_rgba(0,0,0,0.9),0_0_32px_rgba(236,72,153,0.2)] sm:rounded-2xl lg:bg-black lg:px-[14%] lg:py-6 lg:shadow-[0_0_32px_rgba(236,72,153,0.13)]">
+                <div className="flex h-full min-h-0 w-full flex-col justify-center items-center overflow-y-auto [ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden rounded-2xl border border-pink-600/90 bg-black/95 px-4 sm:px-6 py-[clamp(1rem,2.5vh,2rem)] shadow-[0_16px_40px_rgba(0,0,0,0.9),0_0_32px_rgba(236,72,153,0.2)] sm:rounded-2xl lg:bg-black lg:px-[14%] lg:py-6 lg:shadow-[0_0_32px_rgba(236,72,153,0.13)]">
                   <div className="flex w-full flex-col gap-[clamp(0.85rem,2.5vh,2rem)] lg:gap-[clamp(1rem,3vh,2.25rem)] my-auto">
                     <KindButton
-                      icon="/teamup/image 24.webp"
-                      label="/teamup/BUILD YOUR TEAM.webp"
+                      icon="/teamup/image-24.webp"
+                      label="/teamup/BUILD-YOUR-TEAM.webp"
                       alt="Build your team"
                       onClick={() => go("build")}
                     />
                     <KindButton
-                      icon="/teamup/image 25.webp"
-                      label="/teamup/JOIN A TEAM.webp"
+                      icon="/teamup/image-25.webp"
+                      label="/teamup/JOIN-A-TEAM.webp"
                       alt="Join a team"
                       onClick={() => go("join")}
                     />
@@ -279,16 +279,16 @@ export default function TeamUpFlow({ onTeamFormed }: TeamUpFlowProps) {
                   <div className="flex flex-1 flex-col gap-[clamp(0.6rem,2vh,1.75rem)] justify-center">
                     <div className="flex flex-col items-center gap-2.5 sm:gap-4">
                       <div className="relative h-10 w-10 sm:h-12 sm:w-12">
-                        <Image src="/buildteam/image 24.svg.webp" alt="" fill className="object-contain" />
+                        <Image src="/buildteam/image-24.svg.webp" alt="" fill className="object-contain" />
                       </div>
                       <div className="relative aspect-[307/34] w-full max-w-[17rem] sm:max-w-[19.2rem]">
-                        <Image src="/buildteam/BUILD YOUR TEAM.svg.webp" alt="Build your team" fill className="object-contain" />
+                        <Image src="/buildteam/BUILD-YOUR-TEAM.svg.webp" alt="Build your team" fill className="object-contain" />
                       </div>
                     </div>
 
                     <div className="space-y-2.5 sm:space-y-4">
                       <div className="space-y-1.5 sm:space-y-2">
-                        <FieldLabel icon="/buildteam/image 27.svg.webp" label="/buildteam/TEAM NAME.svg.webp" alt="Team name" />
+                        <FieldLabel icon="/buildteam/image-27.svg.webp" label="/buildteam/TEAM-NAME.svg.webp" alt="Team name" />
                         <input
                           value={teamName}
                           onChange={(event) => setTeamName(event.target.value)}
@@ -299,7 +299,7 @@ export default function TeamUpFlow({ onTeamFormed }: TeamUpFlowProps) {
                       </div>
 
                       <div className="space-y-1.5 sm:space-y-2">
-                        <FieldLabel icon="/buildteam/image 27.svg.webp" label="/buildteam/TRACK.svg.webp" alt="Track" />
+                        <FieldLabel icon="/buildteam/image-27.svg.webp" label="/buildteam/TRACK.svg.webp" alt="Track" />
                         <div className="relative">
                           <select
                             value={trackId}
@@ -316,7 +316,7 @@ export default function TeamUpFlow({ onTeamFormed }: TeamUpFlowProps) {
                             ))}
                           </select>
                           <div className="pointer-events-none absolute inset-y-0 right-4 flex items-center">
-                            <Image src="/buildteam/Polygon 10.svg.webp" alt="" width={16} height={11} />
+                            <Image src="/buildteam/Polygon-10.svg.webp" alt="" width={16} height={11} />
                           </div>
                         </div>
                       </div>
@@ -337,7 +337,7 @@ export default function TeamUpFlow({ onTeamFormed }: TeamUpFlowProps) {
                         Creating…
                       </span>
                     ) : (
-                      <Image src="/buildteam/FINALISE TEAM.svg.webp" alt="Finalise team" width={128} height={17} />
+                      <Image src="/buildteam/FINALISE-TEAM.svg.webp" alt="Finalise team" width={128} height={17} />
                     )}
                   </motion.button>
                 </PanelFrame>
@@ -358,10 +358,10 @@ export default function TeamUpFlow({ onTeamFormed }: TeamUpFlowProps) {
                     <div className="space-y-3 sm:space-y-5 w-full">
                       <div className="flex items-center gap-3">
                         <div className="relative h-8 w-8 sm:h-9 sm:w-9 shrink-0">
-                          <Image src="/teamcode/image 27.svg.webp" alt="" fill className="object-contain" />
+                          <Image src="/teamcode/image-27.svg.webp" alt="" fill className="object-contain" />
                         </div>
                         <div className="relative aspect-[155/26] h-6 sm:h-7 w-auto">
-                          <Image src="/teamcode/TEAM CODE.svg.webp" alt="Team code" fill className="object-contain object-left" />
+                          <Image src="/teamcode/TEAM-CODE.svg.webp" alt="Team code" fill className="object-contain object-left" />
                         </div>
                       </div>
                       <input

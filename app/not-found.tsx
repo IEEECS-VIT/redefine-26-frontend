@@ -27,7 +27,7 @@ export default function NotFound() {
 
       <Link
         href="/"
-        className="relative mt-8 cursor-pointer select-none rounded-2xl bg-black px-10 py-3.5 font-[var(--font-bebas-neue)] text-lg uppercase tracking-widest text-pink-100 shadow-[5px_5px_1px_#fac2cf,0_8px_28px_rgba(236,72,153,0.3)] transition-transform duration-200 hover:-translate-y-0.5 hover:text-white"
+        className="relative mt-8 cursor-pointer select-none rounded-xl bg-black px-10 py-3.5 font-[var(--font-bebas-neue)] text-lg uppercase tracking-widest text-pink-100 shadow-[5px_5px_1px_#fac2cf,0_8px_28px_rgba(236,72,153,0.3)] transition-transform duration-200 hover:-translate-y-0.5 hover:text-white"
       >
         Back to Home
       </Link>

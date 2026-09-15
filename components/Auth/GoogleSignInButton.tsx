@@ -44,7 +44,7 @@ export default function GoogleSignInButton({
       type="button"
       onClick={handleClick}
       disabled={loading}
-      className={`inline-flex items-center justify-center gap-3 rounded-lg bg-white px-5 py-2.5 text-sm font-medium text-gray-800 shadow-sm transition hover:bg-gray-100 disabled:opacity-50 ${className}`}
+      className={`inline-flex items-center justify-center gap-3 rounded-xl bg-white px-5 py-2.5 text-sm font-medium text-gray-800 shadow-sm transition hover:bg-gray-100 disabled:opacity-50 ${className}`}
       aria-label="Sign in with Google"
     >
       <GoogleIcon className="h-5 w-5 shrink-0" />

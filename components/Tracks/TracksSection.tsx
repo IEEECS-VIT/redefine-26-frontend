@@ -35,7 +35,7 @@ const tracks: TrackData[] = [
     id: 1,
     title: "Brutalism",
     titleImg: "/tracks/theme_title_1.svg",
-    bladeSvg: "/tracks/Mask group.svg.webp",
+    bladeSvg: "/tracks/Mask-group.svg.webp",
     illustration: "/tracks/illustration_1.webp",
     left: "-0.7%",
     width: "50.56%",
@@ -43,7 +43,7 @@ const tracks: TrackData[] = [
     titleWidth: "22%",
     titleAspect: "140/76",
 
-    mobileBlade: "/tracks mobile/Mask group.webp",
+    mobileBlade: "/tracks-mobile/Mask-group.webp",
     mobileTitle: "/tracks/theme_title_1.svg",
     mobileTitlePos: { left: "80%", top: "30%" },
     mobileTitleWidth: "25%",
@@ -55,7 +55,7 @@ const tracks: TrackData[] = [
     id: 2,
     title: "Skeuomorphism",
     titleImg: "/tracks/theme_title_2.svg",
-    bladeSvg: "/tracks/Mask group-1.svg.webp",
+    bladeSvg: "/tracks/Mask-group-1.svg.webp",
     illustration: "/tracks/illustration_2.webp",
     left: "18.3%",
     width: "31.28%",
@@ -63,7 +63,7 @@ const tracks: TrackData[] = [
     titleWidth: "33%",
     titleAspect: "150/76",
 
-    mobileBlade: "/tracks mobile/Mask group-1.webp",
+    mobileBlade: "/tracks-mobile/Mask-group-1.webp",
     mobileTitle: "/tracks/theme_title_2.svg",
     mobileTitlePos: { left: "80%", top: "36%" },
     mobileTitleWidth: "26%",
@@ -75,7 +75,7 @@ const tracks: TrackData[] = [
     id: 3,
     title: "Swiss / International Style",
     titleImg: "/tracks/theme_title_3.svg",
-    bladeSvg: "/tracks/Mask group-2.svg.webp",
+    bladeSvg: "/tracks/Mask-group-2.svg.webp",
     illustration: "/tracks/illustration_3.webp",
     left: "34.5%",
     width: "17.81%",
@@ -83,7 +83,7 @@ const tracks: TrackData[] = [
     titleWidth: "56%",
     titleAspect: "140/110",
 
-    mobileBlade: "/tracks mobile/Mask group-2.webp",
+    mobileBlade: "/tracks-mobile/Mask-group-2.webp",
     mobileTitle: "/tracks/theme_title_3.svg",
     mobileTitlePos: { left: "80%", top: "55%" },
     mobileTitleWidth: "24%",
@@ -95,7 +95,7 @@ const tracks: TrackData[] = [
     id: 4,
     title: "Maximalism",
     titleImg: "/tracks/theme_title_4.svg",
-    bladeSvg: "/tracks/Mask group-3.svg.webp",
+    bladeSvg: "/tracks/Mask-group-3.svg.webp",
     illustration: "/tracks/illustration_4.webp",
     left: "49.5%",
     width: "17.46%",
@@ -103,7 +103,7 @@ const tracks: TrackData[] = [
     titleWidth: "54%",
     titleAspect: "140/76",
 
-    mobileBlade: "/tracks mobile/Mask group-3.webp",
+    mobileBlade: "/tracks-mobile/Mask-group-3.webp",
     mobileTitle: "/tracks/theme_title_4.svg",
     mobileTitlePos: { left: "80%", top: "48%" },
     mobileTitleWidth: "24%",
@@ -115,7 +115,7 @@ const tracks: TrackData[] = [
     id: 5,
     title: "Retro / Nostalgic UI",
     titleImg: "/tracks/theme_title_5.svg",
-    bladeSvg: "/tracks/Mask group-4.svg.webp",
+    bladeSvg: "/tracks/Mask-group-4.svg.webp",
     illustration: "/tracks/illustration_5.webp",
     left: "49.5%",
     width: "31.15%",
@@ -123,7 +123,7 @@ const tracks: TrackData[] = [
     titleWidth: "31%",
     titleAspect: "140/96",
 
-    mobileBlade: "/tracks mobile/Mask group-4.webp",
+    mobileBlade: "/tracks-mobile/Mask-group-4.webp",
     mobileTitle: "/tracks/theme_title_5.svg",
     mobileTitlePos: { left: "80%", top: "65%" },
     mobileTitleWidth: "24%",
@@ -135,7 +135,7 @@ const tracks: TrackData[] = [
     id: 6,
     title: "Dark Mode / Low-Light Design",
     titleImg: "/tracks/theme_title_6.svg",
-    bladeSvg: "/tracks/Mask group-5.svg.webp",
+    bladeSvg: "/tracks/Mask-group-5.svg.webp",
     illustration: "/tracks/illustration_6.webp",
     left: "49.5%",
     width: "50.0%",
@@ -143,7 +143,7 @@ const tracks: TrackData[] = [
     titleWidth: "23%",
     titleAspect: "160/96",
 
-    mobileBlade: "/tracks mobile/Mask group-5.webp",
+    mobileBlade: "/tracks-mobile/Mask-group-5.webp",
     mobileTitle: "/tracks/theme_title_6.svg",
     mobileTitlePos: { left: "80%", top: "70%" },
     mobileTitleWidth: "26%",
@@ -345,7 +345,7 @@ export default function TracksSection() {
             {/* Background Polygon */}
             <div className="absolute inset-0 z-0">
               <Image
-                src="/tracks mobile/Polygon 8.webp"
+                src="/tracks-mobile/Polygon-8.webp"
                 alt=""
                 fill
                 draggable={false}
@@ -442,7 +442,7 @@ export default function TracksSection() {
             {/* Left Side: Brain scribble centered on the fan blade apex matching Figma */}
             <div className="absolute right-[calc(100%-2px)] top-1/2 -translate-y-1/2 w-[29.5%] aspect-[88/585] z-20 select-none pointer-events-none">
               <Image
-                src="/tracks mobile/scribble_figma.webp"
+                src="/tracks-mobile/scribble_figma.webp"
                 alt="Brain Scribble"
                 fill
                 draggable={false}
@@ -559,7 +559,7 @@ export default function TracksSection() {
 
         <div className="flex items-center justify-center gap-6 sm:gap-8 -mt-2 sm:-mt-3 z-20 select-none pointer-events-none">
           <div className="relative w-[190px] xl:w-[220px] aspect-[508/451]">
-            <Image src="/tracks/image 16.webp" alt="" fill draggable={false} className="object-contain" />
+            <Image src="/tracks/image-16.webp" alt="" fill draggable={false} className="object-contain" />
           </div>
 
           <div className="relative w-[240px] xl:w-[280px] h-[164px] xl:h-[190px]">
@@ -567,7 +567,7 @@ export default function TracksSection() {
           </div>
 
           <div className="relative w-[190px] xl:w-[220px] aspect-[382/258]">
-            <Image src="/tracks/image 15.webp" alt="" fill draggable={false} className="object-contain" />
+            <Image src="/tracks/image-15.webp" alt="" fill draggable={false} className="object-contain" />
           </div>
         </div>
       </div>

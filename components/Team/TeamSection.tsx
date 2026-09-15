@@ -108,7 +108,7 @@ export default function TeamSection({
           {teamName === "TEAM NAME" ? (
             <div className="relative w-[220px] sm:w-[280px] md:w-[340px] h-10 sm:h-12 md:h-16">
               <Image
-                src="/team/TEAM NAME.webp"
+                src="/team/TEAM-NAME.webp"
                 alt="Team Name"
                 fill
                 unoptimized
@@ -184,7 +184,7 @@ export default function TeamSection({
           {teamName === "TEAM NAME" ? (
             <div className="relative w-[280px] sm:w-[360px] md:w-[420px] lg:w-[460px] aspect-[575/79]">
               <Image
-                src="/team/TEAM NAME.webp"
+                src="/team/TEAM-NAME.webp"
                 alt="Team Name"
                 fill
                 unoptimized

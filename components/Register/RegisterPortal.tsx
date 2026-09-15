@@ -86,7 +86,7 @@ function RegisterSVGButton({
         <svg width="100%" viewBox="0 0 253 121" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g filter={`url(#${filterGlowId})`}>
             <g filter={`url(#${filterShadowId})`}>
-              <rect x="30" y="26" width="193" height="61" rx="19" className="fill-black group-hover:fill-[#DE527E] transition-colors duration-300"/>
+              <rect x="30" y="26" width="193" height="61" rx="12" className="fill-black group-hover:fill-[#DE527E] transition-colors duration-300"/>
             </g>
             <text 
               x="126.5" 

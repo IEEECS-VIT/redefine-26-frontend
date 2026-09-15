@@ -40,13 +40,13 @@ export default function GlobalError({
             <button
               type="button"
               onClick={reset}
-              className="cursor-pointer rounded-2xl bg-pink-500 px-8 py-3.5 font-[var(--font-bebas-neue)] text-lg uppercase tracking-widest text-white shadow-[0_8px_28px_rgba(236,72,153,0.35)] transition-transform duration-200 hover:-translate-y-0.5 hover:bg-pink-400"
+              className="cursor-pointer rounded-xl bg-pink-500 px-8 py-3.5 font-[var(--font-bebas-neue)] text-lg uppercase tracking-widest text-white shadow-[0_8px_28px_rgba(236,72,153,0.35)] transition-transform duration-200 hover:-translate-y-0.5 hover:bg-pink-400"
             >
               Try Again
             </button>
             <Link
               href="/"
-              className="cursor-pointer rounded-2xl bg-black px-8 py-3.5 font-[var(--font-bebas-neue)] text-lg uppercase tracking-widest text-pink-100 shadow-[5px_5px_1px_#fac2cf] transition-transform duration-200 hover:-translate-y-0.5 hover:text-white"
+              className="cursor-pointer rounded-xl bg-black px-8 py-3.5 font-[var(--font-bebas-neue)] text-lg uppercase tracking-widest text-pink-100 shadow-[5px_5px_1px_#fac2cf] transition-transform duration-200 hover:-translate-y-0.5 hover:text-white"
             >
               Back to Home
             </Link>
