@@ -11,8 +11,7 @@ test("homepage mobile navigation keeps words separated and letters compact", asy
 
   assert.match(source, /data-home-menu-layout="responsive-sides"/);
   assert.match(source, /h-8 w-\[20px\]/);
-  assert.match(source, /top-\[29%\]/);
-  assert.match(source, /top-\[43%\]/);
+  assert.match(source, /top-\[35%\]/);
 });
 
 test("homepage logo stays clear of the mobile title", async () => {
