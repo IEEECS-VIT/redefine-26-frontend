@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Bebas_Neue, Zilla_Slab_Highlight } from "next/font/google";
 import PageTransition from "@/components/Providers/PageTransition";
 import ToastProvider from "@/components/Providers/ToastProvider";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 const bebasNeue = Bebas_Neue({
   weight: "400",
@@ -68,6 +69,9 @@ export default function RootLayout({
         <ToastProvider>
           <PageTransition>{children}</PageTransition>
         </ToastProvider>
+        {process.env.NEXT_PUBLIC_GA_ID && (
+          <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
+        )}
       </body>
     </html>
   );
