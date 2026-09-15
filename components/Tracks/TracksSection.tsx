@@ -302,7 +302,7 @@ export default function TracksSection() {
           )}
         </AnimatePresence>
         {/* Composition wrapper: centers both the brain scribbles on the left and fan blades on the right */}
-        <div className="relative w-[min(94vw,390px)] aspect-[380/699] max-h-[calc(100dvh-130px)] flex items-center justify-center -translate-x-4">
+        <div className="relative w-[min(94vw,390px)] aspect-[380/699] max-h-[calc(100dvh-130px)] flex items-center justify-end">
           {/* Fan blades wrapper with locked aspect ratio matching Polygon 8 (298x699) */}
           <div className="relative w-[78.4%] h-full aspect-[298/699] shrink-0">
             {/* Background Polygon */}
