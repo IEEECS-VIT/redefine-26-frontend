@@ -11,6 +11,7 @@
     "test": "node --test tests/firebase-auth.test.mjs tests/homepage-mobile-layout.test.mjs tests/timeline-thread-geometry.test.mjs"
   },
   "dependencies": {
+    "@next/third-parties": "^16.3.5",
     "firebase": "^12.19.0",
     "framer-motion": "^13.0.0",
     "next": "^15.0.0",
