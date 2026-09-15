@@ -34,7 +34,7 @@ interface TrackData {
 const tracks: TrackData[] = [
   {
     id: 1,
-    title: "E-Commerce",
+    title: "Brutalism",
     titleImg: "/tracks/01\u2028E-Commerce.png",
     bladeSvg: "/tracks/Mask group.svg",
     illustration: "/tracks/illustration_1.png",
@@ -54,7 +54,7 @@ const tracks: TrackData[] = [
   },
   {
     id: 2,
-    title: "Smart Education",
+    title: "Skeuomorphism",
     titleImg: "/tracks/02\u2028Smart Education.png",
     bladeSvg: "/tracks/Mask group-1.svg",
     illustration: "/tracks/illustration_2.png",
@@ -74,7 +74,7 @@ const tracks: TrackData[] = [
   },
   {
     id: 3,
-    title: "Healthcare Companion",
+    title: "Swiss / International Style",
     titleImg: "/tracks/03\u2028Healthcare Companion.png",
     bladeSvg: "/tracks/Mask group-2.svg",
     illustration: "/tracks/illustration_3.png",
@@ -94,7 +94,7 @@ const tracks: TrackData[] = [
   },
   {
     id: 4,
-    title: "Travel & Exploration",
+    title: "Maximalism",
     titleImg: "/tracks/04\u2028 Travel & Exploration.png",
     bladeSvg: "/tracks/Mask group-3.svg",
     illustration: "/tracks/illustration_4.png",
@@ -114,7 +114,7 @@ const tracks: TrackData[] = [
   },
   {
     id: 5,
-    title: "Finance",
+    title: "Retro / Nostalgic UI",
     titleImg: "/tracks/05_Finance.svg",
     bladeSvg: "/tracks/Mask group-4.svg",
     illustration: "/tracks/illustration_5.png",
@@ -134,7 +134,7 @@ const tracks: TrackData[] = [
   },
   {
     id: 6,
-    title: "Social Impact Platform",
+    title: "Dark Mode / Low-Light Design",
     titleImg: "/tracks/06\u2028Social Impact Platform.png",
     bladeSvg: "/tracks/Mask group-5.svg",
     illustration: "/tracks/illustration_6.png",
