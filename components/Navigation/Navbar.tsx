@@ -9,7 +9,7 @@ export default function Navbar() {
     >
       <Link href="/" className="inline-block transition-transform duration-300 hover:scale-108 pointer-events-auto" aria-label="Home">
         <Image
-          src="/redefine-2026/redefine.jpeg"
+          src="/redefine-2026/redefine.webp"
           alt="Redefine"
           width={100}
           height={100}

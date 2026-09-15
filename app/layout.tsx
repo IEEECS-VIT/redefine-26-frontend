@@ -37,8 +37,8 @@ export const metadata: Metadata = {
   ],
   creator: "IEEE CS VIT",
   icons: {
-    icon: [{ url: "/icon.png", type: "image/png", sizes: "512x512" }],
-    apple: [{ url: "/apple-icon.png", sizes: "180x180", type: "image/png" }],
+    icon: [{ url: "/icon.webp", type: "image/webp", sizes: "512x512" }],
+    apple: [{ url: "/apple-icon.webp", sizes: "180x180", type: "image/webp" }],
   },
   openGraph: {
     title: "Redefine 2026",

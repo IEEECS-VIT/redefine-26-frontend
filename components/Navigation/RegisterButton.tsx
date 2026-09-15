@@ -22,7 +22,7 @@ export default function RegisterButton() {
         >
           <div className="relative w-[120px] sm:w-[180px] md:w-[210px] lg:w-[230px] xl:w-[250px]">
             <Image
-              src="/redefine-2026/register.svg"
+              src="/redefine-2026/register.svg.webp"
               alt="Register"
               width={220}
               height={80}
@@ -36,7 +36,7 @@ export default function RegisterButton() {
       {/* Arrow (doesn't animate) — directly below the button, pointing up at it (desktop only) */}
       <div className="absolute -bottom-12 left-1/2 -translate-x-[60%] pointer-events-none hidden justify-center md:flex">
         <Image
-          src="/redefine-2026/arrow.svg"
+              src="/redefine-2026/arrow.svg.webp"
           alt="Arrow"
           width={120}
           height={80}

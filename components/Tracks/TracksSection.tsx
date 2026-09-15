@@ -30,17 +30,17 @@ const tracks: TrackData[] = [
   {
     id: 1,
     title: "E-Commerce",
-    titleImg: "/tracks/01\u2028E-Commerce.png",
-    bladeSvg: "/tracks/Mask group.svg",
-    illustration: "/tracks/illustration_1.png",
+    titleImg: "/tracks/01\u2028E-Commerce.webp",
+    bladeSvg: "/tracks/Mask group.svg.webp",
+    illustration: "/tracks/illustration_1.webp",
     left: "-0.7%",
     width: "50.56%",
     titlePos: { left: "26%", top: "16%" },
     titleWidth: "16%",
     titleAspect: "149/75",
 
-    mobileBlade: "/tracks mobile/Mask group.png",
-    mobileTitle: "/tracks mobile/01\u2028E-Commerce.png",
+    mobileBlade: "/tracks mobile/Mask group.webp",
+    mobileTitle: "/tracks mobile/01\u2028E-Commerce.webp",
     mobileTitlePos: { left: "72.1%", top: "24.1%" },
     mobileTitleWidth: "24.5%",
     mobileTitleAspect: "73/36",
@@ -50,17 +50,17 @@ const tracks: TrackData[] = [
   {
     id: 2,
     title: "Smart Education",
-    titleImg: "/tracks/02\u2028Smart Education.png",
-    bladeSvg: "/tracks/Mask group-1.svg",
-    illustration: "/tracks/illustration_2.png",
+    titleImg: "/tracks/02\u2028Smart Education.webp",
+    bladeSvg: "/tracks/Mask group-1.svg.webp",
+    illustration: "/tracks/illustration_2.webp",
     left: "18.3%",
     width: "31.28%",
     titlePos: { left: "30%", top: "15%" },
     titleWidth: "18%",
     titleAspect: "119/113",
 
-    mobileBlade: "/tracks mobile/Mask group-1.png",
-    mobileTitle: "/tracks mobile/02\u2028Smart Education.png",
+    mobileBlade: "/tracks mobile/Mask group-1.webp",
+    mobileTitle: "/tracks mobile/02\u2028Smart Education.webp",
     mobileTitlePos: { left: "74.2%", top: "22.4%" },
     mobileTitleWidth: "19.5%",
     mobileTitleAspect: "58/54",
@@ -70,17 +70,17 @@ const tracks: TrackData[] = [
   {
     id: 3,
     title: "Healthcare Companion",
-    titleImg: "/tracks/03\u2028Healthcare Companion.png",
-    bladeSvg: "/tracks/Mask group-2.svg",
-    illustration: "/tracks/illustration_3.png",
+    titleImg: "/tracks/03\u2028Healthcare Companion.webp",
+    bladeSvg: "/tracks/Mask group-2.svg.webp",
+    illustration: "/tracks/illustration_3.webp",
     left: "34.5%",
     width: "17.81%",
     titlePos: { left: "49.8%", top: "13%" },
     titleWidth: "36%",
     titleAspect: "136/118",
 
-    mobileBlade: "/tracks mobile/Mask group-2.png",
-    mobileTitle: "/tracks mobile/03\u2028Healthcare Companion.png",
+    mobileBlade: "/tracks mobile/Mask group-2.webp",
+    mobileTitle: "/tracks mobile/03\u2028Healthcare Companion.webp",
     mobileTitlePos: { left: "73.5%", top: "36.8%" },
     mobileTitleWidth: "22.5%",
     mobileTitleAspect: "67/57",
@@ -90,17 +90,17 @@ const tracks: TrackData[] = [
   {
     id: 4,
     title: "Travel & Exploration",
-    titleImg: "/tracks/04\u2028 Travel & Exploration.png",
-    bladeSvg: "/tracks/Mask group-3.svg",
-    illustration: "/tracks/illustration_4.png",
+    titleImg: "/tracks/04\u2028 Travel & Exploration.webp",
+    bladeSvg: "/tracks/Mask group-3.svg.webp",
+    illustration: "/tracks/illustration_4.webp",
     left: "49.5%",
     width: "17.46%",
     titlePos: { left: "57%", top: "13%" },
     titleWidth: "36%",
     titleAspect: "142/118",
 
-    mobileBlade: "/tracks mobile/Mask group-3.png",
-    mobileTitle: "/tracks mobile/04\u2028 Travel & Exploration.png",
+    mobileBlade: "/tracks mobile/Mask group-3.webp",
+    mobileTitle: "/tracks mobile/04\u2028 Travel & Exploration.webp",
     mobileTitlePos: { left: "74.2%", top: "26.2%" },
     mobileTitleWidth: "23.5%",
     mobileTitleAspect: "70/57",
@@ -110,17 +110,17 @@ const tracks: TrackData[] = [
   {
     id: 5,
     title: "Finance",
-    titleImg: "/tracks/05_Finance.svg",
-    bladeSvg: "/tracks/Mask group-4.svg",
-    illustration: "/tracks/illustration_5.png",
+    titleImg: "/tracks/05_Finance.svg.webp",
+    bladeSvg: "/tracks/Mask group-4.svg.webp",
+    illustration: "/tracks/illustration_5.webp",
     left: "49.5%",
     width: "31.15%",
     titlePos: { left: "72%", top: "15%" },
     titleWidth: "16%",
     titleAspect: "93/75",
 
-    mobileBlade: "/tracks mobile/Mask group-4.png",
-    mobileTitle: "/tracks mobile/05\u2028Finance.png",
+    mobileBlade: "/tracks mobile/Mask group-4.webp",
+    mobileTitle: "/tracks mobile/05\u2028Finance.webp",
     mobileTitlePos: { left: "75.8%", top: "56.4%" },
     mobileTitleWidth: "15.4%",
     mobileTitleAspect: "46/36",
@@ -130,17 +130,17 @@ const tracks: TrackData[] = [
   {
     id: 6,
     title: "Social Impact Platform",
-    titleImg: "/tracks/06\u2028Social Impact Platform.png",
-    bladeSvg: "/tracks/Mask group-5.svg",
-    illustration: "/tracks/illustration_6.png",
+    titleImg: "/tracks/06\u2028Social Impact Platform.webp",
+    bladeSvg: "/tracks/Mask group-5.svg.webp",
+    illustration: "/tracks/illustration_6.webp",
     left: "49.5%",
     width: "50.0%",
     titlePos: { left: "74%", top: "16%" },
     titleWidth: "17%",
     titleAspect: "157/113",
 
-    mobileBlade: "/tracks mobile/Mask group-5.png",
-    mobileTitle: "/tracks mobile/06\u2028Social Impact Platform.png",
+    mobileBlade: "/tracks mobile/Mask group-5.webp",
+    mobileTitle: "/tracks mobile/06\u2028Social Impact Platform.webp",
     mobileTitlePos: { left: "77.2%", top: "61.1%" },
     mobileTitleWidth: "17.4%",
     mobileTitleAspect: "52/72",
@@ -238,7 +238,7 @@ export default function TracksSection() {
             {/* Background Polygon */}
             <div className="absolute inset-0 z-0">
               <Image
-                src="/tracks mobile/Polygon 8.png"
+                src="/tracks mobile/Polygon 8.webp"
                 alt=""
                 fill
                 draggable={false}
@@ -335,7 +335,7 @@ export default function TracksSection() {
             {/* Left Side: Brain scribble centered on the fan blade apex matching Figma */}
             <div className="absolute right-[calc(100%-2px)] top-1/2 -translate-y-1/2 w-[29.5%] aspect-[88/585] z-20 select-none pointer-events-none">
               <Image
-                src="/tracks mobile/scribble_figma.png"
+                src="/tracks mobile/scribble_figma.webp"
                 alt="Brain Scribble"
                 fill
                 draggable={false}
@@ -432,15 +432,15 @@ export default function TracksSection() {
 
         <div className="flex items-center justify-center gap-6 sm:gap-8 -mt-2 sm:-mt-3 z-20 select-none pointer-events-none">
           <div className="relative w-[190px] xl:w-[220px] aspect-[508/451]">
-            <Image src="/tracks/image 16.png" alt="" fill draggable={false} className="object-contain" />
+            <Image src="/tracks/image 16.webp" alt="" fill draggable={false} className="object-contain" />
           </div>
 
           <div className="relative w-[240px] xl:w-[280px] h-[164px] xl:h-[190px]">
-            <Image src="/tracks/Brain.svg" alt="Brain Scribble" fill draggable={false} className="object-contain" />
+            <Image src="/tracks/Brain.svg.webp" alt="Brain Scribble" fill draggable={false} className="object-contain" />
           </div>
 
           <div className="relative w-[190px] xl:w-[220px] aspect-[382/258]">
-            <Image src="/tracks/image 15.png" alt="" fill draggable={false} className="object-contain" />
+            <Image src="/tracks/image 15.webp" alt="" fill draggable={false} className="object-contain" />
           </div>
         </div>
       </div>

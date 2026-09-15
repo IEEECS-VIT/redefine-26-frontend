@@ -89,11 +89,11 @@ export default function FAQSection() {
       {/* Dynamic Background Strings */}
       <DynamicStringsBackground opacity={0.4} />
 
-      {/* Mobile Background Artwork (faqart-mobile.svg dynamically centered behind questions for < lg screens) */}
+      {/* Mobile Background Artwork dynamically centered behind questions for < lg screens */}
       <div className="absolute inset-0 z-0 flex items-center justify-center overflow-hidden pointer-events-none lg:hidden">
         <div className="relative h-full w-full opacity-80 sm:opacity-90">
           <Image
-            src="/faqart-mobile.svg"
+            src="/faqart-mobile.svg.webp"
             alt="FAQ Question Mark Background"
             fill
             sizes="(max-width: 1023px) 100vw, 50vw"
@@ -104,7 +104,7 @@ export default function FAQSection() {
 
       <div className="relative z-10 flex h-full w-full flex-col justify-center px-4 py-4 sm:px-8 lg:px-16 lg:py-6">
         <div className="mx-auto flex h-full w-full max-w-[1440px] flex-col items-center justify-center gap-8 lg:flex-row lg:gap-10">
-          {/* Desktop Left Side Artwork: faqart.svg - exact original desktop settings */}
+          {/* Desktop Left Side Artwork with the original desktop settings */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -114,7 +114,7 @@ export default function FAQSection() {
           >
             <div className="relative h-full w-full aspect-[1440/1024] overflow-visible">
               <Image
-                src="/faqart.svg"
+                src="/faqart.svg.webp"
                 alt="FAQ Question Mark Artwork"
                 fill
                 sizes="(min-width: 1024px) 50vw, 100vw"
