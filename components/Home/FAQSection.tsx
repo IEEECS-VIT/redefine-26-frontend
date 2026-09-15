@@ -97,7 +97,7 @@ export default function FAQSection() {
             alt="FAQ Question Mark Background"
             fill
             sizes="(max-width: 1023px) 100vw, 50vw"
-            className="object-contain object-center scale-125"
+            className="object-contain object-center scale-150"
           />
         </div>
       </div>
