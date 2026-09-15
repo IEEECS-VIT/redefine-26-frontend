@@ -3,7 +3,7 @@ import test from "node:test";
 
 const baseUrl = process.env.TEST_BASE_URL ?? "http://localhost:3000";
 
-for (const route of ["/timeline", "/tracks", "/team-up", "/team", "/faq"]) {
+for (const route of ["/timeline", "/tracks", "/faq"]) {
   test(`${route} uses the shared Figma header and active nav thread`, async () => {
     const response = await fetch(`${baseUrl}${route}`);
     const html = await response.text();
@@ -16,6 +16,16 @@ for (const route of ["/timeline", "/tracks", "/team-up", "/team", "/faq"]) {
     assert.match(html, /data-site-header-fit="responsive-row"/);
     assert.equal((html.match(/data-nav-thread-component="active-nav"/g) ?? []).length, 1);
     assert.doesNotMatch(html, /rounded-full bg-pink-400/);
+  });
+}
+
+for (const route of ["/team-up", "/team"]) {
+  test(`${route} checks the session before showing private content`, async () => {
+    const response = await fetch(`${baseUrl}${route}`);
+    const html = await response.text();
+
+    assert.equal(response.status, 200);
+    assert.match(html, /Checking session…/);
   });
 }
 
