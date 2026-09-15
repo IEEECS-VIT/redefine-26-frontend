@@ -7,13 +7,12 @@ export default function SplitBackground() {
       {/* Mobile design — below the md breakpoint */}
       <div className="absolute inset-0 bg-[#CF3A6E] md:hidden">
         <Image
-          src="/redefine-2026/Homepage_mobile.svg.webp"
+          src="/homepagemobile.svg"
           alt="Background"
           fill
           priority
           sizes="(max-width: 767px) 100vw, 0px"
-          style={{ objectPosition: "center -15%", transform: "translateY(-5%)" }}
-          className="object-cover object-top select-none"
+          className="object-cover select-none -translate-y-[20%] scale-85"
         />
       </div>
 
