@@ -7,14 +7,14 @@ export interface NavLink {
 }
 
 const SHARED_LINKS: NavLink[] = [
-  { label: "Timeline", href: "/timeline", img: "/tracks/TIMELINE.svg", w: 121, h: 17 },
-  { label: "Tracks", href: "/tracks", img: "/tracks/TRACKS.svg", w: 109, h: 17 },
+  { label: "Timeline", href: "/timeline", img: "/tracks/TIMELINE.svg.webp", w: 121, h: 17 },
+  { label: "Tracks", href: "/tracks", img: "/tracks/TRACKS.svg.webp", w: 109, h: 17 },
 ];
 
 const SIGNED_OUT_LINK: NavLink = {
   label: "FAQ",
   href: "/faq",
-  img: "/tracks/FAQ.svg",
+  img: "/tracks/FAQ.svg.webp",
   w: 54,
   h: 20,
 };
@@ -22,7 +22,7 @@ const SIGNED_OUT_LINK: NavLink = {
 const SIGNED_IN_LINK: NavLink = {
   label: "Team",
   href: "/team",
-  img: "/tracks/TEAM.svg",
+  img: "/tracks/TEAM.svg.webp",
   w: 76,
   h: 17,
 };

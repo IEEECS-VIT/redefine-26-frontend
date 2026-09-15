@@ -30,28 +30,28 @@ interface TeamSectionProps {
 
 const MOBILE_PANEL_CONFIGS = [
   {
-    silhouette: "/team/image 30.png",
+    silhouette: "/team/image 30.webp",
     align: "left" as const,
     silhouetteClass: "left-1 sm:left-4 md:left-8 bottom-0 w-[95px] sm:w-[130px] md:w-[160px] h-[135px] sm:h-[175px] md:h-[210px]",
     brainClass: "left-[50px] sm:left-[70px] md:left-[90px] top-[10px] sm:top-[16px] w-5 sm:w-7 md:w-9 h-5 sm:h-7 md:h-9",
     textClass: "pl-[105px] sm:pl-[150px] md:pl-[190px] pr-4 items-start text-left",
   },
   {
-    silhouette: "/team/image 34.png",
+    silhouette: "/team/image 34.webp",
     align: "right" as const,
     silhouetteClass: "right-1 sm:right-4 md:right-8 bottom-0 w-[95px] sm:w-[130px] md:w-[160px] h-[135px] sm:h-[175px] md:h-[210px]",
     brainClass: "right-[50px] sm:right-[70px] md:right-[90px] top-[8px] sm:top-[14px] w-5 sm:w-7 md:w-9 h-5 sm:h-7 md:h-9",
     textClass: "pl-6 sm:pl-12 md:pl-16 pr-[105px] sm:pr-[150px] md:pr-[190px] items-start text-left",
   },
   {
-    silhouette: "/team/image 33.png",
+    silhouette: "/team/image 33.webp",
     align: "left" as const,
     silhouetteClass: "left-1 sm:left-4 md:left-8 bottom-0 w-[100px] sm:w-[135px] md:w-[165px] h-[135px] sm:h-[175px] md:h-[210px]",
     brainClass: "left-[50px] sm:left-[70px] md:left-[90px] top-[8px] sm:top-[14px] w-5 sm:w-7 md:w-9 h-5 sm:h-7 md:h-9",
     textClass: "pl-[105px] sm:pl-[150px] md:pl-[190px] pr-4 items-start text-left",
   },
   {
-    silhouette: "/team/image 31.png",
+    silhouette: "/team/image 31.webp",
     align: "right" as const,
     silhouetteClass: "right-1 sm:right-4 md:right-8 bottom-0 w-[95px] sm:w-[130px] md:w-[160px] h-[135px] sm:h-[175px] md:h-[210px]",
     brainClass: "right-[50px] sm:right-[70px] md:right-[90px] top-[8px] sm:top-[14px] w-5 sm:w-7 md:w-9 h-5 sm:h-7 md:h-9",
@@ -81,7 +81,7 @@ export default function TeamSection({
           {teamName === "TEAM NAME" ? (
             <div className="relative w-[200px] sm:w-[280px] md:w-[360px] h-10 sm:h-14 md:h-16">
               <Image
-                src="/team/TEAM NAME.png"
+                src="/team/TEAM NAME.webp"
                 alt="Team Name"
                 fill
                 unoptimized
@@ -124,7 +124,7 @@ export default function TeamSection({
 
                 <div className={`absolute z-20 pointer-events-none ${config.brainClass}`}>
                   <Image
-                    src="/team/image 35.png"
+                    src="/team/image 35.webp"
                     alt=""
                     fill
                     className="object-contain drop-shadow-[0_0_4px_rgba(255,255,255,0.8)]"
@@ -169,7 +169,7 @@ export default function TeamSection({
           {teamName === "TEAM NAME" ? (
             <div className="relative w-[280px] sm:w-[360px] md:w-[420px] lg:w-[460px] aspect-[575/79]">
               <Image
-                src="/team/TEAM NAME.png"
+                src="/team/TEAM NAME.webp"
                 alt="Team Name"
                 fill
                 unoptimized
@@ -194,7 +194,7 @@ export default function TeamSection({
             {/* Mirror Floor Reflection (dark reflection on black floor plane) */}
             <div className="absolute top-[96%] left-0 w-full h-[32%] overflow-hidden pointer-events-none opacity-30 scale-y-[-1] origin-top blur-[0.5px] z-0">
               <Image
-                src="/team.svg"
+                src="/team.svg.webp"
                 alt=""
                 fill
                 sizes="100vw"
@@ -204,7 +204,7 @@ export default function TeamSection({
             </div>
 
             <Image
-              src="/team.svg"
+                src="/team.svg.webp"
               alt="Team Artwork"
               fill
               sizes="100vw"

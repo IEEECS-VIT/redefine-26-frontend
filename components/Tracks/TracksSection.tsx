@@ -374,7 +374,7 @@ export default function TracksSection() {
             {/* Background Polygon */}
             <div className="absolute inset-0 z-0">
               <Image
-                src="/tracks mobile/Polygon 8.png"
+                src="/tracks mobile/Polygon 8.webp"
                 alt=""
                 fill
                 draggable={false}
@@ -471,7 +471,7 @@ export default function TracksSection() {
             {/* Left Side: Brain scribble centered on the fan blade apex matching Figma */}
             <div className="absolute right-[calc(100%-2px)] top-1/2 -translate-y-1/2 w-[29.5%] aspect-[88/585] z-20 select-none pointer-events-none">
               <Image
-                src="/tracks mobile/scribble_figma.png"
+                src="/tracks mobile/scribble_figma.webp"
                 alt="Brain Scribble"
                 fill
                 draggable={false}
@@ -625,15 +625,15 @@ export default function TracksSection() {
 
         <div className="flex items-center justify-center gap-6 sm:gap-8 -mt-2 sm:-mt-3 z-20 select-none pointer-events-none">
           <div className="relative w-[190px] xl:w-[220px] aspect-[508/451]">
-            <Image src="/tracks/image 16.png" alt="" fill draggable={false} className="object-contain" />
+            <Image src="/tracks/image 16.webp" alt="" fill draggable={false} className="object-contain" />
           </div>
 
           <div className="relative w-[240px] xl:w-[280px] h-[164px] xl:h-[190px]">
-            <Image src="/tracks/Brain.svg" alt="Brain Scribble" fill draggable={false} className="object-contain" />
+            <Image src="/tracks/Brain.svg.webp" alt="Brain Scribble" fill draggable={false} className="object-contain" />
           </div>
 
           <div className="relative w-[190px] xl:w-[220px] aspect-[382/258]">
-            <Image src="/tracks/image 15.png" alt="" fill draggable={false} className="object-contain" />
+            <Image src="/tracks/image 15.webp" alt="" fill draggable={false} className="object-contain" />
           </div>
         </div>
       </div>
