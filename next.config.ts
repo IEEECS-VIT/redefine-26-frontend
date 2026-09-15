@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import path from "path";
 
 const cspHeader = `
   default-src 'self';
@@ -16,6 +17,7 @@ const cspHeader = `
 `;
 
 const nextConfig: NextConfig = {
+  outputFileTracingRoot: path.resolve(__dirname),
   reactStrictMode: true,
   images: {
     dangerouslyAllowSVG: true,

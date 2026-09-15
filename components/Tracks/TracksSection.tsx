@@ -2,7 +2,11 @@
 
 import Image from "next/image";
 import { useState, useRef } from "react";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import {
+  TRACK_SUBTRACKS,
+  type Subtrack,
+} from "./trackSubtracks";
 
 interface TrackData {
   id: number;
@@ -29,121 +33,121 @@ interface TrackData {
 const tracks: TrackData[] = [
   {
     id: 1,
-    title: "E-Commerce",
-    titleImg: "/tracks/01\u2028E-Commerce.webp",
+    title: "Brutalism",
+    titleImg: "/tracks/theme_title_1.svg",
     bladeSvg: "/tracks/Mask group.svg.webp",
     illustration: "/tracks/illustration_1.webp",
     left: "-0.7%",
     width: "50.56%",
     titlePos: { left: "26%", top: "16%" },
-    titleWidth: "16%",
-    titleAspect: "149/75",
+    titleWidth: "22%",
+    titleAspect: "140/76",
 
     mobileBlade: "/tracks mobile/Mask group.webp",
-    mobileTitle: "/tracks mobile/01\u2028E-Commerce.webp",
-    mobileTitlePos: { left: "72.1%", top: "24.1%" },
-    mobileTitleWidth: "24.5%",
-    mobileTitleAspect: "73/36",
+    mobileTitle: "/tracks/theme_title_1.svg",
+    mobileTitlePos: { left: "80%", top: "30%" },
+    mobileTitleWidth: "25%",
+    mobileTitleAspect: "140/76",
     mobileTop: "0%",
     mobileHeight: "50.5%",
   },
   {
     id: 2,
-    title: "Smart Education",
-    titleImg: "/tracks/02\u2028Smart Education.webp",
+    title: "Skeuomorphism",
+    titleImg: "/tracks/theme_title_2.svg",
     bladeSvg: "/tracks/Mask group-1.svg.webp",
     illustration: "/tracks/illustration_2.webp",
     left: "18.3%",
     width: "31.28%",
-    titlePos: { left: "30%", top: "15%" },
-    titleWidth: "18%",
-    titleAspect: "119/113",
+    titlePos: { left: "33.5%", top: "15%" },
+    titleWidth: "33%",
+    titleAspect: "150/76",
 
     mobileBlade: "/tracks mobile/Mask group-1.webp",
-    mobileTitle: "/tracks mobile/02\u2028Smart Education.webp",
-    mobileTitlePos: { left: "74.2%", top: "22.4%" },
-    mobileTitleWidth: "19.5%",
-    mobileTitleAspect: "58/54",
+    mobileTitle: "/tracks/theme_title_2.svg",
+    mobileTitlePos: { left: "80%", top: "36%" },
+    mobileTitleWidth: "26%",
+    mobileTitleAspect: "150/76",
     mobileTop: "18.74%",
     mobileHeight: "31.33%",
   },
   {
     id: 3,
-    title: "Healthcare Companion",
-    titleImg: "/tracks/03\u2028Healthcare Companion.webp",
+    title: "Swiss / International Style",
+    titleImg: "/tracks/theme_title_3.svg",
     bladeSvg: "/tracks/Mask group-2.svg.webp",
     illustration: "/tracks/illustration_3.webp",
     left: "34.5%",
     width: "17.81%",
-    titlePos: { left: "49.8%", top: "13%" },
-    titleWidth: "36%",
-    titleAspect: "136/118",
+    titlePos: { left: "51%", top: "13%" },
+    titleWidth: "56%",
+    titleAspect: "140/110",
 
     mobileBlade: "/tracks mobile/Mask group-2.webp",
-    mobileTitle: "/tracks mobile/03\u2028Healthcare Companion.webp",
-    mobileTitlePos: { left: "73.5%", top: "36.8%" },
-    mobileTitleWidth: "22.5%",
-    mobileTitleAspect: "67/57",
+    mobileTitle: "/tracks/theme_title_3.svg",
+    mobileTitlePos: { left: "80%", top: "55%" },
+    mobileTitleWidth: "24%",
+    mobileTitleAspect: "140/110",
     mobileTop: "34.48%",
     mobileHeight: "17.88%",
   },
   {
     id: 4,
-    title: "Travel & Exploration",
-    titleImg: "/tracks/04\u2028 Travel & Exploration.webp",
+    title: "Maximalism",
+    titleImg: "/tracks/theme_title_4.svg",
     bladeSvg: "/tracks/Mask group-3.svg.webp",
     illustration: "/tracks/illustration_4.webp",
     left: "49.5%",
     width: "17.46%",
-    titlePos: { left: "57%", top: "13%" },
-    titleWidth: "36%",
-    titleAspect: "142/118",
+    titlePos: { left: "52.5%", top: "13%" },
+    titleWidth: "54%",
+    titleAspect: "140/76",
 
     mobileBlade: "/tracks mobile/Mask group-3.webp",
-    mobileTitle: "/tracks mobile/04\u2028 Travel & Exploration.webp",
-    mobileTitlePos: { left: "74.2%", top: "26.2%" },
-    mobileTitleWidth: "23.5%",
-    mobileTitleAspect: "70/57",
+    mobileTitle: "/tracks/theme_title_4.svg",
+    mobileTitlePos: { left: "80%", top: "48%" },
+    mobileTitleWidth: "24%",
+    mobileTitleAspect: "140/76",
     mobileTop: "49.78%",
     mobileHeight: "17.45%",
   },
   {
     id: 5,
-    title: "Finance",
-    titleImg: "/tracks/05_Finance.svg.webp",
+    title: "Retro / Nostalgic UI",
+    titleImg: "/tracks/theme_title_5.svg",
     bladeSvg: "/tracks/Mask group-4.svg.webp",
     illustration: "/tracks/illustration_5.webp",
     left: "49.5%",
     width: "31.15%",
-    titlePos: { left: "72%", top: "15%" },
-    titleWidth: "16%",
-    titleAspect: "93/75",
+    titlePos: { left: "67.5%", top: "15%" },
+    titleWidth: "31%",
+    titleAspect: "140/96",
 
     mobileBlade: "/tracks mobile/Mask group-4.webp",
-    mobileTitle: "/tracks mobile/05\u2028Finance.webp",
-    mobileTitlePos: { left: "75.8%", top: "56.4%" },
-    mobileTitleWidth: "15.4%",
-    mobileTitleAspect: "46/36",
+    mobileTitle: "/tracks/theme_title_5.svg",
+    mobileTitlePos: { left: "80%", top: "65%" },
+    mobileTitleWidth: "24%",
+    mobileTitleAspect: "140/96",
     mobileTop: "49.78%",
     mobileHeight: "31.18%",
   },
   {
     id: 6,
-    title: "Social Impact Platform",
-    titleImg: "/tracks/06\u2028Social Impact Platform.webp",
+    title: "Dark Mode / Low-Light Design",
+    titleImg: "/tracks/theme_title_6.svg",
     bladeSvg: "/tracks/Mask group-5.svg.webp",
     illustration: "/tracks/illustration_6.webp",
     left: "49.5%",
     width: "50.0%",
-    titlePos: { left: "74%", top: "16%" },
-    titleWidth: "17%",
-    titleAspect: "157/113",
+    titlePos: { left: "71.5%", top: "16%" },
+    titleWidth: "23%",
+    titleAspect: "160/96",
 
     mobileBlade: "/tracks mobile/Mask group-5.webp",
-    mobileTitle: "/tracks mobile/06\u2028Social Impact Platform.webp",
-    mobileTitlePos: { left: "77.2%", top: "61.1%" },
-    mobileTitleWidth: "17.4%",
-    mobileTitleAspect: "52/72",
+    mobileTitle: "/tracks/theme_title_6.svg",
+    mobileTitlePos: { left: "80%", top: "70%" },
+    mobileTitleWidth: "26%",
+    mobileTitleAspect: "160/96",
     mobileTop: "49.78%",
     mobileHeight: "50.07%",
   },
@@ -220,9 +224,63 @@ const MOBILE_HIT_PATHS = [
   "M 0 348 L 50 396 L 100 436 L 200 503 L 298 564 L 298 699 L 220 640 L 150 580 L 70 495 Z",
 ];
 
+function SubtracksPanel({
+  subtracks,
+  compact = false,
+  align = "left",
+}: {
+  subtracks: Subtrack[];
+  compact?: boolean;
+  align?: "left" | "right";
+}) {
+  const isRight = align === "right";
+  return (
+    <div className={`pointer-events-none select-none ${isRight ? "text-right" : "text-left"}`}>
+      <h3
+        className={`font-[var(--font-bebas-neue)] font-bold uppercase leading-none tracking-[0.15em] text-pink-200 drop-shadow-[0_0_18px_rgba(236,72,153,0.3)] ${
+          compact ? "text-2xl" : "text-4xl sm:text-5xl xl:text-6xl"
+        }`}
+      >
+        Subtracks
+      </h3>
+
+      <ul className={`flex flex-col ${compact ? "mt-3 gap-3.5" : "mt-7 gap-7"}`}>
+        {subtracks.map((sub) => (
+          <li key={sub.id}>
+            <p
+              className={`font-bold tracking-wide text-white ${
+                compact ? "text-[11px] leading-snug" : "text-sm sm:text-base xl:text-lg"
+              }`}
+            >
+              <span className="text-pink-400">{sub.number}.</span> {sub.title}
+            </p>
+            {sub.description && (
+              <p
+                className={`text-white/45 ${
+                  compact
+                    ? "mt-0.5 text-[9px] leading-snug"
+                    : "mt-1.5 max-w-sm text-xs leading-relaxed sm:text-sm"
+                } ${isRight ? "ml-auto" : ""}`}
+              >
+                {sub.description}
+              </p>
+            )}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 export default function TracksSection() {
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
   const [mobileHoveredIdx, setMobileHoveredIdx] = useState<number | null>(null);
+
+  const activeDesktopTrack =
+    hoveredIdx !== null ? TRACK_SUBTRACKS[hoveredIdx + 1] : null;
+
+  const activeMobileTrack =
+    mobileHoveredIdx !== null ? TRACK_SUBTRACKS[mobileHoveredIdx + 1] : null;
 
   return (
     <div className="relative w-full h-full flex flex-col items-center justify-center select-none overflow-hidden">
@@ -231,6 +289,21 @@ export default function TracksSection() {
         className="lg:hidden flex items-center justify-center w-full h-full py-2 px-2 relative select-none overflow-hidden"
         onClick={() => setMobileHoveredIdx(null)}
       >
+        {/* Mobile Subtracks (plain page content, appears on tap/hover) */}
+        <AnimatePresence>
+          {activeMobileTrack && mobileHoveredIdx !== null && (
+            <motion.div
+              key={`mobile-subtracks-${mobileHoveredIdx}`}
+              initial={{ opacity: 0, y: -12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.28, ease: "easeOut" }}
+              className="absolute left-[10%] top-3 z-40 w-[9.5rem]"
+            >
+              <SubtracksPanel subtracks={activeMobileTrack.subtracks} compact />
+            </motion.div>
+          )}
+        </AnimatePresence>
         {/* Composition wrapper: centers both the brain scribbles on the left and fan blades on the right */}
         <div className="relative w-[min(94vw,390px)] aspect-[380/699] max-h-[calc(100dvh-130px)] flex items-center justify-end">
           {/* Fan blades wrapper with locked aspect ratio matching Polygon 8 (298x699) */}
@@ -291,7 +364,7 @@ export default function TracksSection() {
                     {/* Title overlay — font size follows the blade image scale,
                         so it's responsive without a separate breakpoint value */}
                     <div
-                      className="absolute"
+                      className="absolute -translate-x-1/2 -translate-y-1/2 pointer-events-none z-20"
                       style={{
                         left: track.mobileTitlePos.left,
                         top: track.mobileTitlePos.top,
@@ -347,7 +420,27 @@ export default function TracksSection() {
       </div>
 
       {/* Desktop Fan Layout (>= lg) */}
-      <div className="hidden lg:flex flex-col items-center justify-center w-full h-full">
+      <div className="hidden lg:flex flex-col items-center justify-center w-full h-full relative">
+        {/* Desktop Subtracks (plain page content, appears on hover) */}
+        <AnimatePresence>
+          {activeDesktopTrack && hoveredIdx !== null && (
+            <motion.div
+              key={`desktop-subtracks-${hoveredIdx}`}
+              initial={{ opacity: 0, y: 22, x: hoveredIdx < 3 ? -14 : 14 }}
+              animate={{ opacity: 1, y: 0, x: 0 }}
+              exit={{ opacity: 0, y: 14, x: hoveredIdx < 3 ? -8 : 8 }}
+              transition={{ duration: 0.32, ease: "easeOut" }}
+              className={`absolute bottom-8 xl:bottom-16 z-40 w-[16rem] xl:w-[18rem] h-[22rem] xl:h-[25rem] pointer-events-none ${
+                hoveredIdx < 3
+                  ? "left-[clamp(1rem,2.4vw,2.2rem)]"
+                  : "right-[10%]"
+              }`}
+            >
+              <SubtracksPanel subtracks={activeDesktopTrack.subtracks} />
+            </motion.div>
+          )}
+        </AnimatePresence>
+
         <div className="relative w-[min(92vw,1320px,calc((100dvh-320px)*1432/611))] max-w-[1320px] flex flex-col items-center justify-center">
           <div className="relative w-full aspect-[1432/611]">
           {tracks.map((track, i) => {
@@ -362,7 +455,7 @@ export default function TracksSection() {
                 style={{
                   left: track.left,
                   width: track.width,
-                  zIndex: getZIndex(i, tracks.length),
+                  zIndex: isHovered ? 30 : getZIndex(i, tracks.length),
                 }}
                 animate={{
                   x: isHovered ? hover.x : 0,
@@ -411,7 +504,7 @@ export default function TracksSection() {
             );
           })}
 
-            {/* Native SVG hit overlay for pixel-perfect hover detection with zero gaps */}
+            {/* Native SVG hit overlay for pixel-perfect hover & click detection with zero gaps */}
             <svg
               viewBox="0 0 1432 611"
               preserveAspectRatio="none"
