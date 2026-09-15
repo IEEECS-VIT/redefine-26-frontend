@@ -85,7 +85,7 @@ export default function FAQSection() {
   const [openIdx, setOpenIdx] = useState<number | null>(null);
 
   return (
-    <section className="relative isolate flex h-full w-full flex-col overflow-hidden bg-black text-white select-none">
+    <section className="relative isolate flex h-full w-full flex-col overflow-x-hidden overflow-y-auto bg-black text-white select-none">
       {/* Dynamic Background Strings */}
       <DynamicStringsBackground opacity={0.4} />
 
@@ -102,8 +102,8 @@ export default function FAQSection() {
         </div>
       </div>
 
-      <div className="relative z-10 flex h-full w-full flex-col justify-center px-4 py-4 sm:px-8 lg:px-16 lg:py-6">
-        <div className="mx-auto flex h-full w-full max-w-[1440px] flex-col items-center justify-center gap-8 lg:flex-row lg:gap-10">
+      <div className="relative z-10 flex min-h-full w-full flex-col px-4 py-4 sm:px-8 lg:px-16 lg:py-6">
+        <div className="mx-auto my-auto flex w-full max-w-[1440px] flex-col items-center justify-center gap-8 lg:flex-row lg:gap-10">
           {/* Desktop Left Side Artwork with the original desktop settings */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
@@ -146,7 +146,5 @@ export default function FAQSection() {
     </section>
   );
 }
-
-
 
 

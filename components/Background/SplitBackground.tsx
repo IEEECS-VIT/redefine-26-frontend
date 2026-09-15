@@ -12,8 +12,7 @@ export default function SplitBackground() {
           fill
           priority
           sizes="(max-width: 767px) 100vw, 0px"
-          style={{ objectPosition: "center top" }}
-          className="object-cover select-none"
+          className="object-cover object-top select-none"
         />
       </div>
 
@@ -25,7 +24,7 @@ export default function SplitBackground() {
           fill
           priority
           sizes="(min-width: 768px) 100vw, 0px"
-          className="object-cover object-[center_40%] select-none"
+          className="object-cover object-center select-none"
         />
       </div>
 
