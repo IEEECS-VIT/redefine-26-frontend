@@ -227,12 +227,15 @@ const MOBILE_HIT_PATHS = [
 function SubtracksPanel({
   subtracks,
   compact = false,
+  align = "left",
 }: {
   subtracks: Subtrack[];
   compact?: boolean;
+  align?: "left" | "right";
 }) {
+  const isRight = align === "right";
   return (
-    <div className="pointer-events-none select-none">
+    <div className={`pointer-events-none select-none ${isRight ? "text-right" : "text-left"}`}>
       <h3
         className={`font-[var(--font-bebas-neue)] font-bold uppercase leading-none tracking-[0.15em] text-pink-200 drop-shadow-[0_0_18px_rgba(236,72,153,0.3)] ${
           compact ? "text-2xl" : "text-4xl sm:text-5xl xl:text-6xl"
@@ -257,7 +260,7 @@ function SubtracksPanel({
                   compact
                     ? "mt-0.5 text-[9px] leading-snug"
                     : "mt-1.5 max-w-sm text-xs leading-relaxed sm:text-sm"
-                }`}
+                } ${isRight ? "ml-auto" : ""}`}
               >
                 {sub.description}
               </p>
@@ -428,7 +431,9 @@ export default function TracksSection() {
               exit={{ opacity: 0, y: 14, x: hoveredIdx < 3 ? -8 : 8 }}
               transition={{ duration: 0.32, ease: "easeOut" }}
               className={`absolute bottom-8 xl:bottom-16 z-40 w-[16rem] xl:w-[18rem] h-[22rem] xl:h-[25rem] pointer-events-none ${
-                hoveredIdx < 3 ? "left-6 xl:left-14" : "right-20 xl:right-32"
+                hoveredIdx < 3
+                  ? "left-[clamp(1rem,2.4vw,2.2rem)]"
+                  : "right-[10%]"
               }`}
             >
               <SubtracksPanel subtracks={activeDesktopTrack.subtracks} />
