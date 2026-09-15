@@ -12,10 +12,11 @@ export interface TeamMember {
   regNo?: string;
   silhouette?: string;
   layout?: "silhouette-left" | "silhouette-right";
+  isLeader?: boolean;
 }
 
 export const DEFAULT_MEMBERS: TeamMember[] = [
-  { id: "member-1", name: "Shashwat Shrye", rollNo: "25BEL0010" },
+  { id: "member-1", name: "Shashwat Shrye", rollNo: "25BEL0010", isLeader: true },
   { id: "member-2", name: "Shashwat Shrye", rollNo: "25BEL0010" },
   { id: "member-3", name: "Shashwat Shrye", rollNo: "25BEL0010" },
   { id: "member-4", name: "Shashwat Shrye", rollNo: "25BEL0010" },
@@ -29,28 +30,28 @@ interface TeamSectionProps {
 
 const MOBILE_PANEL_CONFIGS = [
   {
-    silhouette: "/team/image 30.png",
+    silhouette: "/team/image 30.webp",
     align: "left" as const,
     silhouetteClass: "left-1 sm:left-4 md:left-8 bottom-0 w-[95px] sm:w-[130px] md:w-[160px] h-[135px] sm:h-[175px] md:h-[210px]",
     brainClass: "left-[50px] sm:left-[70px] md:left-[90px] top-[10px] sm:top-[16px] w-5 sm:w-7 md:w-9 h-5 sm:h-7 md:h-9",
     textClass: "pl-[105px] sm:pl-[150px] md:pl-[190px] pr-4 items-start text-left",
   },
   {
-    silhouette: "/team/image 34.png",
+    silhouette: "/team/image 34.webp",
     align: "right" as const,
     silhouetteClass: "right-1 sm:right-4 md:right-8 bottom-0 w-[95px] sm:w-[130px] md:w-[160px] h-[135px] sm:h-[175px] md:h-[210px]",
     brainClass: "right-[50px] sm:right-[70px] md:right-[90px] top-[8px] sm:top-[14px] w-5 sm:w-7 md:w-9 h-5 sm:h-7 md:h-9",
     textClass: "pl-6 sm:pl-12 md:pl-16 pr-[105px] sm:pr-[150px] md:pr-[190px] items-start text-left",
   },
   {
-    silhouette: "/team/image 33.png",
+    silhouette: "/team/image 33.webp",
     align: "left" as const,
     silhouetteClass: "left-1 sm:left-4 md:left-8 bottom-0 w-[100px] sm:w-[135px] md:w-[165px] h-[135px] sm:h-[175px] md:h-[210px]",
     brainClass: "left-[50px] sm:left-[70px] md:left-[90px] top-[8px] sm:top-[14px] w-5 sm:w-7 md:w-9 h-5 sm:h-7 md:h-9",
     textClass: "pl-[105px] sm:pl-[150px] md:pl-[190px] pr-4 items-start text-left",
   },
   {
-    silhouette: "/team/image 31.png",
+    silhouette: "/team/image 31.webp",
     align: "right" as const,
     silhouetteClass: "right-1 sm:right-4 md:right-8 bottom-0 w-[95px] sm:w-[130px] md:w-[160px] h-[135px] sm:h-[175px] md:h-[210px]",
     brainClass: "right-[50px] sm:right-[70px] md:right-[90px] top-[8px] sm:top-[14px] w-5 sm:w-7 md:w-9 h-5 sm:h-7 md:h-9",
@@ -80,7 +81,7 @@ export default function TeamSection({
           {teamName === "TEAM NAME" ? (
             <div className="relative w-[200px] sm:w-[280px] md:w-[360px] h-10 sm:h-14 md:h-16">
               <Image
-                src="/team/TEAM NAME.png"
+                src="/team/TEAM NAME.webp"
                 alt="Team Name"
                 fill
                 unoptimized
@@ -88,9 +89,14 @@ export default function TeamSection({
               />
             </div>
           ) : (
-            <h2 className="font-extrabold uppercase tracking-widest text-2xl sm:text-4xl md:text-5xl text-white drop-shadow-[0_0_16px_rgba(255,255,255,0.5)]">
-              {teamName}
-            </h2>
+            <div className="flex flex-col items-center gap-0.5">
+              <span className="font-mono font-bold text-[10px] sm:text-xs uppercase tracking-[0.25em] text-pink-300 drop-shadow-[0_0_8px_rgba(236,72,153,0.5)]">
+                Team Name
+              </span>
+              <h2 className="font-extrabold uppercase tracking-widest text-2xl sm:text-4xl md:text-5xl text-white drop-shadow-[0_0_16px_rgba(255,255,255,0.5)]">
+                {teamName}
+              </h2>
+            </div>
           )}
         </motion.div>
 
@@ -118,7 +124,7 @@ export default function TeamSection({
 
                 <div className={`absolute z-20 pointer-events-none ${config.brainClass}`}>
                   <Image
-                    src="/team/image 35.png"
+                    src="/team/image 35.webp"
                     alt=""
                     fill
                     className="object-contain drop-shadow-[0_0_4px_rgba(255,255,255,0.8)]"
@@ -133,6 +139,11 @@ export default function TeamSection({
                       </span>
                     ))}
                   </h3>
+                  {member.isLeader ? (
+                    <div className="font-extrabold text-pink-200 text-xs sm:text-base md:text-lg leading-tight tracking-wide mt-0.5 drop-shadow-[0_2px_8px_rgba(0,0,0,0.85)]">
+                      (Leader)
+                    </div>
+                  ) : null}
                   {member.rollNo ? (
                     <p className="font-mono font-bold text-white/95 text-xs sm:text-base md:text-xl tracking-widest mt-1 sm:mt-2.5 drop-shadow-[0_2px_6px_rgba(0,0,0,0.85)]">
                       {member.rollNo}
@@ -158,7 +169,7 @@ export default function TeamSection({
           {teamName === "TEAM NAME" ? (
             <div className="relative w-[280px] sm:w-[360px] md:w-[420px] lg:w-[460px] aspect-[575/79]">
               <Image
-                src="/team/TEAM NAME.png"
+                src="/team/TEAM NAME.webp"
                 alt="Team Name"
                 fill
                 unoptimized
@@ -166,9 +177,14 @@ export default function TeamSection({
               />
             </div>
           ) : (
-            <h2 className="text-center font-extrabold uppercase tracking-widest text-4xl sm:text-5xl lg:text-6xl text-white drop-shadow-[0_0_18px_rgba(255,255,255,0.5)]">
-              {teamName}
-            </h2>
+            <div className="flex flex-col items-center gap-0.5">
+              <span className="font-mono font-bold text-xs sm:text-sm uppercase tracking-[0.3em] text-pink-300 drop-shadow-[0_0_8px_rgba(236,72,153,0.5)]">
+                Team Name
+              </span>
+              <h2 className="text-center font-extrabold uppercase tracking-widest text-4xl sm:text-5xl lg:text-6xl text-white drop-shadow-[0_0_18px_rgba(255,255,255,0.5)]">
+                {teamName}
+              </h2>
+            </div>
           )}
         </motion.div>
 
@@ -178,7 +194,7 @@ export default function TeamSection({
             {/* Mirror Floor Reflection (dark reflection on black floor plane) */}
             <div className="absolute top-[96%] left-0 w-full h-[32%] overflow-hidden pointer-events-none opacity-30 scale-y-[-1] origin-top blur-[0.5px] z-0">
               <Image
-                src="/team.svg"
+                src="/team.svg.webp"
                 alt=""
                 fill
                 sizes="100vw"
@@ -188,7 +204,7 @@ export default function TeamSection({
             </div>
 
             <Image
-              src="/team.svg"
+                src="/team.svg.webp"
               alt="Team Artwork"
               fill
               sizes="100vw"
@@ -218,6 +234,11 @@ export default function TeamSection({
                         </span>
                       ))}
                     </div>
+                    {member.isLeader ? (
+                      <div className="font-extrabold text-pink-200 text-[clamp(0.75rem,1.2vw,1.35rem)] leading-none tracking-wide pt-1 drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] text-left">
+                        (Leader)
+                      </div>
+                    ) : null}
                     {member.rollNo ? (
                       <div className="font-mono font-bold text-white/95 text-[clamp(0.7rem,1.15vw,1.35rem)] tracking-wider pt-1 sm:pt-2 drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] text-left">
                         {member.rollNo}

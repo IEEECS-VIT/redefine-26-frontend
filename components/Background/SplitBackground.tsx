@@ -7,7 +7,7 @@ export default function SplitBackground() {
       {/* Mobile design — below the md breakpoint */}
       <div className="absolute inset-0 bg-[#CF3A6E] md:hidden">
         <Image
-          src="/redefine-2026/Homepage_mobile.svg"
+          src="/redefine-2026/Homepage_mobile.svg.webp"
           alt="Background"
           fill
           priority
@@ -19,12 +19,12 @@ export default function SplitBackground() {
       {/* Desktop design — md breakpoint and up */}
       <div className="absolute inset-0 hidden bg-[#C1325F] md:block">
         <Image
-          src="/redefine-2026/Homepage.svg"
+          src="/redefine-2026/Homepage.svg.webp"
           alt="Background"
           fill
           priority
           sizes="(min-width: 768px) 100vw, 0px"
-          className="object-cover object-center select-none"
+          className="object-cover object-[center_35%] select-none"
         />
       </div>
 

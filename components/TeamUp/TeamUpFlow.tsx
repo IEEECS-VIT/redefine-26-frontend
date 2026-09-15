@@ -42,7 +42,7 @@ function TeamIllustration() {
   return (
     <div className="relative h-full w-[108%] max-w-[540px] lg:w-auto lg:max-w-full aspect-[899/1024] overflow-hidden">
       <Image
-        src="/teamupart.svg"
+        src="/teamupart.svg.webp"
         alt="Team Up Artwork"
         fill
         sizes="(min-width: 1024px) 52vw, 100vw"
@@ -243,14 +243,14 @@ export default function TeamUpFlow({ onTeamFormed }: TeamUpFlowProps) {
                 <div className="flex h-full min-h-0 w-full flex-col justify-center items-center overflow-y-auto [ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden rounded-xl border border-pink-600/90 bg-black/95 px-4 sm:px-6 py-[clamp(1rem,2.5vh,2rem)] shadow-[0_16px_40px_rgba(0,0,0,0.9),0_0_32px_rgba(236,72,153,0.2)] sm:rounded-2xl lg:bg-black lg:px-[14%] lg:py-6 lg:shadow-[0_0_32px_rgba(236,72,153,0.13)]">
                   <div className="flex w-full flex-col gap-[clamp(0.85rem,2.5vh,2rem)] lg:gap-[clamp(1rem,3vh,2.25rem)] my-auto">
                     <KindButton
-                      icon="/teamup/image 24.png"
-                      label="/teamup/BUILD YOUR TEAM.png"
+                      icon="/teamup/image 24.webp"
+                      label="/teamup/BUILD YOUR TEAM.webp"
                       alt="Build your team"
                       onClick={() => go("build")}
                     />
                     <KindButton
-                      icon="/teamup/image 25.png"
-                      label="/teamup/JOIN A TEAM.png"
+                      icon="/teamup/image 25.webp"
+                      label="/teamup/JOIN A TEAM.webp"
                       alt="Join a team"
                       onClick={() => go("join")}
                     />
@@ -281,16 +281,16 @@ export default function TeamUpFlow({ onTeamFormed }: TeamUpFlowProps) {
                   <div className="flex flex-1 flex-col gap-[clamp(0.6rem,2vh,1.75rem)] justify-center">
                     <div className="flex flex-col items-center gap-2.5 sm:gap-4">
                       <div className="relative h-10 w-10 sm:h-12 sm:w-12">
-                        <Image src="/buildteam/image 24.svg" alt="" fill className="object-contain" />
+                        <Image src="/buildteam/image 24.svg.webp" alt="" fill className="object-contain" />
                       </div>
                       <div className="relative aspect-[307/34] w-full max-w-[17rem] sm:max-w-[19.2rem]">
-                        <Image src="/buildteam/BUILD YOUR TEAM.svg" alt="Build your team" fill className="object-contain" />
+                        <Image src="/buildteam/BUILD YOUR TEAM.svg.webp" alt="Build your team" fill className="object-contain" />
                       </div>
                     </div>
 
                     <div className="space-y-2.5 sm:space-y-4">
                       <div className="space-y-1.5 sm:space-y-2">
-                        <FieldLabel icon="/buildteam/image 27.svg" label="/buildteam/TEAM NAME.svg" alt="Team name" />
+                        <FieldLabel icon="/buildteam/image 27.svg.webp" label="/buildteam/TEAM NAME.svg.webp" alt="Team name" />
                         <input
                           value={teamName}
                           onChange={(event) => setTeamName(event.target.value)}
@@ -301,7 +301,7 @@ export default function TeamUpFlow({ onTeamFormed }: TeamUpFlowProps) {
                       </div>
 
                       <div className="space-y-1.5 sm:space-y-2">
-                        <FieldLabel icon="/buildteam/image 27.svg" label="/buildteam/TRACK.svg" alt="Track" />
+                        <FieldLabel icon="/buildteam/image 27.svg.webp" label="/buildteam/TRACK.svg.webp" alt="Track" />
                         <div className="relative">
                           <select
                             value={trackId}
@@ -318,7 +318,7 @@ export default function TeamUpFlow({ onTeamFormed }: TeamUpFlowProps) {
                             ))}
                           </select>
                           <div className="pointer-events-none absolute inset-y-0 right-4 flex items-center">
-                            <Image src="/buildteam/Polygon 10.svg" alt="" width={16} height={11} />
+                            <Image src="/buildteam/Polygon 10.svg.webp" alt="" width={16} height={11} />
                           </div>
                         </div>
                       </div>
@@ -339,7 +339,7 @@ export default function TeamUpFlow({ onTeamFormed }: TeamUpFlowProps) {
                         Creating…
                       </span>
                     ) : (
-                      <Image src="/buildteam/FINALISE TEAM.svg" alt="Finalise team" width={128} height={17} />
+                      <Image src="/buildteam/FINALISE TEAM.svg.webp" alt="Finalise team" width={128} height={17} />
                     )}
                   </motion.button>
                 </PanelFrame>
@@ -360,10 +360,10 @@ export default function TeamUpFlow({ onTeamFormed }: TeamUpFlowProps) {
                     <div className="space-y-3 sm:space-y-5 w-full">
                       <div className="flex items-center gap-3">
                         <div className="relative h-8 w-8 sm:h-9 sm:w-9 shrink-0">
-                          <Image src="/teamcode/image 27.svg" alt="" fill className="object-contain" />
+                          <Image src="/teamcode/image 27.svg.webp" alt="" fill className="object-contain" />
                         </div>
                         <div className="relative aspect-[155/26] h-6 sm:h-7 w-auto">
-                          <Image src="/teamcode/TEAM CODE.svg" alt="Team code" fill className="object-contain object-left" />
+                          <Image src="/teamcode/TEAM CODE.svg.webp" alt="Team code" fill className="object-contain object-left" />
                         </div>
                       </div>
                       <input
@@ -391,7 +391,7 @@ export default function TeamUpFlow({ onTeamFormed }: TeamUpFlowProps) {
                         Joining…
                       </span>
                     ) : (
-                      <Image src="/teamcode/DONE.svg" alt="Done" width={64} height={17} />
+                      <Image src="/teamcode/DONE.svg.webp" alt="Done" width={64} height={17} />
                     )}
                   </motion.button>
                 </PanelFrame>

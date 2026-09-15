@@ -2,7 +2,6 @@
 //
 // All team endpoints communicate with the backend using Firebase ID Token
 // in the Authorization header. Fallbacks are provided when offline or in demo mode.
-
 import { getFirebaseAuth } from "./firebase";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "");
@@ -10,6 +9,15 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "");
 export type TeamMember = {
   email: string;
   name: string;
+  regNo?: string;
+  rollNo?: string;
+  id?: string;
+  _id?: string;
+  uid?: string;
+  userId?: string;
+  isLeader?: boolean;
+  is_leader?: boolean;
+  role?: string;
 };
 
 export type TeamResponse = {
@@ -17,6 +25,16 @@ export type TeamResponse = {
   name: string;
   code: string;
   leaderId: string;
+  leader_id?: string;
+  leader?: string | {
+    id?: string;
+    _id?: string;
+    uid?: string;
+    email?: string;
+    name?: string;
+    regNo?: string;
+  };
+  leaderEmail?: string;
   members: TeamMember[];
   track?: string | null;
   figma_link?: string | null;
