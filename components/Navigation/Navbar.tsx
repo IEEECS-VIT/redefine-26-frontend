@@ -18,6 +18,16 @@ export default function Navbar() {
           priority
         />
       </Link>
+      <Image
+        src="/bob.png"
+        alt="Bob"
+        width={706}
+        height={354}
+        unoptimized
+        className="h-7 w-auto object-contain object-right sm:h-9 md:h-[clamp(2rem,5vw,4rem)]"
+        priority
+        data-home-bob-layout="top-right-aligned"
+      />
     </header>
   );
 }
