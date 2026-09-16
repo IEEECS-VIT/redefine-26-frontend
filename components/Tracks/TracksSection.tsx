@@ -239,8 +239,8 @@ function SubtracksPanel({
       <h3
         className={`font-[var(--font-bebas-neue)] font-bold uppercase leading-none tracking-[0.15em] ${
           compact
-            ? "text-lg text-white/90"
-            : "text-2xl sm:text-3xl xl:text-4xl text-pink-200 drop-shadow-[0_0_18px_rgba(236,72,153,0.3)]"
+            ? "text-sm text-white/90"
+            : "text-lg sm:text-xl xl:text-2xl text-pink-200 drop-shadow-[0_0_18px_rgba(236,72,153,0.3)]"
         }`}
       >
         Subtracks
@@ -251,7 +251,7 @@ function SubtracksPanel({
           <li key={sub.id}>
             <p
               className={`font-bold tracking-wide text-white ${
-                compact ? "text-[11px] leading-snug" : "text-sm sm:text-base xl:text-lg"
+                compact ? "text-[10px] leading-snug" : "text-xs sm:text-sm xl:text-base"
               }`}
             >
               <span className={compact ? "text-white/60" : "text-pink-400"}>{sub.number}.</span> {sub.title}
@@ -260,8 +260,8 @@ function SubtracksPanel({
               <p
                 className={`text-white/45 ${
                   compact
-                    ? "mt-0.5 text-[9px] leading-snug"
-                    : "mt-1.5 max-w-sm text-xs leading-relaxed sm:text-sm"
+                    ? "mt-0.5 text-[8px] leading-snug"
+                    : "mt-1.5 max-w-sm text-[11px] leading-relaxed sm:text-xs"
                 } ${isRight ? "ml-auto" : ""}`}
               >
                 {sub.description}
