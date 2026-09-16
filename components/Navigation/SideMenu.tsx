@@ -3,6 +3,12 @@
 import Image from "@/components/Layout/Image";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import type { CSSProperties } from "react";
+import {
+  DESKTOP_HOME_ARTWORK,
+  MOBILE_HOME_ARTWORK,
+  coverScaledLengthCss,
+} from "@/lib/homeArtwork";
 import LetterG from "./LetterG";
 
 type Letter = {
@@ -42,7 +48,7 @@ const menu: MenuItem[] = [
   },
   {
     id: "faq",
-    className: "left-[calc(5%_+_52.5px)] sm:left-[calc(5%_+_62.5px)] top-[42%] md:left-[15%] md:top-[68%]",
+    className: "left-[calc(5%_+_var(--home-faq-inset))] top-[42%] md:left-[15%] md:top-[68%]",
     letters: [
       { src: "/redefine-2026/F.svg.webp", alt: "F", rotate: -6 },
       { src: "/redefine-2026/A.svg.webp", alt: "A", rotate: 5, y: -2 },
@@ -80,7 +86,7 @@ const signedOutItem: MenuItem = {
 const signedInItem: MenuItem = {
   id: "team",
   href: "/team",
-  className: "right-[calc(5%_+_21px)] sm:right-[calc(5%_+_25px)] top-[36%] md:right-[15%] md:top-[62%]",
+  className: "right-[calc(5%_+_var(--home-team-inset))] top-[36%] md:right-[15%] md:top-[62%]",
   letters: [
     { src: "/redefine-2026/T.svg.webp", alt: "T", rotate: -5 },
     { src: "/redefine-2026/E.svg.webp", alt: "E", rotate: 4 },
@@ -91,9 +97,24 @@ const signedInItem: MenuItem = {
 
 export default function SideMenu({ isSignedIn }: SideMenuProps) {
   const items = [...menu, isSignedIn ? signedInItem : signedOutItem];
+  const artworkScaleStyle = {
+    "--home-letter-width": coverScaledLengthCss(20, MOBILE_HOME_ARTWORK),
+    "--home-letter-height": coverScaledLengthCss(32, MOBILE_HOME_ARTWORK),
+    "--home-word-gap": coverScaledLengthCss(1, MOBILE_HOME_ARTWORK),
+    "--home-faq-inset": coverScaledLengthCss(52.5, MOBILE_HOME_ARTWORK),
+    "--home-team-inset": coverScaledLengthCss(21, MOBILE_HOME_ARTWORK),
+    "--home-desktop-letter-width": coverScaledLengthCss(40, DESKTOP_HOME_ARTWORK),
+    "--home-desktop-letter-height": coverScaledLengthCss(56, DESKTOP_HOME_ARTWORK),
+    "--home-desktop-word-gap": coverScaledLengthCss(2, DESKTOP_HOME_ARTWORK),
+  } as CSSProperties;
 
   return (
-    <nav className="pointer-events-none absolute left-1/2 top-0 z-40 h-[max(100dvh,calc(100vw*874/402))] w-[max(100vw,calc(100dvh*402/874))] -translate-x-1/2 md:top-1/2 md:h-[max(100dvh,calc(100vw*982/1512))] md:w-[max(100vw,calc(100dvh*1512/982))] md:-translate-y-1/2" data-home-menu-layout="artwork-aligned">
+    <nav
+      className="pointer-events-none absolute left-1/2 top-0 z-40 h-[max(100dvh,calc(100vw*874/402))] w-[max(100vw,calc(100dvh*402/874))] -translate-x-1/2 md:top-1/2 md:h-[max(100dvh,calc(100vw*982/1512))] md:w-[max(100vw,calc(100dvh*1512/982))] md:-translate-y-1/2"
+      data-home-menu-layout="artwork-aligned"
+      data-home-menu-scale="artwork-cover"
+      style={artworkScaleStyle}
+    >
       {items.map((item) => (
         <Link
           key={item.id}
@@ -103,7 +124,7 @@ export default function SideMenu({ isSignedIn }: SideMenuProps) {
           className={`pointer-events-auto absolute hover:z-50 flex ${item.className} cursor-pointer select-none`}
         >
           <motion.div
-            className="flex items-end gap-[1px] lg:gap-[2px]"
+            className="flex items-end gap-[var(--home-word-gap)] md:gap-[var(--home-desktop-word-gap)]"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
@@ -111,7 +132,7 @@ export default function SideMenu({ isSignedIn }: SideMenuProps) {
             {item.letters.map((letter, i) => (
               <motion.div
                 key={i}
-                className="relative h-8 w-[20px] sm:h-9 sm:w-6 md:h-10 md:w-7 lg:h-14 lg:w-10"
+                className="relative h-[var(--home-letter-height)] w-[var(--home-letter-width)] md:h-[var(--home-desktop-letter-height)] md:w-[var(--home-desktop-letter-width)]"
                 style={{
                   rotate: letter.rotate ?? 0,
                   y: letter.y ?? 0,

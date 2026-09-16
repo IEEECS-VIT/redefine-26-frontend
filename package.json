@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
-    "test": "node --import ./tests/register-ts-loader.mjs --test tests/firebase-auth.test.mjs tests/homepage-mobile-layout.test.mjs tests/timeline-thread-geometry.test.mjs"
+    "test": "node --import ./tests/register-ts-loader.mjs --test tests/firebase-auth.test.mjs tests/homepage-artwork-scale.test.mjs tests/homepage-mobile-layout.test.mjs tests/timeline-thread-geometry.test.mjs tests/tracks-responsive-layout.test.mjs"
   },
   "dependencies": {
     "@next/third-parties": "^16.3.5",

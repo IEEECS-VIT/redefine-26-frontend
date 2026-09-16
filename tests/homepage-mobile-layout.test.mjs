@@ -10,10 +10,12 @@ test("homepage navigation follows the artwork aspect ratio at every breakpoint",
   const source = await readFile(sideMenuPath, "utf8");
 
   assert.match(source, /data-home-menu-layout="artwork-aligned"/);
-  assert.match(source, /h-8 w-\[20px\]/);
+  assert.match(source, /data-home-menu-scale="artwork-cover"/);
+  assert.match(source, /coverScaledLengthCss/);
+  assert.doesNotMatch(source, /lg:h-14 lg:w-10/);
   assert.match(source, /874\/402/);
   assert.match(source, /982\/1512/);
-  assert.match(source, /md:top-\[66%\]/);
+  assert.match(source, /md:top-\[68%\]/);
 });
 
 test("homepage logo stays clear of the mobile title", async () => {

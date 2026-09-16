@@ -227,31 +227,48 @@ const MOBILE_HIT_PATHS = [
 function SubtracksPanel({
   subtracks,
   compact = false,
+  density = "default",
   align = "left",
 }: {
   subtracks: Subtrack[];
   compact?: boolean;
+  density?: "default" | "desktop";
   align?: "left" | "right";
 }) {
   const isRight = align === "right";
+  const isDesktopDense = density === "desktop";
   return (
     <div className={`pointer-events-none select-none ${isRight ? "text-right" : "text-left"}`}>
       <h3
         className={`font-[var(--font-bebas-neue)] font-bold uppercase leading-none tracking-[0.15em] ${
           compact
             ? "text-lg text-white/90"
+            : isDesktopDense
+              ? "text-xl text-pink-200 drop-shadow-[0_0_18px_rgba(236,72,153,0.3)] xl:text-2xl"
             : "text-2xl sm:text-3xl xl:text-4xl text-pink-200 drop-shadow-[0_0_18px_rgba(236,72,153,0.3)]"
         }`}
       >
         Subtracks
       </h3>
 
-      <ul className={`flex flex-col ${compact ? "mt-3 gap-3.5" : "mt-7 gap-7"}`}>
+      <ul
+        className={`flex flex-col ${
+          compact
+            ? "mt-3 gap-3.5"
+            : isDesktopDense
+              ? "mt-4 gap-3 xl:mt-5 xl:gap-4"
+              : "mt-7 gap-7"
+        }`}
+      >
         {subtracks.map((sub) => (
           <li key={sub.id}>
             <p
               className={`font-bold tracking-wide text-white ${
-                compact ? "text-[11px] leading-snug" : "text-sm sm:text-base xl:text-lg"
+                compact
+                  ? "text-[11px] leading-snug"
+                  : isDesktopDense
+                    ? "text-xs leading-tight xl:text-sm"
+                    : "text-sm sm:text-base xl:text-lg"
               }`}
             >
               <span className={compact ? "text-white/60" : "text-pink-400"}>{sub.number}.</span> {sub.title}
@@ -261,6 +278,8 @@ function SubtracksPanel({
                 className={`text-white/45 ${
                   compact
                     ? "mt-0.5 text-[9px] leading-snug"
+                    : isDesktopDense
+                      ? "mt-1 max-w-[17rem] text-[10px] leading-snug xl:text-xs"
                     : "mt-1.5 max-w-sm text-xs leading-relaxed sm:text-sm"
                 } ${isRight ? "ml-auto" : ""}`}
               >
@@ -348,6 +367,7 @@ export default function TracksSection() {
                 src="/tracks-mobile/Polygon-8.webp"
                 alt=""
                 fill
+                sizes="(max-width: 1023px) min(74vw, 306px), 0px"
                 draggable={false}
                 className="object-contain pointer-events-none"
               />
@@ -390,6 +410,7 @@ export default function TracksSection() {
                         src={track.mobileBlade}
                         alt=""
                         fill
+                        sizes="(max-width: 1023px) min(74vw, 306px), 0px"
                         draggable={false}
                         className="object-contain pointer-events-none"
                       />
@@ -410,6 +431,7 @@ export default function TracksSection() {
                         src={track.mobileTitle}
                         alt={track.title}
                         fill
+                        sizes="(max-width: 1023px) min(20vw, 84px), 0px"
                         className="object-contain pointer-events-none"
                       />
                     </div>
@@ -445,6 +467,7 @@ export default function TracksSection() {
                 src="/tracks-mobile/scribble_figma.webp"
                 alt="Brain Scribble"
                 fill
+                sizes="(max-width: 1023px) min(23vw, 90px), 0px"
                 draggable={false}
                 className="object-contain pointer-events-none"
               />
@@ -464,13 +487,17 @@ export default function TracksSection() {
               animate={{ opacity: 1, y: 0, x: 0 }}
               exit={{ opacity: 0, y: 14, x: hoveredIdx < 3 ? -8 : 8 }}
               transition={{ duration: 0.32, ease: "easeOut" }}
-              className={`absolute bottom-8 xl:bottom-16 z-40 w-[16rem] xl:w-[18rem] h-[22rem] xl:h-[25rem] pointer-events-none ${
+              data-desktop-subtracks-layout="below-fan"
+              className={`absolute bottom-4 xl:bottom-8 z-40 w-[16rem] xl:w-[18rem] h-[13rem] xl:h-[15rem] pointer-events-none ${
                 hoveredIdx < 3
                   ? "left-[clamp(2rem,4vw,4rem)]"
                   : "right-[7%]"
               }`}
             >
-              <SubtracksPanel subtracks={activeDesktopTrack.subtracks} />
+              <SubtracksPanel
+                subtracks={activeDesktopTrack.subtracks}
+                density="desktop"
+              />
             </motion.div>
           )}
         </AnimatePresence>
@@ -511,6 +538,7 @@ export default function TracksSection() {
                       src={track.bladeSvg}
                       alt=""
                       fill
+                      sizes="(min-width: 1024px) min(92vw, 1320px), 0px"
                       draggable={false}
                       className="object-contain pointer-events-none"
                     />
@@ -529,6 +557,7 @@ export default function TracksSection() {
                       src={track.titleImg}
                       alt={track.title}
                       fill
+                      sizes="(min-width: 1024px) min(14vw, 200px), 0px"
                       draggable={false}
                       className="object-contain"
                     />
@@ -558,16 +587,26 @@ export default function TracksSection() {
         </div>
 
         <div className="flex items-center justify-center gap-6 sm:gap-8 -mt-2 sm:-mt-3 z-20 select-none pointer-events-none">
-          <div className="relative w-[190px] xl:w-[220px] aspect-[508/451]">
-            <Image src="/tracks/image-16.webp" alt="" fill draggable={false} className="object-contain" />
+          <div
+            data-track-side-decoration="left"
+            className={`relative w-[190px] xl:w-[220px] aspect-[508/451] transition-opacity duration-200 ${
+              hoveredIdx === null ? "opacity-100" : "opacity-0"
+            }`}
+          >
+            <Image src="/tracks/image-16.webp" alt="" fill sizes="220px" draggable={false} className="object-contain" />
           </div>
 
           <div className="relative w-[240px] xl:w-[280px] h-[164px] xl:h-[190px]">
-            <Image src="/tracks/Brain.svg.webp" alt="Brain Scribble" fill draggable={false} className="object-contain" />
+            <Image src="/tracks/Brain.svg.webp" alt="Brain Scribble" fill sizes="280px" draggable={false} className="object-contain" />
           </div>
 
-          <div className="relative w-[190px] xl:w-[220px] aspect-[382/258]">
-            <Image src="/tracks/image-15.webp" alt="" fill draggable={false} className="object-contain" />
+          <div
+            data-track-side-decoration="right"
+            className={`relative w-[190px] xl:w-[220px] aspect-[382/258] transition-opacity duration-200 ${
+              hoveredIdx === null ? "opacity-100" : "opacity-0"
+            }`}
+          >
+            <Image src="/tracks/image-15.webp" alt="" fill sizes="220px" draggable={false} className="object-contain" />
           </div>
         </div>
       </div>

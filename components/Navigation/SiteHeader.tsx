@@ -144,7 +144,13 @@ export default function SiteHeader({ hideRegisterButton }: { hideRegisterButton?
                 className="transition-all duration-200 hover:-translate-y-0.5 hover:opacity-75"
               >
                 <div className="relative" style={navLabelStyle(link)}>
-                  <Image src={link.img} alt={link.label} fill className="object-contain" />
+                  <Image
+                    src={link.img}
+                    alt={link.label}
+                    fill
+                    sizes="(min-width: 900px) 10vw, 0px"
+                    className="object-contain"
+                  />
                 </div>
               </Link>
               {isActive(link.href) ? <NavThread /> : null}
@@ -261,7 +267,13 @@ export default function SiteHeader({ hideRegisterButton }: { hideRegisterButton?
                   className="flex cursor-pointer flex-col items-center transition-opacity duration-200 hover:opacity-75"
                 >
                   <div className="relative" style={navLabelStyle(link)}>
-                    <Image src={link.img} alt={link.label} fill className="object-contain" />
+                    <Image
+                      src={link.img}
+                      alt={link.label}
+                      fill
+                      sizes="(max-width: 899px) 24vw, 0px"
+                      className="object-contain"
+                    />
                   </div>
                 </motion.button>
               ))}
