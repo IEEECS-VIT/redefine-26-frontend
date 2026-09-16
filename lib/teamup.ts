@@ -73,12 +73,12 @@ export type SubmitProjectPayload = {
 };
 
 export const DEFAULT_TRACKS: Track[] = [
-  { id: "e-commerce", name: "E-Commerce" },
-  { id: "education", name: "Smart Education" },
-  { id: "healthcare", name: "Healthcare Companion" },
-  { id: "travel", name: "Travel & Exploration" },
-  { id: "finance", name: "Finance" },
-  { id: "social-impact", name: "Social Impact Platform" },
+  { id: "brutalism", name: "Brutalism" },
+  { id: "skeuomorphism", name: "Skeuomorphism" },
+  { id: "swiss-international-style", name: "Swiss / International Style" },
+  { id: "maximalism", name: "Maximalism" },
+  { id: "retro-nostalgic-ui", name: "Retro / Nostalgic UI" },
+  { id: "dark-mode-low-light-design", name: "Dark Mode / Low-Light Design" },
 ];
 
 const delay = <T>(value: T, ms = 650): Promise<T> =>
