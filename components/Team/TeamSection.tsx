@@ -324,7 +324,7 @@ export default function TeamSection({
                   "pl-[46%] sm:pl-[47%] lg:pl-[48%] pr-[4%]",
                   "pl-[49%] sm:pl-[50%] lg:pl-[51%] pr-[4%]",
                   "pl-[12%] sm:pl-[13%] lg:pl-[14%] pr-[41%]",
-                  "pl-[7%] sm:pl-[8%] lg:pl-[9%] pr-[41%]",
+                  "pl-[12%] sm:pl-[13%] lg:pl-[14%] pr-[36%]",
                 ][index % 4];
                 return (
                   <motion.div
