@@ -112,6 +112,7 @@ function parseTeamMembers(
 
 export default function TeamClientPage() {
   const [teamName, setTeamName] = useState<string>("TEAM NAME");
+  const [teamId, setTeamId] = useState<string>("");
   const [members, setMembers] = useState<TeamMember[]>([]);
   const [loaded, setLoaded] = useState(false);
 
@@ -122,6 +123,9 @@ export default function TeamClientPage() {
       const activeTeam = getCurrentTeam();
       if (activeTeam?.name) {
         setTeamName(activeTeam.name);
+      }
+      if (activeTeam?.id || activeTeam?.code) {
+        setTeamId(activeTeam.id || activeTeam.code);
       }
 
       const stored = getStoredUser();
@@ -145,6 +149,9 @@ export default function TeamClientPage() {
         if (team.name) {
           setTeamName(team.name);
         }
+        if (team.id || team.code) {
+          setTeamId(team.id || team.code);
+        }
         fetchedMembers = parseTeamMembers(team.members, team, currentUser);
       } catch {
         // fall back to stored/mock team (empty members shows placeholders)
@@ -165,7 +172,7 @@ export default function TeamClientPage() {
   return (
     <SectionPage>
       {loaded ? (
-        <TeamSection teamName={teamName} members={members} />
+        <TeamSection teamName={teamName} teamId={teamId} members={members} />
       ) : (
         <SpinningLoader label="Loading your team…" />
       )}

@@ -28,6 +28,7 @@ export const DEFAULT_MEMBERS: TeamMember[] = [
 
 interface TeamSectionProps {
   teamName?: string;
+  teamId?: string;
   members?: TeamMember[];
   onReset?: () => void;
 }
@@ -59,8 +60,52 @@ const MOBILE_PANEL_POSITIONS = [
   },
 ];
 
+function CopyTeamIdButton({ value }: { value: string }) {
+  const [copied, setCopied] = useState(false);
+  const timeoutRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) window.clearTimeout(timeoutRef.current);
+    };
+  }, []);
+
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(value);
+      setCopied(true);
+      if (timeoutRef.current) window.clearTimeout(timeoutRef.current);
+      timeoutRef.current = window.setTimeout(() => setCopied(false), 1500);
+    } catch {
+      // clipboard unavailable
+    }
+  };
+
+  return (
+    <button
+      type="button"
+      onClick={copy}
+      aria-label="Copy team ID"
+      title={copied ? "Copied!" : "Copy team ID"}
+      className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-md border border-white/20 text-white/60 transition hover:border-pink-400/60 hover:text-white"
+    >
+      {copied ? (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="h-3.5 w-3.5">
+          <path d="M20 6L9 17l-5-5" />
+        </svg>
+      ) : (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="h-3.5 w-3.5">
+          <rect x="9" y="9" width="12" height="12" rx="2" />
+          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+        </svg>
+      )}
+    </button>
+  );
+}
+
 export default function TeamSection({
   teamName = "TEAM NAME",
+  teamId = "",
   members = DEFAULT_MEMBERS,
 }: TeamSectionProps) {
   const displayMembers = members.slice(0, 4);
@@ -120,6 +165,14 @@ export default function TeamSection({
               {teamName}
             </h2>
           )}
+          {teamId ? (
+            <div className="mt-1 flex items-center gap-1.5">
+              <span className="font-mono text-[clamp(0.65rem,2.4vw,0.85rem)] uppercase tracking-[0.25em] text-white/60">
+                {teamId}
+              </span>
+              <CopyTeamIdButton value={teamId} />
+            </div>
+          ) : null}
         </motion.div>
 
         {/* Member artwork: full art visible, inset from the sides. */}
@@ -157,6 +210,11 @@ export default function TeamSection({
                             </span>
                           ))}
                         </div>
+                        {member.isLeader ? (
+                          <div className="mt-0.5 font-bold uppercase tracking-[0.2em] text-pink-300 text-[clamp(0.6rem,2vw,0.78rem)] drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)] text-left">
+                            (Leader)
+                          </div>
+                        ) : null}
                         {member.rollNo ? (
                           <div className="font-mono font-bold text-white/95 text-[clamp(0.78rem,2.9vw,1.1rem)] tracking-widest mt-0.5 drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)] text-left">
                             {member.rollNo}
@@ -196,6 +254,14 @@ export default function TeamSection({
               {teamName}
             </h2>
           )}
+          {teamId ? (
+            <div className="mt-1 flex items-center gap-2">
+              <span className="font-mono text-[clamp(0.8rem,1.1vw,1.05rem)] uppercase tracking-[0.3em] text-white/60">
+                {teamId}
+              </span>
+              <CopyTeamIdButton value={teamId} />
+            </div>
+          ) : null}
         </motion.div>
 
         {/* Team artwork container */}
@@ -244,6 +310,11 @@ export default function TeamSection({
                         </span>
                       ))}
                     </div>
+                    {member.isLeader ? (
+                      <div className="mt-0.5 font-bold uppercase tracking-[0.2em] text-pink-300 text-[clamp(0.55rem,0.8vw,0.85rem)] drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] text-left">
+                        (Leader)
+                      </div>
+                    ) : null}
                     {member.rollNo ? (
                       <div className="font-mono font-bold text-white/95 text-[clamp(0.7rem,1.15vw,1.35rem)] tracking-wider pt-1 sm:pt-2 drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] text-left">
                         {member.rollNo}
