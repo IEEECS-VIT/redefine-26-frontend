@@ -52,13 +52,13 @@ function AccordionItem({
       <button
         type="button"
         onClick={onToggle}
-        className="flex w-full items-center justify-between px-7 py-5 text-left text-base font-semibold text-white transition hover:bg-pink-500/10 sm:px-8 sm:py-6 sm:text-lg md:text-xl lg:text-2xl"
+        className="flex w-full items-center justify-between px-7 py-3.5 text-left text-sm font-semibold text-white transition hover:bg-pink-500/10 sm:px-8 sm:py-4 sm:text-base md:text-base lg:text-lg"
       >
         <span>{item.question}</span>
         <motion.span
           animate={{ rotate: isOpen ? 45 : 0 }}
           transition={{ duration: 0.2 }}
-          className="ml-5 shrink-0 text-2xl text-pink-400 sm:text-3xl lg:text-4xl"
+          className="ml-5 shrink-0 text-xl text-pink-400 sm:text-2xl lg:text-2xl"
         >
           +
         </motion.span>
@@ -71,7 +71,7 @@ function AccordionItem({
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.25, ease: "easeInOut" }}
           >
-            <div className="px-7 pb-6 text-sm text-white/75 sm:px-8 sm:pb-7 sm:text-base md:text-lg leading-relaxed">
+            <div className="px-7 pb-4 text-xs text-white/75 sm:px-8 sm:pb-5 sm:text-sm md:text-sm lg:text-sm leading-relaxed">
               {item.answer}
             </div>
           </motion.div>
@@ -85,7 +85,7 @@ export default function FAQSection() {
   const [openIdx, setOpenIdx] = useState<number | null>(null);
 
   return (
-    <section className="relative isolate flex h-full w-full flex-col overflow-x-hidden overflow-y-auto bg-black text-white select-none">
+    <section className="relative isolate flex h-full w-full flex-col overflow-x-hidden overflow-y-auto lg:overflow-hidden bg-black text-white select-none">
       {/* Dynamic Background Strings */}
       <DynamicStringsBackground opacity={0.4} />
 
