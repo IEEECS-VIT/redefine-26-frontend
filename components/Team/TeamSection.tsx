@@ -8,6 +8,8 @@ import DynamicStringsBackground from "@/components/Background/DynamicStringsBack
 
 const ART_WIDTH = 402;
 const ART_HEIGHT = 672;
+const DESKTOP_ART_WIDTH = 1440;
+const DESKTOP_ART_HEIGHT = 685;
 
 export interface TeamMember {
   id: string;
@@ -125,6 +127,30 @@ export default function TeamSection({
       if (!width || !height) return;
       const scale = Math.min(width / ART_WIDTH, height / ART_HEIGHT);
       setArtSize({ width: ART_WIDTH * scale, height: ART_HEIGHT * scale });
+    };
+
+    update();
+    const observer = new ResizeObserver(update);
+    observer.observe(container);
+    window.addEventListener("resize", update);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", update);
+    };
+  }, []);
+
+  const desktopArtRef = useRef<HTMLDivElement | null>(null);
+  const [desktopArtSize, setDesktopArtSize] = useState<{ width: number; height: number } | null>(null);
+
+  useEffect(() => {
+    const container = desktopArtRef.current;
+    if (!container) return;
+
+    const update = () => {
+      const { width, height } = container.getBoundingClientRect();
+      if (!width || !height) return;
+      const scale = Math.min(width / DESKTOP_ART_WIDTH, height / DESKTOP_ART_HEIGHT);
+      setDesktopArtSize({ width: DESKTOP_ART_WIDTH * scale, height: DESKTOP_ART_HEIGHT * scale });
     };
 
     update();
@@ -266,7 +292,12 @@ export default function TeamSection({
 
         {/* Team artwork container */}
         <div className="relative w-full flex-1 min-h-0 flex flex-col justify-end items-center overflow-hidden p-0 m-0">
-          <div className="relative h-full w-full max-h-full aspect-[1440/685] mx-auto flex items-end justify-center">
+          <div ref={desktopArtRef} className="relative h-full w-full flex items-end justify-center">
+            {desktopArtSize && (
+              <div
+                className="relative"
+                style={{ width: desktopArtSize.width, height: desktopArtSize.height }}
+              >
             {/* Mirror Floor Reflection (dark reflection on black floor plane) */}
             <div className="absolute top-[96%] left-0 w-full h-[32%] overflow-hidden pointer-events-none opacity-30 scale-y-[-1] origin-top blur-[0.5px] z-0">
               <Image
@@ -293,7 +324,7 @@ export default function TeamSection({
                   "pl-[46%] sm:pl-[47%] lg:pl-[48%] pr-[4%]",
                   "pl-[49%] sm:pl-[50%] lg:pl-[51%] pr-[4%]",
                   "pl-[12%] sm:pl-[13%] lg:pl-[14%] pr-[41%]",
-                  "pl-[7%] sm:pl-[8%] lg:pl-[9%] pr-[41%]",
+                  "pl-[12%] sm:pl-[13%] lg:pl-[14%] pr-[36%]",
                 ][index % 4];
                 return (
                   <motion.div
@@ -325,6 +356,8 @@ export default function TeamSection({
               })}
             </div>
            
+              </div>
+            )}
           </div>
         </div>
       </div>
